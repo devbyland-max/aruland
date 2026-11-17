@@ -9,6 +9,7 @@ import {
   PRODUCT_BADGES,
   PRODUCT_CATEGORIES,
   PRODUCT_COLORS,
+  trackingCodeFromId,
 } from "../lib/catalog";
 
 const emptyProduct = {
@@ -412,26 +413,41 @@ export function AdminPage() {
                 Nuk ka porosi ende. Porositë nga checkout shfaqen këtu.
               </p>
             )}
-            {orders.map((order) => (
+            {orders.map((order) => {
+              const trackCode = trackingCodeFromId(order.id);
+              return (
               <div key={order.id} className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm">
                 <div className="flex flex-wrap justify-between gap-3 mb-4">
                   <div>
-                    <p className="font-bold text-lg">
-                      #{order.id.slice(-8).toUpperCase()}
-                    </p>
+                    <p className="font-bold text-lg">#{trackCode}</p>
                     <p className="text-sm text-slate-500">
                       {new Date(order.createdAt).toLocaleString("sq-AL")} ·{" "}
                       {order.paymentMethod === "COD" ? "Pagesë në dorëzim" : order.paymentMethod}
                     </p>
+                    <Link
+                      to={`/track?code=${trackCode}`}
+                      className="text-xs font-semibold text-brand-700 hover:underline mt-1 inline-block"
+                    >
+                      Hap gjurmimin publik →
+                    </Link>
                   </div>
                   <select
                     value={order.status}
                     onChange={async (e) => {
-                      await api.adminUpdateOrderStatus(
-                        order.id,
-                        e.target.value as Order["status"]
+                      const status = e.target.value as Order["status"];
+                      setOrders((prev) =>
+                        prev.map((o) => (o.id === order.id ? { ...o, status } : o))
                       );
-                      await load();
+                      try {
+                        await api.adminUpdateOrderStatus(order.id, status);
+                      } catch (err) {
+                        setError(
+                          err instanceof Error
+                            ? err.message
+                            : "Përditësimi i statusit dështoi"
+                        );
+                        await load();
+                      }
                     }}
                     className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold bg-white"
                   >
@@ -479,7 +495,8 @@ export function AdminPage() {
                   <span>{formatMoney(order.total)}</span>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         )}
       </div>

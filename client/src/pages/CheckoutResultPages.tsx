@@ -1,8 +1,10 @@
 import { Link, useSearchParams } from "react-router-dom";
+import { trackingCodeFromId } from "../lib/catalog";
 
 export function CheckoutSuccessPage() {
   const [params] = useSearchParams();
   const orderId = params.get("order_id");
+  const trackCode = orderId ? trackingCodeFromId(orderId) : null;
 
   return (
     <section className="py-24">
@@ -18,9 +20,9 @@ export function CheckoutSuccessPage() {
             Faleminderit! Pagesa bëhet në dorëzim. Do t&apos;ju kontaktojmë për
             konfirmimin e dorëzimit.
           </p>
-          {orderId && (
+          {trackCode && (
             <p className="text-sm text-slate-400 mb-6">
-              Nr. porosie: {orderId.slice(-8).toUpperCase()}
+              Kodi i gjurmimit: <span className="font-semibold text-slate-700">#{trackCode}</span>
             </p>
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -31,7 +33,7 @@ export function CheckoutSuccessPage() {
               Vazhdo blerjen
             </Link>
             <Link
-              to="/track"
+              to={trackCode ? `/track?code=${trackCode}` : "/track"}
               className="px-6 py-3 border border-slate-200 font-semibold rounded-xl hover:bg-slate-50"
             >
               Gjurmo porosinë

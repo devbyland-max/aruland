@@ -38,3 +38,17 @@ export const TRACKING_STEPS = [
 ] as const;
 
 export type TrackingStatus = (typeof TRACKING_STEPS)[number]["value"];
+
+/** 8-character public tracking code from a Prisma order id (cuid). */
+export function trackingCodeFromId(orderId: string) {
+  return orderId.slice(-8).toUpperCase();
+}
+
+/** Strip # / spaces so admin codes paste cleanly into /track. */
+export function normalizeTrackingCode(raw: string) {
+  return raw.trim().replace(/^#/, "").replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+}
+
+export function orderStatusLabel(status: string) {
+  return ORDER_STATUSES.find((s) => s.value === status)?.label ?? status;
+}

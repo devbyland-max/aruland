@@ -8,18 +8,25 @@ const router = Router();
 
 router.get("/track/:code", async (req, res, next) => {
   try {
-    const code = (req.params.code ?? "").trim().toUpperCase();
+    const code = (req.params.code ?? "")
+      .trim()
+      .replace(/^#/, "")
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .toUpperCase();
     if (code.length < 4 || code.length > 12) {
       throw new AppError("Kodi i porosise nuk është i vlefshëm", 400);
     }
 
+    // Match the same public code shown in admin (#XXXXXXXX).
     const orders = await prisma.order.findMany({
       include: { items: true },
       orderBy: { createdAt: "desc" },
-      take: 100,
+      take: 300,
     });
 
-    const order = orders.find((o) => o.id.slice(-8).toUpperCase() === code);
+    const order = orders.find(
+      (o) => o.id.slice(-8).toUpperCase() === code || o.id.toUpperCase().endsWith(code)
+    );
     if (!order) throw new AppError("Porosia nuk u gjet", 404);
 
     res.json({
