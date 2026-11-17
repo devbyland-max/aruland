@@ -15,13 +15,14 @@ export function Footer() {
       <div className="container-page">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-10">
           <div className="space-y-4 col-span-2 md:col-span-1">
-            <Link to="/" className="inline-flex items-center gap-2">
+            <Link to="/" className="inline-block">
               <img
                 src="/AruLand-logo.png"
                 alt="AruLand Toy Store"
-                className="h-10 w-auto max-w-[120px] object-contain"
+                width={160}
+                height={64}
+                className="h-12 w-auto max-w-[160px] object-contain object-left"
               />
-              <span className="font-display font-bold text-brand-800">AruLand</span>
             </Link>
             <p className="text-sm text-slate-600 leading-relaxed max-w-xs">
               Pelushë të buta për përqafime. Pagesë në dorëzim në të gjithë Shqipërinë.

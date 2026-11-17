@@ -56,6 +56,23 @@ img {
   height: auto;
 }
 
+/* Keep navbar/footer logos at intentional CSS height */
+header img[alt="AruLand Toy Store"],
+footer img[alt="AruLand Toy Store"] {
+  max-width: none;
+  height: 2.75rem;
+  width: auto;
+}
+
+@media (min-width: 640px) {
+  header img[alt="AruLand Toy Store"] {
+    height: 3rem;
+  }
+  footer img[alt="AruLand Toy Store"] {
+    height: 3rem;
+  }
+}
+
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
