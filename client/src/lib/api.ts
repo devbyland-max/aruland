@@ -28,15 +28,25 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     headers.set("Content-Type", "application/json");
   }
 
-  const res = await fetch(path, {
-    credentials: "include",
-    ...init,
-    headers,
-  });
+  let res: Response;
+  try {
+    res = await fetch(path, {
+      credentials: "include",
+      ...init,
+      headers,
+    });
+  } catch {
+    throw new Error("Serveri nuk përgjigjet. Rifillo npm run dev.");
+  }
 
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error((data as { message?: string }).message || "Request failed");
+    throw new Error(
+      (data as { message?: string }).message ||
+        (res.status >= 500
+          ? "Serveri nuk është aktiv. Rifillo npm run dev."
+          : "Request failed")
+    );
   }
   return data as T;
 }
