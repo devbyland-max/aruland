@@ -21,8 +21,9 @@ export function Footer() {
             <h4 className="font-bold mb-3 sm:mb-4">Dyqani</h4>
             <div className="space-y-2 text-sm text-slate-500">
               <Link to="/shop" className="block hover:text-brand-600">Të gjitha</Link>
-              <Link to="/shop?sort=newest" className="block hover:text-brand-600">Të rejat</Link>
-              <Link to="/shop?category=Arusha" className="block hover:text-brand-600">Arusha</Link>
+              <Link to="/shop?category=Stitch" className="block hover:text-brand-600">Stitch</Link>
+              <Link to="/shop?category=Me%20Frym%C3%ABmarrje" className="block hover:text-brand-600">Me frymëmarrje</Link>
+              <Link to="/shop?category=Kafsh%C3%AB" className="block hover:text-brand-600">Capybara & Elefant</Link>
             </div>
           </div>
           <div>

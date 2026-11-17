@@ -11,13 +11,14 @@ import { api } from "../lib/api";
 import type { Product } from "../lib/types";
 import { ProductCard } from "../components/ProductCard";
 
-const CATEGORIES = ["Arusha"];
+const CATEGORIES = ["Stitch", "Me Frymëmarrje", "Kafshë", "Arusha"];
 const COLORS = [
-  { id: "brown", className: "bg-amber-800" },
+  { id: "blue", className: "bg-sky-500" },
   { id: "pink", className: "bg-pink-400" },
-  { id: "cream", className: "bg-amber-100 border border-amber-200" },
-  { id: "white", className: "bg-white border border-slate-200" },
+  { id: "brown", className: "bg-amber-800" },
   { id: "beige", className: "bg-amber-200" },
+  { id: "cream", className: "bg-amber-100 border border-amber-200" },
+  { id: "gray", className: "bg-slate-400" },
 ];
 
 export function ShopPage() {
@@ -34,7 +35,7 @@ export function ShopPage() {
   const q = params.get("q") ?? "";
   const page = Number(params.get("page") ?? "1");
   const minPrice = params.get("minPrice") ?? "0";
-  const maxPrice = params.get("maxPrice") ?? "100";
+  const maxPrice = params.get("maxPrice") ?? "10000";
 
   const setFilter = (key: string, value: string) => {
     const next = new URLSearchParams(params);

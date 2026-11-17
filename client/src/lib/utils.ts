@@ -1,7 +1,6 @@
 import type { Product } from "../lib/api";
 
 const FILTERS: Record<string, string> = {
-  pink: "hue-rotate(300deg)",
   purple: "hue-rotate(180deg)",
   black: "grayscale(100%)",
   yellow: "hue-rotate(45deg)",

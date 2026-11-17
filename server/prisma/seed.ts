@@ -17,43 +17,139 @@ const IMG = {
     "https://images.unsplash.com/photo-1584155828260-3271d8e6f8f0?auto=format&fit=crop&w=800&q=80",
   soft:
     "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80",
+  stitchBlue: "/products/stitch-blue.jpg",
+  stitchPink: "/products/stitch-pink.jpg",
+  breathingOtter: "/products/breathing-otter.jpg",
+  breathingBunny: "/products/breathing-bunny.jpg",
+  capybara: "/products/capybara.jpg",
+  elephant: "/products/elephant.jpg",
 };
 
 const collections = [
   {
-    name: "Arusha Klasike",
-    slug: "arusha-klasike",
-    tag: "Popullore",
-    imageUrl: IMG.brown,
+    name: "Stitch Friends",
+    slug: "stitch-friends",
+    tag: "Hot",
+    imageUrl: IMG.stitchBlue,
   },
   {
-    name: "Arusha Rozë",
-    slug: "arusha-roze",
+    name: "Me Frymëmarrje",
+    slug: "me-frymemarrje",
     tag: "E re",
-    imageUrl: IMG.pink,
+    imageUrl: IMG.breathingOtter,
   },
   {
-    name: "Arusha Jumbo",
-    slug: "arusha-jumbo",
-    tag: "Speciale",
-    imageUrl: IMG.cream,
+    name: "Kafshë të Buta",
+    slug: "kafshe-te-buta",
+    tag: "Popullore",
+    imageUrl: IMG.capybara,
   },
 ];
 
 const products = [
+  {
+    name: "Stitch Blu",
+    slug: "stitch-blu",
+    description:
+      "Plush blu me veshë të mëdha — Stitch i butë për përqafime. Ideal për fansat e vegjël.",
+    price: 3900,
+    compareAtPrice: null as number | null,
+    imageUrl: IMG.stitchBlue,
+    category: "Stitch",
+    color: "blue",
+    sizeCm: 35,
+    stock: 40,
+    badges: ["hot", "new"] as string[],
+    rating: 5,
+  },
+  {
+    name: "Stitch Rozë (Angel)",
+    slug: "stitch-roze-angel",
+    description:
+      "Version rozë i ëmbël me antenë. Shoqja ideale e Stitch Blu.",
+    price: 3900,
+    compareAtPrice: null,
+    imageUrl: IMG.stitchPink,
+    category: "Stitch",
+    color: "pink",
+    sizeCm: 35,
+    stock: 35,
+    badges: ["new"],
+    rating: 4.9,
+  },
+  {
+    name: "Vidër me Frymëmarrje",
+    slug: "vider-me-frymemarrje",
+    description:
+      "Plush qetësues me efekt frymëmarrjeje — ndihmon fëmijët të flejnë më rehat.",
+    price: 4500,
+    compareAtPrice: 5200,
+    imageUrl: IMG.breathingOtter,
+    category: "Me Frymëmarrje",
+    color: "beige",
+    sizeCm: 30,
+    stock: 25,
+    badges: ["hot", "sale"],
+    rating: 5,
+  },
+  {
+    name: "Lepush me Frymëmarrje",
+    slug: "lepush-me-frymemarrje",
+    description:
+      "Lepush pastel me frymëmarrje të butë. Perfekt për orën e gjumit.",
+    price: 4300,
+    compareAtPrice: null,
+    imageUrl: IMG.breathingBunny,
+    category: "Me Frymëmarrje",
+    color: "cream",
+    sizeCm: 28,
+    stock: 28,
+    badges: ["new"],
+    rating: 4.9,
+  },
+  {
+    name: "Capybara Cozy",
+    slug: "capybara-cozy",
+    description:
+      "Capybara e rrumbullakët dhe ultra e butë. Karakteri më i qetë i dyqanit.",
+    price: 3600,
+    compareAtPrice: null,
+    imageUrl: IMG.capybara,
+    category: "Kafshë",
+    color: "brown",
+    sizeCm: 32,
+    stock: 30,
+    badges: ["hot"],
+    rating: 4.9,
+  },
+  {
+    name: "Elefanti Gri",
+    slug: "elefanti-gri",
+    description:
+      "Elefant i butë me veshë të mëdha. Shoqërues i ngrohtë për përqafime.",
+    price: 3400,
+    compareAtPrice: null,
+    imageUrl: IMG.elephant,
+    category: "Kafshë",
+    color: "gray",
+    sizeCm: 35,
+    stock: 32,
+    badges: ["new"],
+    rating: 4.8,
+  },
   {
     name: "Arushi Kafe Klasik",
     slug: "arushi-kafe-klasik",
     description:
       "Arush i butë kafe, ideal për përqafime. Material premium dhe i sigurt për fëmijë.",
     price: 2900,
-    compareAtPrice: null as number | null,
+    compareAtPrice: null,
     imageUrl: IMG.brown,
     category: "Arusha",
     color: "brown",
     sizeCm: 35,
     stock: 40,
-    badges: [] as string[],
+    badges: [],
     rating: 4.9,
   },
   {
@@ -68,7 +164,7 @@ const products = [
     color: "pink",
     sizeCm: 30,
     stock: 45,
-    badges: ["new"],
+    badges: [],
     rating: 4.8,
   },
   {
@@ -87,36 +183,6 @@ const products = [
     rating: 5,
   },
   {
-    name: "Arushi i Bardhë",
-    slug: "arushi-i-bardhe",
-    description:
-      "Arush i bardhë elegant me detaje të buta. Ideal për dhomën e fëmijëve.",
-    price: 3100,
-    compareAtPrice: null,
-    imageUrl: IMG.white,
-    category: "Arusha",
-    color: "white",
-    sizeCm: 40,
-    stock: 30,
-    badges: [],
-    rating: 4.7,
-  },
-  {
-    name: "Arushi Bezhë Cozy",
-    slug: "arushi-bezhe-cozy",
-    description:
-      "Arush bezhë cozy për netët e ftohta. Teksturë ultra e butë.",
-    price: 3300,
-    compareAtPrice: null,
-    imageUrl: IMG.cozy,
-    category: "Arusha",
-    color: "beige",
-    sizeCm: 40,
-    stock: 28,
-    badges: ["hot"],
-    rating: 4.9,
-  },
-  {
     name: "Arushi Mini",
     slug: "arushi-mini",
     description:
@@ -130,36 +196,6 @@ const products = [
     stock: 60,
     badges: [],
     rating: 4.6,
-  },
-  {
-    name: "Arushi me Zemër",
-    slug: "arushi-me-zemer",
-    description:
-      "Arush romantik me detaje zemre — dhurata ideale për Valentine ose surpriza.",
-    price: 3500,
-    compareAtPrice: null,
-    imageUrl: IMG.pink,
-    category: "Arusha",
-    color: "pink",
-    sizeCm: 35,
-    stock: 25,
-    badges: ["new"],
-    rating: 4.8,
-  },
-  {
-    name: "Arushi Family Pack",
-    slug: "arushi-family-pack",
-    description:
-      "Set me 2 arusha (mamaja + bebi). Ideal për dhurata familjare.",
-    price: 5900,
-    compareAtPrice: 6500,
-    imageUrl: IMG.cream,
-    category: "Arusha",
-    color: "cream",
-    sizeCm: 50,
-    stock: 15,
-    badges: ["sale"],
-    rating: 5,
   },
 ];
 
@@ -202,7 +238,7 @@ async function main() {
   }
 
   console.log(
-    `Seeded ${collections.length} collections and ${products.length} teddy bears.`
+    `Seeded ${collections.length} collections and ${products.length} products.`
   );
 }
 
