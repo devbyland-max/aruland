@@ -5,6 +5,7 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { LangProvider } from "./context/LangContext";
 import { Layout } from "./components/Layout";
 import { Protected } from "./components/Protected";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { HomePage } from "./pages/HomePage";
 import { ShopPage } from "./pages/ShopPage";
 import { ProductPage } from "./pages/ProductPage";
@@ -28,6 +29,7 @@ export default function App() {
         <CartProvider>
           <WishlistProvider>
             <BrowserRouter>
+              <ScrollToTop />
               <Routes>
                 <Route element={<Layout />}>
                   <Route path="/" element={<HomePage />} />
