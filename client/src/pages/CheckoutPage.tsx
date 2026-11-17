@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-import { formatMoney } from "../lib/utils";
+import { formatMoney, validateShippingForm } from "../lib/utils";
 
 const FREE_SHIPPING_FROM = 5000;
 const SHIPPING_FEE = 300;
@@ -56,10 +56,21 @@ export function CheckoutPage() {
             className="lg:col-span-3 bg-white rounded-3xl p-6 shadow-sm space-y-4"
             onSubmit={async (e) => {
               e.preventDefault();
-              setLoading(true);
               setError("");
+              const invalid = validateShippingForm(form);
+              if (invalid) {
+                setError(invalid);
+                return;
+              }
+              setLoading(true);
               try {
-                const result = await api.checkout(form);
+                const result = await api.checkout({
+                  ...form,
+                  shippingName: form.shippingName.trim(),
+                  shippingPhone: form.shippingPhone.trim(),
+                  shippingLine1: form.shippingLine1.trim(),
+                  shippingCity: form.shippingCity.trim(),
+                });
                 await refresh();
                 navigate(`/checkout/success?order_id=${result.orderId}`);
               } catch (err) {
@@ -77,18 +88,26 @@ export function CheckoutPage() {
             </div>
 
             <h2 className="font-bold text-lg">Të dhënat e dorëzimit</h2>
+            <p className="text-xs text-slate-500 -mt-2">
+              Emri i plotë, telefoni, adresa dhe qyteti janë të detyrueshme.
+            </p>
 
             {(
               [
-                ["shippingName", "Emri i plotë", true],
-                ["shippingPhone", "Numri i telefonit", true],
-                ["shippingEmail", "Email (opsionale)", false],
-                ["shippingLine1", "Adresa", true],
-                ["shippingLine2", "Shënime / kati (opsionale)", false],
-                ["shippingCity", "Qyteti", true],
-                ["shippingPostal", "Kodi postar (opsionale)", false],
+                ["shippingName", "Emri i plotë *", true, "p.sh. Ana Krasniqi"],
+                [
+                  "shippingPhone",
+                  "Numri i telefonit *",
+                  true,
+                  "068xxxxxxx ose +355 68xxxxxxx",
+                ],
+                ["shippingEmail", "Email (opsionale)", false, undefined],
+                ["shippingLine1", "Adresa *", true, "Rruga, nr., lagjia"],
+                ["shippingLine2", "Shënime / kati (opsionale)", false, undefined],
+                ["shippingCity", "Qyteti *", true, "p.sh. Tiranë"],
+                ["shippingPostal", "Kodi postar (opsionale)", false, undefined],
               ] as const
-            ).map(([key, label, required]) => (
+            ).map(([key, label, required, placeholder]) => (
               <div key={key}>
                 <label className="text-sm text-slate-600 mb-1 block">{label}</label>
                 <input
@@ -96,7 +115,29 @@ export function CheckoutPage() {
                   type={key === "shippingEmail" ? "email" : key === "shippingPhone" ? "tel" : "text"}
                   value={form[key]}
                   onChange={(e) => set(key, e.target.value)}
-                  placeholder={key === "shippingPhone" ? "Numri juaj" : undefined}
+                  placeholder={placeholder}
+                  autoComplete={
+                    key === "shippingName"
+                      ? "name"
+                      : key === "shippingPhone"
+                        ? "tel"
+                        : key === "shippingLine1"
+                          ? "street-address"
+                          : key === "shippingCity"
+                            ? "address-level2"
+                            : undefined
+                  }
+                  inputMode={key === "shippingPhone" ? "tel" : undefined}
+                  pattern={
+                    key === "shippingPhone"
+                      ? "(\\+?355\\s?6\\d{8}|06\\d{8})"
+                      : undefined
+                  }
+                  title={
+                    key === "shippingPhone"
+                      ? "068xxxxxxx (10 shifra) ose +355 68xxxxxxx"
+                      : undefined
+                  }
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"
                 />
               </div>

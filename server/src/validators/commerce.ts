@@ -38,14 +38,45 @@ export const wishlistSchema = z.object({
   }),
 });
 
+/** 068xxxxxxx (10 shifra) ose +355 68xxxxxxx */
+export function isValidAlbanianPhone(raw: string) {
+  const compact = raw.trim().replace(/[\s\-()]/g, "");
+  if (/^06\d{8}$/.test(compact)) return true;
+  if (/^\+?3556\d{8}$/.test(compact)) return true;
+  return false;
+}
+
 export const checkoutSchema = z.object({
   body: z.object({
-    shippingName: z.string().min(2).max(100),
-    shippingPhone: z.string().min(8).max(30),
+    shippingName: z
+      .string()
+      .trim()
+      .min(3, "Emri i plotë është i detyrueshëm")
+      .max(100)
+      .refine(
+        (v) => v.split(/\s+/).filter((p) => p.length >= 2).length >= 2,
+        "Shkruaj emrin dhe mbiemrin"
+      ),
+    shippingPhone: z
+      .string()
+      .trim()
+      .min(1, "Numri i telefonit është i detyrueshëm")
+      .refine(
+        isValidAlbanianPhone,
+        "Telefoni duhet 068xxxxxxx (10 shifra) ose +355 68xxxxxxx"
+      ),
     shippingEmail: z.union([z.literal(""), z.string().email()]).optional(),
-    shippingLine1: z.string().min(3).max(120),
+    shippingLine1: z
+      .string()
+      .trim()
+      .min(3, "Adresa është e detyrueshme")
+      .max(120),
     shippingLine2: z.string().max(120).optional(),
-    shippingCity: z.string().min(2).max(80),
+    shippingCity: z
+      .string()
+      .trim()
+      .min(2, "Qyteti është i detyrueshëm")
+      .max(80),
     shippingState: z.string().max(80).optional(),
     shippingPostal: z.string().max(20).optional(),
     shippingCountry: z.string().min(2).max(2).optional().default("AL"),

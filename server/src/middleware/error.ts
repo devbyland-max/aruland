@@ -20,8 +20,12 @@ export function errorHandler(
   _next: NextFunction
 ) {
   if (err instanceof ZodError) {
+    const first =
+      err.issues[0]?.message && err.issues[0].message !== "Required"
+        ? err.issues[0].message
+        : "Plotëso të dhënat e dorëzimit saktë";
     return res.status(400).json({
-      message: "Validation failed",
+      message: first,
       errors: err.flatten(),
     });
   }

@@ -36,3 +36,35 @@ export function badgeLabel(badge: string) {
 export function productMaterial(_product: Pick<Product, "category">) {
   return "Pelush premium";
 }
+
+/** 068xxxxxxx (10 shifra) ose +355 68xxxxxxx */
+export function isValidAlbanianPhone(raw: string) {
+  const compact = raw.trim().replace(/[\s\-()]/g, "");
+  if (/^06\d{8}$/.test(compact)) return true;
+  if (/^\+?3556\d{8}$/.test(compact)) return true;
+  return false;
+}
+
+export function validateShippingForm(form: {
+  shippingName: string;
+  shippingPhone: string;
+  shippingLine1: string;
+  shippingCity: string;
+}) {
+  const name = form.shippingName.trim();
+  const phone = form.shippingPhone.trim();
+  const address = form.shippingLine1.trim();
+  const city = form.shippingCity.trim();
+
+  if (name.length < 3) return "Emri i plotë është i detyrueshëm.";
+  if (name.split(/\s+/).filter((p) => p.length >= 2).length < 2) {
+    return "Shkruaj emrin dhe mbiemrin.";
+  }
+  if (!phone) return "Numri i telefonit është i detyrueshëm.";
+  if (!isValidAlbanianPhone(phone)) {
+    return "Telefoni duhet 068xxxxxxx (10 shifra) ose +355 68xxxxxxx.";
+  }
+  if (address.length < 3) return "Adresa është e detyrueshme.";
+  if (city.length < 2) return "Qyteti është i detyrueshëm.";
+  return null;
+}
