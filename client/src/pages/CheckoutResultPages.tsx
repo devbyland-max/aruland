@@ -25,16 +25,16 @@ export function CheckoutSuccessPage() {
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              to="/account/orders"
+              to="/shop"
               className="px-6 py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700"
             >
-              Porositë e mia
+              Vazhdo blerjen
             </Link>
             <Link
-              to="/shop"
+              to="/track"
               className="px-6 py-3 border border-slate-200 font-semibold rounded-xl hover:bg-slate-50"
             >
-              Vazhdo blerjen
+              Gjurmo porosinë
             </Link>
           </div>
         </div>

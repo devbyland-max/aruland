@@ -77,10 +77,13 @@ export type Order = {
   currency?: string;
   shippingName?: string | null;
   shippingEmail?: string | null;
+  shippingPhone?: string | null;
   shippingLine1?: string | null;
+  shippingLine2?: string | null;
   shippingCity?: string | null;
   shippingPostal?: string | null;
   shippingCountry?: string | null;
+  paymentMethod?: string | null;
   createdAt: string;
   items: OrderItem[];
   user?: { id: string; email: string; name: string } | null;

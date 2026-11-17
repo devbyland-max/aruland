@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { api } from "../lib/api";
 import type { Product } from "../lib/types";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { useAuth } from "../context/AuthContext";
 import { formatMoney } from "../lib/utils";
 
 export function ProductPage() {
@@ -16,8 +15,6 @@ export function ProductPage() {
   const [error, setError] = useState("");
   const { addItem } = useCart();
   const { ids, toggle } = useWishlist();
-  const { user } = useAuth();
-  const navigate = useNavigate();
   const isWished = (id: string) => ids.has(id);
 
   useEffect(() => {
@@ -114,13 +111,7 @@ export function ProductPage() {
               </button>
               <button
                 type="button"
-                onClick={async () => {
-                  if (!user) {
-                    navigate("/login");
-                    return;
-                  }
-                  await toggle(product.id);
-                }}
+                onClick={() => void toggle(product.id)}
                 className={`px-6 py-3.5 sm:py-4 rounded-xl border font-semibold flex items-center justify-center gap-2 ${
                   isWished(product.id)
                     ? "border-accent-pink text-accent-pink bg-accent-light"

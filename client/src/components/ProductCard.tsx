@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
@@ -12,7 +12,6 @@ import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import type { Product } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { useAuth } from "../context/AuthContext";
 import { useLang } from "../context/LangContext";
 import { badgeLabel, formatMoney, productMaterial } from "../lib/utils";
 import { ProductImage } from "./ProductImage";
@@ -41,9 +40,7 @@ function Stars({ rating }: { rating: number }) {
 export function ProductCard({ product, variant = "grid" }: Props) {
   const { addItem } = useCart();
   const { ids, toggle } = useWishlist();
-  const { user } = useAuth();
   const { t } = useLang();
-  const navigate = useNavigate();
   const [quickOpen, setQuickOpen] = useState(false);
   const wished = ids.has(product.id);
   const soldOut = product.stock <= 0;
@@ -58,14 +55,10 @@ export function ProductCard({ product, variant = "grid" }: Props) {
   const onWish = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      navigate("/login");
-      return;
-    }
     try {
       await toggle(product.id);
     } catch {
-      navigate("/login");
+      /* ignore */
     }
   };
 

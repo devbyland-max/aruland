@@ -3,7 +3,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
-  faBox,
   faGear,
   faMagnifyingGlass,
   faBagShopping,
@@ -182,14 +181,14 @@ export function Header() {
                 </span>
               </button>
 
-              {user ? (
+              {user?.role === "ADMIN" ? (
                 <div className="relative" ref={menuRef}>
                   <button
                     type="button"
                     onClick={() => setMenuOpen((v) => !v)}
                     className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 bg-brand-50 rounded-full text-brand-700 hover:bg-brand-100 focus:outline-none focus:ring-2 focus:ring-brand-300"
                     title={user.name}
-                    aria-label="Llogaria"
+                    aria-label="Admin"
                     aria-expanded={menuOpen}
                   >
                     <FontAwesomeIcon icon={faUser} />
@@ -203,23 +202,13 @@ export function Header() {
                         <p className="text-xs text-slate-500 truncate">{user.email}</p>
                       </div>
                       <Link
-                        to="/account/orders"
+                        to="/admin"
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-brand-50"
                       >
-                        <FontAwesomeIcon icon={faBox} className="w-4" />
-                        {t("myOrders")}
+                        <FontAwesomeIcon icon={faGear} className="w-4" />
+                        Paneli Admin
                       </Link>
-                      {user.role === "ADMIN" && (
-                        <Link
-                          to="/admin"
-                          onClick={() => setMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-brand-50"
-                        >
-                          <FontAwesomeIcon icon={faGear} className="w-4" />
-                          Admin
-                        </Link>
-                      )}
                       <button
                         type="button"
                         onClick={() => {

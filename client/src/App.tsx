@@ -11,13 +11,11 @@ import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
 import { WishlistPage } from "./pages/WishlistPage";
 import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import {
   CheckoutCancelPage,
   CheckoutSuccessPage,
 } from "./pages/CheckoutResultPages";
-import { OrdersPage } from "./pages/OrdersPage";
 import { AdminPage } from "./pages/AdminPage";
 import { ContactPage } from "./pages/ContactPage";
 import { TrackOrderPage } from "./pages/TrackOrderPage";
@@ -37,22 +35,17 @@ export default function App() {
                   <Route path="/product/:slug" element={<ProductPage />} />
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/wishlist" element={<WishlistPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
                   <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/track" element={<TrackOrderPage />} />
                   <Route path="/policies" element={<PoliciesPage />} />
-                  <Route
-                    path="/account/orders"
-                    element={
-                      <Protected>
-                        <OrdersPage />
-                      </Protected>
-                    }
-                  />
+
+                  {/* Admin only — not linked in storefront nav */}
+                  <Route path="/admin/login" element={<LoginPage />} />
+                  <Route path="/login" element={<Navigate to="/admin/login" replace />} />
+                  <Route path="/register" element={<Navigate to="/" replace />} />
                   <Route
                     path="/admin"
                     element={
@@ -61,6 +54,7 @@ export default function App() {
                       </Protected>
                     }
                   />
+
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>
               </Routes>

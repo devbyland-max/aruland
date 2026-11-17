@@ -12,13 +12,15 @@ export function Protected({
 
   if (loading) {
     return (
-      <div className="py-24 text-center text-slate-500">Loading...</div>
+      <div className="py-24 text-center text-slate-500">Duke ngarkuar...</div>
     );
   }
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to={adminOnly ? "/admin/login" : "/"} replace />;
+  }
   if (adminOnly && user.role !== "ADMIN") {
-    return <Navigate to="/account/orders" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

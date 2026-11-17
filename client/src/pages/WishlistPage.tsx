@@ -1,36 +1,25 @@
 import { Link } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { formatMoney } from "../lib/utils";
 
 export function WishlistPage() {
-  const { user } = useAuth();
   const { items, toggle } = useWishlist();
   const { addItem } = useCart();
-
-  if (!user) {
-    return (
-      <div className="py-24 text-center">
-        <p className="text-slate-500 mb-4">Log in to view your wishlist.</p>
-        <Link to="/login" className="text-brand-600 font-semibold">
-          Login
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <section className="py-12 lg:py-16">
       <div className="container mx-auto px-4 lg:px-8">
-        <h1 className="font-display font-bold text-3xl text-slate-900 mb-8">Wishlist</h1>
+        <h1 className="font-display font-bold text-3xl text-slate-900 mb-8">
+          Lista e dëshirave
+        </h1>
         {items.length === 0 ? (
           <div className="bg-white rounded-3xl p-12 text-center shadow-sm">
-            <p className="text-slate-500 mb-6">No favorites yet.</p>
+            <p className="text-slate-500 mb-6">Nuk ke preferenca ende.</p>
             <Link to="/shop" className="text-brand-600 font-semibold">
-              Browse shop
+              Shiko dyqanin
             </Link>
           </div>
         ) : (
@@ -56,12 +45,13 @@ export function WishlistPage() {
                     onClick={() => void addItem(item.productId)}
                     className="flex-1 py-2 bg-slate-900 text-white text-sm font-semibold rounded-xl hover:bg-brand-600 flex items-center justify-center gap-2"
                   >
-                    <FontAwesomeIcon icon={faCartPlus} /> Add
+                    <FontAwesomeIcon icon={faCartPlus} /> Shto
                   </button>
                   <button
                     type="button"
                     onClick={() => void toggle(item.productId)}
-                    className="px-4 py-2 border border-slate-200 rounded-xl text-slate-500 hover:text-accent-pink"
+                    className="px-3 py-2 border border-slate-200 rounded-xl text-slate-500 hover:text-accent-pink"
+                    aria-label="Hiq nga lista"
                   >
                     <FontAwesomeIcon icon={faHeartBroken} />
                   </button>

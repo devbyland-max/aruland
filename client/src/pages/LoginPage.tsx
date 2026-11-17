@@ -1,24 +1,29 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+/** Admin-only login — not linked from the storefront. Open /admin/login */
 export function LoginPage() {
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  if (user?.role === "ADMIN") {
+    return <Navigate to="/admin" replace />;
+  }
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4 max-w-md">
         <div className="bg-white rounded-3xl p-8 shadow-card">
           <h1 className="font-display font-bold text-3xl text-slate-900 mb-2 text-center">
-            Sign in
+            Paneli Admin
           </h1>
           <p className="text-slate-500 text-sm text-center mb-8">
-            Clients can view order history. Admins open the admin panel after sign in.
+            Hyrje vetëm për administratorin e AruLand.
           </p>
           <form
             className="space-y-4"
@@ -27,10 +32,14 @@ export function LoginPage() {
               setLoading(true);
               setError("");
               try {
-                const user = await login(email, password);
-                navigate(user.role === "ADMIN" ? "/admin" : "/account/orders");
+                const u = await login(email, password);
+                if (u.role !== "ADMIN") {
+                  setError("Ky llogari nuk ka akses admin.");
+                  return;
+                }
+                navigate("/admin");
               } catch (err) {
-                setError(err instanceof Error ? err.message : "Login failed");
+                setError(err instanceof Error ? err.message : "Hyrja dështoi");
               } finally {
                 setLoading(false);
               }
@@ -39,7 +48,7 @@ export function LoginPage() {
             <input
               type="email"
               required
-              placeholder="Email"
+              placeholder="Email admin"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"
@@ -47,7 +56,7 @@ export function LoginPage() {
             <input
               type="password"
               required
-              placeholder="Password"
+              placeholder="Fjalëkalimi"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"
@@ -56,17 +65,11 @@ export function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-brand-600 disabled:opacity-50"
+              className="w-full py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 disabled:opacity-50"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Duke hyrë..." : "Hyr në admin"}
             </button>
           </form>
-          <p className="text-sm text-slate-500 text-center mt-6">
-            New customer?{" "}
-            <Link to="/register" className="text-brand-600 font-semibold">
-              Create account
-            </Link>
-          </p>
         </div>
       </div>
     </section>
