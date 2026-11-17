@@ -2,9 +2,10 @@ import { useEffect } from "react";
 
 const IG_URL = "https://www.instagram.com/aru_land_/";
 
-/** Vendos ID-në nga Elfsight (Apps → Instagram Feed → Install → Copy). */
+/** Elfsight Instagram Feed widget for @aru_land_ */
 const ELFSIGHT_WIDGET_ID =
-  import.meta.env.VITE_ELFSIGHT_INSTAGRAM_ID?.trim() || "";
+  import.meta.env.VITE_ELFSIGHT_INSTAGRAM_ID?.trim() ||
+  "35f67ea8-06da-4d50-85e9-cb397fb4a4d6";
 
 declare global {
   interface Window {
