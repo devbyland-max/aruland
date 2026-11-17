@@ -22,7 +22,7 @@ import { ProductImage } from "../components/ProductImage";
 import { InstagramProfile } from "../components/InstagramProfile";
 import { useLang } from "../context/LangContext";
 
-const HERO_IMG = "/products/capybara.jpg";
+const HERO_IMG = "/products/capybara.png";
 const COLLECTION_BG = ["bg-sky-100", "bg-amber-50", "bg-brand-100"];
 
 const REVIEWS = [
@@ -155,14 +155,13 @@ export function HomePage() {
               </div>
 
               <div className="relative h-[220px] sm:h-[320px] lg:h-[400px] flex items-center justify-center order-1 lg:order-2">
-                <div className="absolute inset-6 sm:inset-10 rounded-full bg-brand-100/80" />
                 <ProductImage
                   src={HERO_IMG}
                   alt="Capybara pelush AruLand"
                   width={420}
-                  height={420}
+                  height={480}
                   loading="eager"
-                  className="relative z-10 max-w-[80%] sm:max-w-[85%] max-h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                  className="relative z-10 max-w-[88%] sm:max-w-[90%] max-h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>
