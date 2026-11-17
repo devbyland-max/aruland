@@ -443,11 +443,23 @@ export function HomePage() {
 
       <section className="py-6 sm:py-10 bg-white">
         <div className="container-page">
-          <div className="flex justify-between items-end mb-5 gap-3">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              {t("socialProof")}
-            </h2>
-            <p className="text-sm text-slate-600">@aruland.toys</p>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-5 gap-3">
+            <div>
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
+                {t("socialProof")}
+              </h2>
+              <p className="text-sm text-slate-600 mt-1">
+                Na ndiq në Instagram për foto reale nga klientët.
+              </p>
+            </div>
+            <a
+              href="https://www.instagram.com/aruland.toys"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-sm font-bold shadow-sm hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-brand-300"
+            >
+              @aruland.toys
+            </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
@@ -456,16 +468,20 @@ export function HomePage() {
               "/products/elephant.jpg",
               "/products/breathing-otter.jpg",
             ].map((src, i) => (
-              <div
+              <a
                 key={src}
-                className="aspect-square rounded-2xl overflow-hidden bg-brand-50"
+                href="https://www.instagram.com/aruland.toys"
+                target="_blank"
+                rel="noreferrer"
+                className="aspect-square rounded-2xl overflow-hidden bg-brand-50 group focus:outline-none focus:ring-2 focus:ring-brand-300"
+                aria-label={`Instagram AruLand — foto ${i + 1}`}
               >
                 <ProductImage
                   src={src}
-                  alt={`Foto klienti ${i + 1}`}
-                  className="w-full h-full object-cover"
+                  alt={`Foto Instagram ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-              </div>
+              </a>
             ))}
           </div>
         </div>
