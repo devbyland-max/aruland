@@ -77,12 +77,12 @@ export function Footer() {
               <Link to="/policies#terms" className="block hover:text-brand-700">{t("terms")}</Link>
               <div className="flex gap-3 pt-2">
                 <a
-                  href="https://www.instagram.com/aruland.toys"
+                  href="https://www.instagram.com/aru_land_/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-brand-700 font-semibold hover:underline"
                 >
-                  Instagram @aruland.toys
+                  Instagram @aru_land_
                 </a>
                 <a
                   href="https://tiktok.com"

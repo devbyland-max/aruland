@@ -441,48 +441,90 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="py-6 sm:py-10 bg-white">
+      <section className="py-6 sm:py-10 bg-white" id="instagram">
         <div className="container-page">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-5 gap-3">
-            <div>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-                {t("socialProof")}
-              </h2>
-              <p className="text-sm text-slate-600 mt-1">
-                Na ndiq në Instagram për foto reale nga klientët.
-              </p>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 text-center sm:text-left">
+            {t("socialProof")}
+          </h2>
+
+          <div className="max-w-3xl mx-auto rounded-3xl border border-slate-200 bg-white shadow-card overflow-hidden">
+            <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-5 border-b border-slate-100">
+              <div className="mx-auto sm:mx-0 shrink-0 p-[3px] rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white p-1">
+                  <img
+                    src="/AruLand-logo.png"
+                    alt="AruLand Instagram"
+                    className="w-full h-full rounded-full object-contain bg-brand-50"
+                  />
+                </div>
+              </div>
+              <div className="flex-1 text-center sm:text-left min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                  <div>
+                    <p className="font-semibold text-xl text-slate-900">aru_land_</p>
+                    <p className="text-sm text-slate-600">AruLand Toy Store</p>
+                  </div>
+                  <a
+                    href="https://www.instagram.com/aru_land_/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-2 rounded-lg bg-[#0095f6] text-white text-sm font-bold hover:bg-[#1877f2] focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  >
+                    Ndiq në Instagram
+                  </a>
+                </div>
+                <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                  Pelushë, Stitch, capybara dhe arusha. Shiko fotot e klientëve dhe
+                  koleksionet e reja te{" "}
+                  <a
+                    href="https://www.instagram.com/aru_land_/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-brand-700 hover:underline"
+                  >
+                    @aru_land_
+                  </a>
+                  .
+                </p>
+              </div>
             </div>
-            <a
-              href="https://www.instagram.com/aruland.toys"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-sm font-bold shadow-sm hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-brand-300"
-            >
-              @aruland.toys
-            </a>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              "/products/stitch-blue.jpg",
-              "/products/capybara.jpg",
-              "/products/elephant.jpg",
-              "/products/breathing-otter.jpg",
-            ].map((src, i) => (
+
+            <div className="grid grid-cols-3 gap-0.5 bg-slate-100">
+              {[
+                "/products/stitch-blue.jpg",
+                "/products/capybara.jpg",
+                "/products/elephant.jpg",
+                "/products/breathing-otter.jpg",
+                "/products/arushi-kafe.jpg",
+                "/products/stitch-pink.jpg",
+              ].map((src, i) => (
+                <a
+                  key={src}
+                  href="https://www.instagram.com/aru_land_/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="aspect-square overflow-hidden bg-brand-50 group focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-300"
+                  aria-label={`Hap Instagram @aru_land_ — foto ${i + 1}`}
+                >
+                  <ProductImage
+                    src={src}
+                    alt={`Postim Instagram ${i + 1}`}
+                    className="w-full h-full object-cover group-hover:opacity-90 transition"
+                  />
+                </a>
+              ))}
+            </div>
+
+            <div className="p-4 text-center border-t border-slate-100">
               <a
-                key={src}
-                href="https://www.instagram.com/aruland.toys"
+                href="https://www.instagram.com/aru_land_/"
                 target="_blank"
                 rel="noreferrer"
-                className="aspect-square rounded-2xl overflow-hidden bg-brand-50 group focus:outline-none focus:ring-2 focus:ring-brand-300"
-                aria-label={`Instagram AruLand — foto ${i + 1}`}
+                className="text-sm font-semibold text-[#0095f6] hover:underline"
               >
-                <ProductImage
-                  src={src}
-                  alt={`Foto Instagram ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                Shiko profilin e plotë @aru_land_ →
               </a>
-            ))}
+            </div>
           </div>
         </div>
       </section>
