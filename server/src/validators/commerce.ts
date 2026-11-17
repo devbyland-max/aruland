@@ -6,6 +6,8 @@ export const productsQuerySchema = z.object({
     color: z.string().optional(),
     minPrice: z.coerce.number().optional(),
     maxPrice: z.coerce.number().optional(),
+    minSize: z.coerce.number().optional(),
+    maxSize: z.coerce.number().optional(),
     sort: z
       .enum(["popular", "newest", "price_asc", "price_desc"])
       .optional()

@@ -1,8 +1,9 @@
-import type { MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
+  faEye,
   faStar,
   faStarHalfStroke,
   faHeart as faHeartSolid,
@@ -12,7 +13,9 @@ import type { Product } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
-import { badgeLabel, formatMoney, productImageFilter } from "../lib/utils";
+import { useLang } from "../context/LangContext";
+import { badgeLabel, formatMoney, productMaterial } from "../lib/utils";
+import { ProductImage } from "./ProductImage";
 
 type Props = {
   product: Product;
@@ -23,7 +26,7 @@ function Stars({ rating }: { rating: number }) {
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
   return (
-    <div className="flex text-yellow-400 text-xs gap-0.5">
+    <div className="flex text-yellow-400 text-xs gap-0.5" aria-label={`${rating} yje`}>
       {Array.from({ length: full }).map((_, i) => (
         <FontAwesomeIcon key={`f${i}`} icon={faStar} />
       ))}
@@ -39,11 +42,14 @@ export function ProductCard({ product, variant = "grid" }: Props) {
   const { addItem } = useCart();
   const { ids, toggle } = useWishlist();
   const { user } = useAuth();
+  const { t } = useLang();
   const navigate = useNavigate();
+  const [quickOpen, setQuickOpen] = useState(false);
   const wished = ids.has(product.id);
   const soldOut = product.stock <= 0;
+  const lowStock = product.stock > 0 && product.stock <= 5;
   const badge = soldOut
-    ? "SOLD OUT"
+    ? "PA STOK"
     : product.badges[0]
       ? badgeLabel(product.badges[0])
       : null;
@@ -63,140 +69,245 @@ export function ProductCard({ product, variant = "grid" }: Props) {
     }
   };
 
-  if (isCarousel) {
-    return (
-      <div className="min-w-[240px] sm:min-w-[280px] md:min-w-[300px] snap-center">
-        <div className="bg-surface-light rounded-2xl sm:rounded-3xl p-4 sm:p-6 relative group hover:shadow-card transition-all duration-300 border border-transparent hover:border-brand-100 h-full flex flex-col">
-          {badge && badge !== "SOLD OUT" && (
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-accent-pink text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded z-10">
-              {badge}
-            </div>
-          )}
+  const wishBtn = (
+    <button
+      type="button"
+      onClick={onWish}
+      aria-label={wished ? "Hiq nga lista e dëshirave" : "Shto te lista e dëshirave"}
+      className={`absolute top-3 right-3 w-9 h-9 bg-white rounded-full shadow-md flex items-center justify-center z-20 focus:outline-none focus:ring-2 focus:ring-brand-300 ${
+        wished ? "text-accent-pink" : "text-slate-500 hover:text-accent-pink"
+      }`}
+    >
+      <FontAwesomeIcon icon={wished ? faHeartSolid : faHeartRegular} />
+    </button>
+  );
+
+  const badgeEl = badge ? (
+    <div
+      className={`absolute top-3 left-3 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded z-20 shadow-sm ${
+        badge === "PA STOK"
+          ? "bg-slate-800"
+          : badge === "HOT"
+            ? "bg-red-500"
+            : badge === "OFERTË"
+              ? "bg-amber-600"
+              : "bg-accent-pink"
+      }`}
+    >
+      {badge}
+    </div>
+  ) : null;
+
+  const meta = (
+    <p className="text-xs sm:text-sm text-slate-600">
+      {product.sizeCm}cm · {productMaterial(product)}
+    </p>
+  );
+
+  const stockLine = soldOut ? (
+    <p className="text-xs font-semibold text-slate-600 mt-1">{t("outOfStock")}</p>
+  ) : lowStock ? (
+    <p className="text-xs font-semibold text-amber-700 mt-1">
+      {t("leftInStock", { n: product.stock })}
+    </p>
+  ) : null;
+
+  const priceBlock = (
+    <div className="flex flex-col items-end shrink-0">
+      <span
+        className={`font-bold text-base sm:text-lg ${
+          product.compareAtPrice ? "text-accent-pink" : "text-brand-600"
+        }`}
+      >
+        {formatMoney(product.price)}
+      </span>
+      {product.compareAtPrice != null && (
+        <span className="text-xs text-slate-500 line-through">
+          {formatMoney(product.compareAtPrice)}
+        </span>
+      )}
+    </div>
+  );
+
+  const quickModal = quickOpen ? (
+    <div
+      className="fixed inset-0 z-[70] bg-black/40 flex items-end sm:items-center justify-center p-4"
+      onClick={() => setQuickOpen(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label={t("quickView")}
+    >
+      <div
+        className="bg-white rounded-2xl max-w-lg w-full p-5 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex gap-4">
+          <div className="w-28 h-28 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
+            <ProductImage
+              src={product.imageUrl}
+              alt={product.name}
+              className="max-h-24 object-contain"
+            />
+          </div>
+          <div className="min-w-0">
+            <h3 className="font-bold text-lg text-slate-900">{product.name}</h3>
+            {meta}
+            <p className="text-sm text-slate-600 mt-2 line-clamp-3">{product.description}</p>
+            <div className="mt-2">{priceBlock}</div>
+            {stockLine}
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
           <button
             type="button"
-            onClick={onWish}
-            className={`absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 bg-white rounded-full shadow-sm flex items-center justify-center z-10 ${
-              wished ? "text-accent-pink" : "text-slate-400 hover:text-accent-pink"
-            }`}
+            disabled={soldOut}
+            onClick={() => {
+              void addItem(product.id);
+              setQuickOpen(false);
+            }}
+            className="flex-1 py-3 bg-brand-600 text-white font-semibold rounded-xl disabled:opacity-40"
           >
-            <FontAwesomeIcon icon={wished ? faHeartSolid : faHeartRegular} />
+            {t("addToCart")}
           </button>
           <Link
             to={`/product/${product.slug}`}
-            className="h-44 sm:h-56 md:h-64 flex items-center justify-center mb-4 sm:mb-6 relative"
+            className="px-4 py-3 border border-slate-200 font-semibold rounded-xl"
+            onClick={() => setQuickOpen(false)}
           >
-            <div className="absolute inset-0 bg-brand-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-95 group-hover:scale-100" />
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-500"
-              style={{ filter: productImageFilter(product) }}
-            />
+            Detaje
           </Link>
-          <div className="mt-auto">
-            <div className="flex justify-between items-start gap-2 mb-2">
-              <div className="min-w-0">
-                <Link
-                  to={`/product/${product.slug}`}
-                  className="font-bold text-base sm:text-lg text-slate-900 line-clamp-1"
-                >
-                  {product.name}
-                </Link>
-                <p className="text-xs sm:text-sm text-slate-500">{product.sizeCm}cm</p>
-              </div>
-              <div className="flex flex-col items-end shrink-0">
-                <span
-                  className={`font-bold text-base sm:text-lg ${
-                    product.compareAtPrice ? "text-accent-pink" : "text-brand-600"
-                  }`}
-                >
-                  {formatMoney(product.price)}
-                </span>
-                {product.compareAtPrice != null && (
-                  <span className="text-xs text-slate-400 line-through">
-                    {formatMoney(product.compareAtPrice)}
-                  </span>
-                )}
-              </div>
-            </div>
-            <button
-              type="button"
-              disabled={soldOut}
-              onClick={() => void addItem(product.id)}
-              className="w-full py-2.5 sm:py-3 mt-3 sm:mt-4 bg-brand-600 text-white rounded-xl text-sm sm:text-base font-medium flex items-center justify-center gap-2 hover:bg-brand-700 disabled:opacity-40"
-            >
-              <FontAwesomeIcon icon={faCartPlus} /> Add to Cart
-            </button>
-          </div>
         </div>
       </div>
+    </div>
+  ) : null;
+
+  if (isCarousel) {
+    return (
+      <>
+        <div className="min-w-[240px] sm:min-w-[280px] md:min-w-[300px] snap-center shrink-0">
+          <div className="bg-surface-light rounded-2xl sm:rounded-3xl p-4 sm:p-5 relative group hover:shadow-card transition-all duration-300 border border-transparent hover:border-brand-100 h-full flex flex-col overflow-visible">
+            {badgeEl}
+            {wishBtn}
+            <Link
+              to={`/product/${product.slug}`}
+              className="h-44 sm:h-52 md:h-56 flex items-center justify-center mb-4 relative overflow-hidden rounded-2xl bg-brand-50/60"
+            >
+              <ProductImage
+                src={product.imageUrl}
+                alt={product.name}
+                width={280}
+                height={224}
+                className="h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-500"
+              />
+            </Link>
+            <div className="mt-auto">
+              <div className="flex justify-between items-start gap-2 mb-1">
+                <div className="min-w-0">
+                  <Link
+                    to={`/product/${product.slug}`}
+                    className="font-bold text-base sm:text-lg text-slate-900 line-clamp-1"
+                  >
+                    {product.name}
+                  </Link>
+                  {meta}
+                  {stockLine}
+                </div>
+                {priceBlock}
+              </div>
+              <div className="flex gap-2 mt-3">
+                <button
+                  type="button"
+                  disabled={soldOut}
+                  onClick={() => void addItem(product.id)}
+                  className="flex-1 py-2.5 sm:py-3 bg-brand-600 text-white rounded-xl text-sm font-medium flex items-center justify-center gap-2 hover:bg-brand-700 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-brand-300"
+                >
+                  <FontAwesomeIcon icon={faCartPlus} /> {t("addToCart")}
+                </button>
+                <button
+                  type="button"
+                  aria-label={t("quickView")}
+                  onClick={() => setQuickOpen(true)}
+                  className="w-11 rounded-xl border border-slate-200 text-slate-600 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-300"
+                >
+                  <FontAwesomeIcon icon={faEye} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {quickModal}
+      </>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-card transition-all duration-300 group">
-      <div className="relative bg-brand-50 rounded-lg sm:rounded-xl h-40 sm:h-52 md:h-56 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
-        {badge && (
-          <div
-            className={`absolute top-2 left-2 sm:top-3 sm:left-3 text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded z-10 ${
-              badge === "SOLD OUT"
-                ? "bg-slate-800"
-                : badge === "HOT"
-                  ? "bg-red-500"
-                  : "bg-accent-pink"
-            }`}
+    <>
+      <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-card transition-all duration-300 group">
+        <div className="relative bg-brand-50 rounded-lg sm:rounded-xl h-40 sm:h-52 md:h-56 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+          {badgeEl}
+          {wishBtn}
+          <Link
+            to={`/product/${product.slug}`}
+            className="h-4/5 flex items-center justify-center"
           >
-            {badge}
-          </div>
-        )}
+            <ProductImage
+              src={product.imageUrl}
+              alt={product.name}
+              width={240}
+              height={200}
+              className={`h-full object-contain group-hover:scale-105 transition-transform duration-500 ${
+                soldOut ? "opacity-50 grayscale" : ""
+              }`}
+            />
+          </Link>
+          {!soldOut && (
+            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 z-20 flex gap-2 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-300">
+              <button
+                type="button"
+                onClick={() => void addItem(product.id)}
+                className="flex-1 py-2 bg-white/95 backdrop-blur text-slate-900 text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:bg-brand-500 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-300"
+              >
+                {t("quickAdd")}
+              </button>
+              <button
+                type="button"
+                aria-label={t("quickView")}
+                onClick={() => setQuickOpen(true)}
+                className="px-3 py-2 bg-white/95 rounded-lg shadow-sm text-slate-700 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-300"
+              >
+                <FontAwesomeIcon icon={faEye} />
+              </button>
+            </div>
+          )}
+        </div>
         <Link
           to={`/product/${product.slug}`}
-          className="h-4/5 flex items-center justify-center"
+          className="font-bold text-slate-900 mb-0.5 block text-sm sm:text-base line-clamp-1"
         >
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className={`h-full object-contain group-hover:scale-110 transition-transform duration-500 ${
-              soldOut ? "opacity-50 grayscale" : ""
-            }`}
-            style={{ filter: soldOut ? undefined : productImageFilter(product) }}
-          />
+          {product.name}
         </Link>
-        <button
-          type="button"
-          onClick={onWish}
-          className="absolute top-2 right-2 sm:top-3 sm:right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm transition-colors"
-        >
-          <FontAwesomeIcon
-            icon={wished ? faHeartSolid : faHeartRegular}
-            className={wished ? "text-accent-pink" : ""}
-          />
-        </button>
-        {!soldOut && (
-          <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-300">
-            <button
-              type="button"
-              onClick={() => void addItem(product.id)}
-              className="w-full py-2 bg-white/95 backdrop-blur text-slate-900 text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:bg-brand-500 hover:text-white transition-colors"
+        {meta}
+        {stockLine}
+        <div className="flex justify-between items-center gap-2 mt-1">
+          <div className="flex items-center gap-2">
+            <span
+              className={`font-bold text-sm sm:text-base ${
+                soldOut ? "text-slate-400" : product.compareAtPrice ? "text-accent-pink" : "text-brand-600"
+              }`}
             >
-              Quick Add
-            </button>
+              {formatMoney(product.price)}
+            </span>
+            {product.compareAtPrice != null && (
+              <span className="text-xs text-slate-500 line-through">
+                {formatMoney(product.compareAtPrice)}
+              </span>
+            )}
           </div>
-        )}
+          <Stars rating={product.rating} />
+        </div>
       </div>
-      <Link
-        to={`/product/${product.slug}`}
-        className="font-bold text-slate-900 mb-1 block text-sm sm:text-base line-clamp-1"
-      >
-        {product.name}
-      </Link>
-      <div className="flex justify-between items-center gap-2">
-        <span className={`font-bold text-sm sm:text-base ${soldOut ? "text-slate-400" : "text-brand-600"}`}>
-          {formatMoney(product.price)}
-        </span>
-        <Stars rating={product.rating} />
-      </div>
-    </div>
+      {quickModal}
+    </>
   );
 }
 

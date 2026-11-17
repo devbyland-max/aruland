@@ -5,24 +5,16 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const IMG = {
-  brown:
-    "https://images.unsplash.com/photo-1530325553241-4f6e79230849?auto=format&fit=crop&w=800&q=80",
-  pink:
-    "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=800&q=80",
-  cream:
-    "https://images.unsplash.com/photo-1562047276-404b62dd3105?auto=format&fit=crop&w=800&q=80",
-  white:
-    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80",
-  cozy:
-    "https://images.unsplash.com/photo-1584155828260-3271d8e6f8f0?auto=format&fit=crop&w=800&q=80",
-  soft:
-    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80",
   stitchBlue: "/products/stitch-blue.jpg",
   stitchPink: "/products/stitch-pink.jpg",
   breathingOtter: "/products/breathing-otter.jpg",
   breathingBunny: "/products/breathing-bunny.jpg",
   capybara: "/products/capybara.jpg",
   elephant: "/products/elephant.jpg",
+  kafe: "/products/arushi-kafe.jpg",
+  roze: "/products/arushi-roze.jpg",
+  jumbo: "/products/arushi-jumbo.jpg",
+  mini: "/products/arushi-mini.jpg",
 };
 
 const collections = [
@@ -36,13 +28,13 @@ const collections = [
     name: "Me Frymëmarrje",
     slug: "me-frymemarrje",
     tag: "E re",
-    imageUrl: IMG.breathingOtter,
+    imageUrl: IMG.breathingBunny,
   },
   {
     name: "Kafshë të Buta",
     slug: "kafshe-te-buta",
     tag: "Popullore",
-    imageUrl: IMG.capybara,
+    imageUrl: IMG.elephant,
   },
 ];
 
@@ -88,7 +80,7 @@ const products = [
     category: "Me Frymëmarrje",
     color: "beige",
     sizeCm: 30,
-    stock: 25,
+    stock: 3,
     badges: ["hot", "sale"],
     rating: 5,
   },
@@ -144,7 +136,7 @@ const products = [
       "Arush i butë kafe, ideal për përqafime. Material premium dhe i sigurt për fëmijë.",
     price: 2900,
     compareAtPrice: null,
-    imageUrl: IMG.brown,
+    imageUrl: IMG.kafe,
     category: "Arusha",
     color: "brown",
     sizeCm: 35,
@@ -159,7 +151,7 @@ const products = [
       "Arush rozë i ëmbël — dhurata perfekte për ditëlindje dhe surpriza.",
     price: 2700,
     compareAtPrice: null,
-    imageUrl: IMG.pink,
+    imageUrl: IMG.roze,
     category: "Arusha",
     color: "pink",
     sizeCm: 30,
@@ -174,7 +166,7 @@ const products = [
       "Arush i madh (60cm) për përqafime të mëdha. Super i butë dhe cilësor.",
     price: 4900,
     compareAtPrice: 5500,
-    imageUrl: IMG.cream,
+    imageUrl: IMG.jumbo,
     category: "Arusha",
     color: "cream",
     sizeCm: 60,
@@ -189,7 +181,7 @@ const products = [
       "Arush i vogël për çantë ose dhuratë të shpejtë. I lehtë dhe i këndshëm.",
     price: 1900,
     compareAtPrice: null,
-    imageUrl: IMG.soft,
+    imageUrl: IMG.mini,
     category: "Arusha",
     color: "brown",
     sizeCm: 20,

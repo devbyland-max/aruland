@@ -1,113 +1,171 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
+  faBaby,
+  faCakeCandles,
   faCheckCircle,
   faChevronLeft,
   faChevronRight,
+  faGift,
   faHandHoldingHeart,
-  faLeaf,
+  faHouse,
+  faQuestionCircle,
   faRotateLeft,
   faShieldHalved,
-  faStar,
   faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
 import { api, type Collection, type Product } from "../lib/api";
 import { ProductCard } from "../components/ProductCard";
+import { ProductImage } from "../components/ProductImage";
+import { useLang } from "../context/LangContext";
 
-const HERO_IMG =
-  "https://cdn.dribbble.com/userupload/12469058/file/original-860d2fadb2444b4b9d4d6792189900a0.png";
+const HERO_IMG = "/products/capybara.jpg";
+const COLLECTION_BG = ["bg-sky-100", "bg-amber-50", "bg-brand-100"];
+
+const REVIEWS = [
+  {
+    name: "Elira K.",
+    city: "Tiranë",
+    text: "Capybara erdhi shumë e butë dhe e pastër. Pagesa në dorëzim ishte e thjeshtë.",
+    stars: 5,
+  },
+  {
+    name: "Arben M.",
+    city: "Durrës",
+    text: "Stitch Blu ishte dhurata e përsosur për ditëlindjen e vajzës. Dorëzim brenda 2 ditëve.",
+    stars: 5,
+  },
+  {
+    name: "Sara D.",
+    city: "Vlorë",
+    text: "Vidra me frymëmarrje ndihmoi me gjumin e bebit. Do të porosis përsëri.",
+    stars: 5,
+  },
+];
+
+const FAQ = [
+  {
+    q: "Si funksionon pagesa në dorëzim?",
+    a: "Paguani në cash kur merrni produktin. Nuk kërkohet kartë online.",
+  },
+  {
+    q: "Sa kohë zgjat dërgesa?",
+    a: "Zakonisht 1–3 ditë pune brenda Shqipërisë, sipas qytetit.",
+  },
+  {
+    q: "A ka transport falas?",
+    a: "Po, falas për porosi mbi 5.000 Lekë. Përndryshe tarifa është 300 Lekë.",
+  },
+  {
+    q: "Si bëhet kthimi?",
+    a: "Mund të kërkoni kthim brenda 7 ditëve nëse produkti është i papërdorur dhe në paketim.",
+  },
+];
 
 export function HomePage() {
+  const { t } = useLang();
   const [trending, setTrending] = useState<Product[]>([]);
+  const [favorites, setFavorites] = useState<Product[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [shopPreview, setShopPreview] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dot, setDot] = useState(0);
   const scroller = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     void (async () => {
       try {
-        const [prod, cols, preview] = await Promise.all([
+        const [popular, newest, cols] = await Promise.all([
           api.products({ sort: "popular", limit: 8 }),
+          api.products({ sort: "newest", limit: 12 }),
           api.collections(),
-          api.products({ sort: "newest", limit: 6 }),
         ]);
-        setTrending(prod.items);
+        const trend = popular.items.slice(0, 6);
+        setTrending(trend);
+        const trendIds = new Set(trend.map((p) => p.id));
+        const fav = newest.items.filter((p) => !trendIds.has(p.id)).slice(0, 6);
+        setFavorites(fav.length ? fav : newest.items.slice(6, 12));
         setCollections(cols.collections);
-        setShopPreview(preview.items);
       } catch {
         /* API may be down */
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
 
   const scroll = (dir: -1 | 1) => {
-    scroller.current?.scrollBy({ left: dir * 300, behavior: "smooth" });
+    const el = scroller.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * 300, behavior: "smooth" });
   };
 
-  const collectionBg = ["bg-brand-100", "bg-pink-50", "bg-amber-50"];
+  const occasions = useMemo(
+    () => [
+      { title: t("forBaby"), icon: faBaby, to: "/shop?category=Me%20Frym%C3%ABmarrje" },
+      { title: t("birthdayGift"), icon: faCakeCandles, to: "/shop?category=Stitch" },
+      { title: t("kidsRoom"), icon: faHouse, to: "/shop?category=Arusha" },
+    ],
+    [t]
+  );
 
   return (
     <>
-      <section className="relative pt-4 pb-10 sm:pt-8 sm:pb-16 lg:py-16 overflow-hidden">
+      <section className="relative pt-3 pb-6 sm:pt-5 sm:pb-8 overflow-hidden">
         <div className="container-page">
-          <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-14 relative overflow-hidden shadow-soft">
+          <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 relative overflow-hidden shadow-soft">
             <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 bg-brand-200 rounded-full blur-3xl opacity-40 -translate-y-1/2 translate-x-1/3" />
-            <div className="absolute bottom-0 left-0 w-56 sm:w-96 h-56 sm:h-96 bg-brand-100 rounded-full blur-3xl opacity-50 translate-y-1/3 -translate-x-1/4" />
-
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
-              <div className="space-y-5 sm:space-y-7 text-center lg:text-left order-2 lg:order-1">
-                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white rounded-full shadow-sm text-xs sm:text-sm font-semibold text-brand-600">
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center relative z-10">
+              <div className="space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full shadow-sm text-xs sm:text-sm font-semibold text-brand-700">
                   <span className="w-2 h-2 rounded-full bg-accent-pink animate-pulse" />
-                  New Collection Available
+                  {t("newCollection")}
                 </div>
-                <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-slate-900 leading-[1.1]">
-                  Meet Your New <br className="hidden sm:block" />
+                <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-slate-900 leading-[1.1]">
+                  {t("heroTitle1")}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-700">
-                    Best Friend
+                    {t("heroTitle2")}
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg text-slate-600 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                  Handcrafted, ultra-soft plushies made for hugs. Discover adorable
-                  companions from AruLand Toy Store.
+                  {t("heroText")}
                 </p>
-                <div className="flex flex-col xs:flex-row sm:flex-row items-stretch sm:items-center gap-3 justify-center lg:justify-start">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center lg:justify-start">
                   <Link
                     to="/shop"
-                    className="px-7 py-3.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="px-7 py-3.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-300"
                   >
-                    Shop Now <FontAwesomeIcon icon={faArrowRight} />
+                    {t("shopNow")} <FontAwesomeIcon icon={faArrowRight} />
                   </Link>
+                  <a
+                    href="#collections"
+                    className="px-7 py-3.5 border border-brand-200 bg-white text-brand-800 font-semibold rounded-xl hover:bg-brand-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-300"
+                  >
+                    {t("exploreCollections")}
+                  </a>
                 </div>
-                <div className="pt-2 sm:pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs sm:text-sm font-medium text-slate-500">
+                <div className="pt-1 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs sm:text-sm font-medium text-slate-600">
                   <div className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCheckCircle} className="text-green-500" />
-                    Free Shipping
+                    <FontAwesomeIcon icon={faCheckCircle} className="text-green-600" />
+                    {t("freeShipping")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                    4.9/5 Rating
+                    <FontAwesomeIcon icon={faGift} className="text-brand-600" />
+                    {t("cod")}
                   </div>
                 </div>
               </div>
 
-              <div className="relative h-[240px] sm:h-[340px] lg:h-[460px] flex items-center justify-center order-1 lg:order-2">
-                <div className="hidden sm:flex absolute top-6 right-4 lg:top-10 lg:right-10 bg-white p-3 lg:p-4 rounded-2xl shadow-float z-20 animate-bounce [animation-duration:3s]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 lg:w-10 lg:h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                      <FontAwesomeIcon icon={faLeaf} />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 font-medium">Material</p>
-                      <p className="text-sm font-bold text-slate-800">Eco-Cotton</p>
-                    </div>
-                  </div>
-                </div>
-                <img
+              <div className="relative h-[220px] sm:h-[320px] lg:h-[400px] flex items-center justify-center order-1 lg:order-2">
+                <div className="absolute inset-6 sm:inset-10 rounded-full bg-brand-100/80" />
+                <ProductImage
                   src={HERO_IMG}
-                  alt="AruLand plush"
-                  className="max-w-[85%] sm:max-w-full max-h-full object-contain drop-shadow-2xl z-10 hover:scale-105 transition-transform duration-500"
+                  alt="Capybara pelush AruLand"
+                  width={420}
+                  height={420}
+                  loading="eager"
+                  className="relative z-10 max-w-[80%] sm:max-w-[85%] max-h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>
@@ -115,155 +173,332 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="collections" className="py-10 sm:py-14">
+      <section className="py-6 sm:py-8">
         <div className="container-page">
-          <div className="flex justify-between items-end gap-4 mb-6 sm:mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            {occasions.map((o) => (
+              <Link
+                key={o.title}
+                to={o.to}
+                className="bg-white border border-brand-100 rounded-2xl px-4 py-4 flex items-center gap-3 hover:shadow-card transition focus:outline-none focus:ring-2 focus:ring-brand-300"
+              >
+                <span className="w-11 h-11 rounded-full bg-brand-50 text-brand-700 flex items-center justify-center">
+                  <FontAwesomeIcon icon={o.icon} />
+                </span>
+                <div>
+                  <p className="text-xs text-slate-500">{t("shopByOccasion")}</p>
+                  <p className="font-bold text-slate-900">{o.title}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="collections" className="py-6 sm:py-10">
+        <div className="container-page">
+          <div className="flex justify-between items-end gap-4 mb-5 sm:mb-7">
             <div>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-1 sm:mb-2">
-                Explore Collections
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-1">
+                {t("collections")}
               </h2>
-              <p className="text-slate-500 text-sm sm:text-base">
-                Find the perfect companion for every mood.
+              <p className="text-slate-600 text-sm sm:text-base">
+                Stitch, frymëmarrje dhe kafshë të buta.
               </p>
             </div>
             <Link
               to="/shop"
-              className="hidden sm:flex items-center gap-2 text-brand-600 font-semibold hover:gap-3 transition-all shrink-0"
+              className="hidden sm:flex items-center gap-2 text-brand-700 font-semibold hover:gap-3 transition-all shrink-0"
             >
-              View All <FontAwesomeIcon icon={faArrowRight} />
+              {t("viewAll")} <FontAwesomeIcon icon={faArrowRight} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {collections.map((c, i) => (
               <Link
                 key={c.id}
                 to={`/shop?q=${encodeURIComponent(c.name.split(" ")[0] ?? "")}`}
-                className={`group relative h-56 sm:h-72 lg:h-80 rounded-2xl sm:rounded-3xl overflow-hidden shadow-card ${collectionBg[i % 3]}`}
+                className={`group relative h-52 sm:h-64 rounded-2xl sm:rounded-3xl overflow-hidden shadow-card ${COLLECTION_BG[i % 3]}`}
               >
-                <div className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-between z-10">
+                <div className="absolute inset-0 p-5 sm:p-7 flex flex-col justify-between z-10">
                   <div>
-                    <span className="px-3 py-1 bg-white/80 backdrop-blur text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full text-slate-800 mb-2 sm:mb-3 inline-block">
+                    <span className="px-3 py-1 bg-white/90 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full text-slate-800 mb-2 inline-block">
                       {c.tag}
                     </span>
                     <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-900">
                       {c.name}
                     </h3>
                   </div>
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center text-slate-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 translate-y-0 sm:translate-y-4 sm:group-hover:translate-y-0 transition-all duration-300">
+                  <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-slate-900">
                     <FontAwesomeIcon icon={faArrowRight} />
                   </div>
                 </div>
-                <img
+                <ProductImage
                   src={c.imageUrl}
-                  className="absolute bottom-0 right-0 w-1/2 sm:w-3/4 object-contain translate-y-2 translate-x-2 sm:translate-y-4 sm:translate-x-4 group-hover:scale-110 transition-transform duration-500"
                   alt={c.name}
+                  className="absolute bottom-0 right-0 h-[75%] w-auto max-w-[55%] object-contain object-bottom drop-shadow-md group-hover:scale-105 transition-transform duration-500"
                 />
               </Link>
             ))}
           </div>
-          <Link
-            to="/shop"
-            className="sm:hidden mt-5 inline-flex items-center gap-2 text-brand-600 font-semibold"
-          >
-            View All <FontAwesomeIcon icon={faArrowRight} />
-          </Link>
         </div>
       </section>
 
-      <section className="py-10 sm:py-14 bg-white">
+      <section className="py-6 sm:py-10 bg-white">
         <div className="container-page">
-          <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3">
+          <div className="flex items-center justify-between mb-5 gap-3">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              Trending Now
+              {t("trending")}
             </h2>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => scroll(-1)}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-50"
-                aria-label="Scroll left"
+                className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-300"
+                aria-label="Majtas"
               >
                 <FontAwesomeIcon icon={faChevronLeft} />
               </button>
               <button
                 type="button"
                 onClick={() => scroll(1)}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-50"
-                aria-label="Scroll right"
+                className="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-300"
+                aria-label="Djathtas"
               >
                 <FontAwesomeIcon icon={faChevronRight} />
               </button>
             </div>
           </div>
-          <div ref={scroller} className="flex overflow-x-auto hide-scroll gap-4 sm:gap-6 pb-6 snap-x">
-            {trending.map((p) => (
-              <ProductCard key={p.id} product={p} variant="carousel" />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex gap-4 overflow-hidden">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="min-w-[260px] h-80 rounded-2xl bg-brand-50 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <>
+              <div
+                ref={scroller}
+                onScroll={() => {
+                  const el = scroller.current;
+                  if (!el) return;
+                  setDot(Math.round(el.scrollLeft / 300));
+                }}
+                className="flex overflow-x-auto hide-scroll gap-4 sm:gap-6 pb-4 snap-x snap-mandatory"
+              >
+                {trending.map((p) => (
+                  <ProductCard key={p.id} product={p} variant="carousel" />
+                ))}
+              </div>
+              <div className="flex justify-center gap-2 mt-2">
+                {trending.map((p, i) => (
+                  <span
+                    key={p.id}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === Math.min(dot, trending.length - 1)
+                        ? "w-6 bg-brand-600"
+                        : "w-1.5 bg-brand-200"
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
-      <section className="py-10 sm:py-16 bg-brand-50">
+      <section className="py-6 sm:py-8 bg-brand-50">
         <div className="container-page">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
               {
                 icon: faTruckFast,
                 title: "Transport falas",
-                text: "Falas mbi 5000 ALL në të gjithë Shqipërinë.",
-                bg: "bg-brand-100 text-brand-600",
+                text: "Falas mbi 5.000 Lekë në të gjithë Shqipërinë.",
+                bg: "bg-brand-100 text-brand-700",
               },
               {
                 icon: faHandHoldingHeart,
-                title: "Arusha të buta",
+                title: "Pelushë të buta",
                 text: "Materiale premium, të sigurta për fëmijë.",
-                bg: "bg-pink-100 text-pink-600",
+                bg: "bg-pink-100 text-pink-700",
               },
               {
                 icon: faRotateLeft,
-                title: "Pagesë në dorëzim",
-                text: "Paguani kur merrni arushin në derë.",
-                bg: "bg-amber-100 text-amber-700",
+                title: t("cod"),
+                text: "Paguani kur merrni pelushin në derë.",
+                bg: "bg-amber-100 text-amber-800",
               },
               {
                 icon: faShieldHalved,
                 title: "Porosi e thjeshtë",
-                text: "Plotëso të dhënat dhe ne të kontaktojmë për dorëzim.",
-                bg: "bg-yellow-100 text-yellow-700",
+                text: "Plotëso të dhënat dhe ne të kontaktojmë.",
+                bg: "bg-yellow-100 text-yellow-800",
               },
             ].map((f) => (
               <div
                 key={f.title}
-                className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm text-center hover:-translate-y-1 transition-transform"
+                className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm text-center"
               >
                 <div
-                  className={`w-12 h-12 sm:w-14 sm:h-14 ${f.bg} rounded-full flex items-center justify-center text-xl sm:text-2xl mx-auto mb-3 sm:mb-4`}
+                  className={`w-12 h-12 ${f.bg} rounded-full flex items-center justify-center text-xl mx-auto mb-3`}
                 >
                   <FontAwesomeIcon icon={f.icon} />
                 </div>
-                <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">{f.title}</h3>
-                <p className="text-slate-500 text-sm">{f.text}</p>
+                <h3 className="font-bold text-base mb-1 text-slate-900">{f.title}</h3>
+                <p className="text-slate-600 text-sm">{f.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 sm:py-16">
+      <section className="py-6 sm:py-10">
         <div className="container-page">
-          <div className="flex justify-between items-end gap-3 mb-6 sm:mb-8">
+          <div className="flex justify-between items-end gap-3 mb-5">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              Shop Favorites
+              {t("favorites")}
             </h2>
-            <Link to="/shop" className="text-brand-600 font-semibold text-sm sm:text-base shrink-0">
-              See all
+            <Link to="/shop" className="text-brand-700 font-semibold text-sm sm:text-base shrink-0">
+              {t("seeAll")}
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-            {shopPreview.map((p) => (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+            {favorites.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="py-6 sm:py-10 bg-white">
+        <div className="container-page grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+          <div>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-3">
+              {t("whyAruland")}
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-4">{t("aboutText")}</p>
+            <ul className="space-y-2 text-sm text-slate-700">
+              <li className="flex gap-2">
+                <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
+                Pagesë në dorëzim në të gjithë Shqipërinë
+              </li>
+              <li className="flex gap-2">
+                <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
+                Modele të buta: Stitch, arusha, capybara, elefant
+              </li>
+              <li className="flex gap-2">
+                <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
+                Mbështetje përmes WhatsApp për porosi të shpejta
+              </li>
+            </ul>
+          </div>
+          <div className="rounded-3xl bg-brand-50 p-6 flex items-center justify-center min-h-[240px]">
+            <ProductImage
+              src="/products/stitch-blue.jpg"
+              alt="Stitch Blu AruLand"
+              className="max-h-56 object-contain"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-6 sm:py-10 bg-brand-50">
+        <div className="container-page">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 text-center">
+            {t("whatCustomersSay")}
+          </h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {REVIEWS.map((r) => (
+              <figure key={r.name} className="bg-white rounded-2xl p-5 shadow-sm">
+                <div className="text-yellow-400 text-sm mb-2">{"★".repeat(r.stars)}</div>
+                <blockquote className="text-slate-700 text-sm leading-relaxed mb-4">
+                  “{r.text}”
+                </blockquote>
+                <figcaption className="text-sm font-semibold text-slate-900">
+                  {r.name}{" "}
+                  <span className="font-normal text-slate-600">· {r.city}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-6 sm:py-10">
+        <div className="container-page">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 flex items-center gap-2">
+            <FontAwesomeIcon icon={faQuestionCircle} className="text-brand-600" />
+            {t("faq")}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-3">
+            {FAQ.map((item) => (
+              <details
+                key={item.q}
+                className="bg-white border border-brand-100 rounded-2xl p-4 group"
+              >
+                <summary className="font-semibold text-slate-900 cursor-pointer list-none flex justify-between gap-3">
+                  {item.q}
+                  <span className="text-brand-600 group-open:rotate-45 transition">+</span>
+                </summary>
+                <p className="text-sm text-slate-600 mt-2 leading-relaxed">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-6 sm:py-10 bg-white">
+        <div className="container-page">
+          <div className="flex justify-between items-end mb-5 gap-3">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
+              {t("socialProof")}
+            </h2>
+            <p className="text-sm text-slate-600">@aruland.toys</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              "/products/stitch-blue.jpg",
+              "/products/capybara.jpg",
+              "/products/elephant.jpg",
+              "/products/breathing-otter.jpg",
+            ].map((src, i) => (
+              <div
+                key={src}
+                className="aspect-square rounded-2xl overflow-hidden bg-brand-50"
+              >
+                <ProductImage
+                  src={src}
+                  alt={`Foto klienti ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-6 sm:py-8">
+        <div className="container-page">
+          <div className="bg-white border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="font-bold text-lg text-slate-900 mb-1">Dërgesa & pagesa</h3>
+              <p className="text-sm text-slate-600">
+                Pagesë në dorëzim · Kurierë lokalë · Transport falas mbi 5.000 Lekë
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <span className="px-3 py-1.5 rounded-full bg-brand-50 text-brand-800 text-xs font-bold">
+                COD
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
+                Kurier Shqipëri
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-green-50 text-green-800 text-xs font-bold">
+                WhatsApp
+              </span>
+            </div>
           </div>
         </div>
       </section>

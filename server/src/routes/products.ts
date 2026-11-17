@@ -15,6 +15,8 @@ router.get("/", validate(productsQuerySchema), async (req, res, next) => {
       color,
       minPrice,
       maxPrice,
+      minSize,
+      maxSize,
       sort,
       q,
       page,
@@ -24,6 +26,8 @@ router.get("/", validate(productsQuerySchema), async (req, res, next) => {
       color?: string;
       minPrice?: number;
       maxPrice?: number;
+      minSize?: number;
+      maxSize?: number;
       sort: "popular" | "newest" | "price_asc" | "price_desc";
       q?: string;
       page: number;
@@ -37,6 +41,11 @@ router.get("/", validate(productsQuerySchema), async (req, res, next) => {
       where.price = {};
       if (minPrice != null) where.price.gte = minPrice;
       if (maxPrice != null) where.price.lte = maxPrice;
+    }
+    if (minSize != null || maxSize != null) {
+      where.sizeCm = {};
+      if (minSize != null) where.sizeCm.gte = minSize;
+      if (maxSize != null) where.sizeCm.lte = maxSize;
     }
     if (q) {
       where.OR = [
