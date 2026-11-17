@@ -63,18 +63,33 @@ export const productAdminSchema = z.object({
     description: z.string().min(10).max(2000),
     price: z.coerce.number().positive(),
     compareAtPrice: z.coerce.number().positive().nullable().optional(),
-    imageUrl: z.string().url(),
-    category: z.string().min(2).max(80),
+    imageUrl: z
+      .string()
+      .min(1)
+      .refine(
+        (v) => v.startsWith("/") || /^https?:\/\//i.test(v),
+        "URL e fotos duhet të fillojë me / ose http"
+      ),
+    category: z.enum(["Stitch", "Me Frymëmarrje", "Kafshë", "Arusha"]),
     color: z.string().min(2).max(40),
     sizeCm: z.coerce.number().int().positive(),
     stock: z.coerce.number().int().min(0),
-    badges: z.array(z.string()).optional().default([]),
+    badges: z
+      .array(z.enum(["new", "hot", "sale"]))
+      .optional()
+      .default([]),
     rating: z.coerce.number().min(0).max(5).optional().default(5),
   }),
 });
 
 export const orderStatusSchema = z.object({
   body: z.object({
-    status: z.enum(["PENDING", "PAID", "FULFILLED", "CANCELLED", "REFUNDED"]),
+    status: z.enum([
+      "PROCESSING",
+      "AT_POST",
+      "IN_TRANSIT",
+      "DELIVERED",
+      "CANCELLED",
+    ]),
   }),
 });

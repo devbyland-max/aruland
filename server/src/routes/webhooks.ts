@@ -41,12 +41,12 @@ router.post(
               where: { id: orderId },
               include: { items: true },
             });
-            if (!order || order.status === "PAID") return;
+            if (!order || order.status === "DELIVERED") return;
 
             await tx.order.update({
               where: { id: orderId },
               data: {
-                status: "PAID",
+                status: "PROCESSING",
                 stripeSessionId: session.id,
                 stripePaymentIntentId:
                   typeof session.payment_intent === "string"

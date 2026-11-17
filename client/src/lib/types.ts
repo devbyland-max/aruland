@@ -62,11 +62,11 @@ export type OrderItem = {
 };
 
 export type OrderStatus =
-  | "PENDING"
-  | "PAID"
-  | "FULFILLED"
-  | "CANCELLED"
-  | "REFUNDED";
+  | "PROCESSING"
+  | "AT_POST"
+  | "IN_TRANSIT"
+  | "DELIVERED"
+  | "CANCELLED";
 
 export type Order = {
   id: string;

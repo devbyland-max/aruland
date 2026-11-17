@@ -12,7 +12,9 @@ import type { Product } from "../lib/types";
 import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LangContext";
 
-const CATEGORIES = ["Stitch", "Me Frymëmarrje", "Kafshë", "Arusha"];
+import { PRODUCT_CATEGORIES } from "../lib/catalog";
+
+const CATEGORIES = [...PRODUCT_CATEGORIES];
 const COLORS = [
   { id: "blue", className: "bg-sky-500" },
   { id: "pink", className: "bg-pink-400" },

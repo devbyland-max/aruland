@@ -95,7 +95,7 @@ router.post(
         const created = await tx.order.create({
           data: {
             userId: req.user?.id,
-            status: "PENDING",
+            status: "PROCESSING",
             paymentMethod: "COD",
             currency: "ALL",
             subtotal,

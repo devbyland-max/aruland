@@ -1,9 +1,45 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import { money } from "../lib/serialize.js";
+import { AppError } from "../middleware/error.js";
 import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
+
+router.get("/track/:code", async (req, res, next) => {
+  try {
+    const code = (req.params.code ?? "").trim().toUpperCase();
+    if (code.length < 4 || code.length > 12) {
+      throw new AppError("Kodi i porosise nuk është i vlefshëm", 400);
+    }
+
+    const orders = await prisma.order.findMany({
+      include: { items: true },
+      orderBy: { createdAt: "desc" },
+      take: 100,
+    });
+
+    const order = orders.find((o) => o.id.slice(-8).toUpperCase() === code);
+    if (!order) throw new AppError("Porosia nuk u gjet", 404);
+
+    res.json({
+      order: {
+        id: order.id,
+        code: order.id.slice(-8).toUpperCase(),
+        status: order.status,
+        total: money(order.total),
+        createdAt: order.createdAt,
+        shippingCity: order.shippingCity,
+        items: order.items.map((i) => ({
+          name: i.name,
+          qty: i.qty,
+        })),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.use(requireAuth);
 

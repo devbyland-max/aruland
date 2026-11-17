@@ -113,6 +113,18 @@ export const api = {
     }),
 
   orders: () => request<{ orders: Order[] }>("/api/orders"),
+  trackOrder: (code: string) =>
+    request<{
+      order: {
+        id: string;
+        code: string;
+        status: OrderStatus;
+        total: number;
+        createdAt: string;
+        shippingCity: string | null;
+        items: { name: string; qty: number }[];
+      };
+    }>(`/api/orders/track/${encodeURIComponent(code)}`),
 
   adminProducts: () =>
     request<{ products: Product[] }>("/api/admin/products"),

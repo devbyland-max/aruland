@@ -4,6 +4,12 @@ import { api } from "../lib/api";
 import type { Order, Product } from "../lib/types";
 import { formatMoney } from "../lib/utils";
 import { useAuth } from "../context/AuthContext";
+import {
+  ORDER_STATUSES,
+  PRODUCT_BADGES,
+  PRODUCT_CATEGORIES,
+  PRODUCT_COLORS,
+} from "../lib/catalog";
 
 const emptyProduct = {
   name: "",
@@ -20,14 +26,6 @@ const emptyProduct = {
   rating: 5,
 };
 
-const STATUS_LABEL: Record<Order["status"], string> = {
-  PENDING: "Në pritje",
-  PAID: "E konfirmuar",
-  FULFILLED: "E dorëzuar",
-  CANCELLED: "Anuluar",
-  REFUNDED: "Rimbursuar",
-};
-
 export function AdminPage() {
   const { logout, user } = useAuth();
   const [tab, setTab] = useState<"products" | "orders">("orders");
@@ -37,7 +35,7 @@ export function AdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [badgesText, setBadgesText] = useState("");
+  const [badge, setBadge] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
@@ -129,10 +127,7 @@ export function AdminPage() {
                     ...form,
                     slug: form.slug || slugify(form.name),
                     compareAtPrice: form.compareAtPrice || null,
-                    badges: badgesText
-                      .split(",")
-                      .map((b) => b.trim())
-                      .filter(Boolean),
+                    badges: badge ? [badge] : [],
                   };
                   if (editingId) {
                     await api.adminUpdateProduct(editingId, payload);
@@ -142,7 +137,7 @@ export function AdminPage() {
                     setMessage("Produkti u krijua.");
                   }
                   setForm(emptyProduct);
-                  setBadgesText("");
+                  setBadge("");
                   setEditingId(null);
                   await load();
                 } catch (err) {
@@ -206,46 +201,81 @@ export function AdminPage() {
                 </div>
               </div>
 
-              {(
-                [
-                  ["name", "Emri"],
-                  ["slug", "Slug (auto nëse bosh)"],
-                  ["description", "Përshkrimi"],
-                  ["category", "Kategoria"],
-                  ["color", "Ngjyra"],
-                ] as const
-              ).map(([key, label]) => (
-                <div key={key}>
-                  <label className="text-xs text-slate-600 font-medium">{label}</label>
-                  {key === "description" ? (
-                    <textarea
-                      required
-                      value={form[key]}
-                      onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
-                      rows={3}
-                    />
-                  ) : (
-                    <input
-                      required={key !== "slug"}
-                      value={form[key]}
-                      onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
-                    />
-                  )}
-                </div>
-              ))}
-
+              <div>
+                <label className="text-xs text-slate-600 font-medium">Emri</label>
+                <input
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
+                />
+              </div>
               <div>
                 <label className="text-xs text-slate-600 font-medium">
-                  Badge (ndaj me presje: new, hot, sale)
+                  Slug (auto nëse bosh)
                 </label>
                 <input
-                  value={badgesText}
-                  onChange={(e) => setBadgesText(e.target.value)}
+                  value={form.slug}
+                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
-                  placeholder="new, hot"
                 />
+              </div>
+              <div>
+                <label className="text-xs text-slate-600 font-medium">Përshkrimi</label>
+                <textarea
+                  required
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm"
+                  rows={3}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-slate-600 font-medium">Kategoria</label>
+                  <select
+                    required
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white"
+                  >
+                    {PRODUCT_CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-slate-600 font-medium">Badge</label>
+                  <select
+                    value={badge}
+                    onChange={(e) => setBadge(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white"
+                  >
+                    {PRODUCT_BADGES.map((b) => (
+                      <option key={b.label} value={b.value}>
+                        {b.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-span-2">
+                  <label className="text-xs text-slate-600 font-medium">Ngjyra</label>
+                  <select
+                    required
+                    value={form.color}
+                    onChange={(e) => setForm({ ...form, color: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white"
+                  >
+                    {PRODUCT_COLORS.map((c) => (
+                      <option key={c.value} value={c.value}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -308,7 +338,7 @@ export function AdminPage() {
                     onClick={() => {
                       setEditingId(null);
                       setForm(emptyProduct);
-                      setBadgesText("");
+                      setBadge("");
                     }}
                     className="px-4 py-2 border border-slate-200 rounded-xl"
                   >
@@ -354,7 +384,7 @@ export function AdminPage() {
                         badges: p.badges,
                         rating: p.rating,
                       });
-                      setBadgesText(p.badges.join(", "));
+                      setBadge(p.badges[0] ?? "");
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                   >
@@ -403,11 +433,11 @@ export function AdminPage() {
                       );
                       await load();
                     }}
-                    className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold"
+                    className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold bg-white"
                   >
-                    {(Object.keys(STATUS_LABEL) as Order["status"][]).map((s) => (
-                      <option key={s} value={s}>
-                        {STATUS_LABEL[s]}
+                    {ORDER_STATUSES.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
                       </option>
                     ))}
                   </select>
