@@ -22,13 +22,16 @@ export type {
 } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const headers = new Headers(init?.headers);
+  const isForm = typeof FormData !== "undefined" && init?.body instanceof FormData;
+  if (!isForm && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
   const res = await fetch(path, {
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers ?? {}),
-    },
     ...init,
+    headers,
   });
 
   const data = await res.json().catch(() => ({}));
@@ -113,6 +116,14 @@ export const api = {
 
   adminProducts: () =>
     request<{ products: Product[] }>("/api/admin/products"),
+  adminUploadImage: (file: File) => {
+    const body = new FormData();
+    body.append("image", file);
+    return request<{ url: string; filename: string }>("/api/admin/upload", {
+      method: "POST",
+      body,
+    });
+  },
   adminCreateProduct: (body: Partial<Product> & Record<string, unknown>) =>
     request<{ product: Product }>("/api/admin/products", {
       method: "POST",

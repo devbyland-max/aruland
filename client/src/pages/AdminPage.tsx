@@ -38,6 +38,7 @@ export function AdminPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [badgesText, setBadgesText] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const load = async () => {
     const [p, o] = await Promise.all([api.adminProducts(), api.adminOrders()]);
@@ -153,25 +154,63 @@ export function AdminPage() {
                 {editingId ? "Ndrysho produktin" : "Produkt i ri"}
               </h2>
 
-              {form.imageUrl && (
-                <div className="bg-brand-50 rounded-xl p-3 flex justify-center">
-                  <img
-                    src={form.imageUrl}
-                    alt="Parapamje"
-                    className="max-h-36 object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
+              <div>
+                <label className="text-xs text-slate-600 font-medium mb-1 block">
+                  Foto e produktit
+                </label>
+                <div className="bg-brand-50 rounded-xl p-3 flex flex-col items-center gap-3">
+                  {form.imageUrl ? (
+                    <img
+                      src={form.imageUrl}
+                      alt="Parapamje"
+                      className="max-h-36 object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.opacity = "0.3";
+                      }}
+                    />
+                  ) : (
+                    <p className="text-sm text-slate-500 py-6">Nuk ka foto ende</p>
+                  )}
+                  <label className="w-full cursor-pointer">
+                    <span className="flex items-center justify-center w-full py-2.5 rounded-xl bg-white border border-brand-200 text-sm font-semibold text-brand-800 hover:bg-brand-100">
+                      {uploading ? "Duke ngarkuar..." : "Ngarko / bashko foto"}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      className="sr-only"
+                      disabled={uploading}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        e.target.value = "";
+                        if (!file) return;
+                        setUploading(true);
+                        setError("");
+                        try {
+                          const { url } = await api.adminUploadImage(file);
+                          setForm((f) => ({ ...f, imageUrl: url }));
+                          setMessage("Foto u ngarkua.");
+                        } catch (err) {
+                          setError(
+                            err instanceof Error ? err.message : "Ngarkimi dështoi"
+                          );
+                        } finally {
+                          setUploading(false);
+                        }
+                      }}
+                    />
+                  </label>
+                  <p className="text-[11px] text-slate-500 text-center">
+                    JPG, PNG ose WEBP · max 5MB
+                  </p>
                 </div>
-              )}
+              </div>
 
               {(
                 [
                   ["name", "Emri"],
                   ["slug", "Slug (auto nëse bosh)"],
                   ["description", "Përshkrimi"],
-                  ["imageUrl", "URL e fotos (p.sh. /products/capybara.png)"],
                   ["category", "Kategoria"],
                   ["color", "Ngjyra"],
                 ] as const

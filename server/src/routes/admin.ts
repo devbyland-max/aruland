@@ -3,6 +3,7 @@ import { prisma } from "../lib/prisma.js";
 import { money, serializeProduct } from "../lib/serialize.js";
 import { AppError } from "../middleware/error.js";
 import { requireAdmin, requireAuth } from "../middleware/auth.js";
+import { uploadProductImage } from "../middleware/upload.js";
 import { validate } from "../middleware/validate.js";
 import {
   orderStatusSchema,
@@ -12,6 +13,23 @@ import {
 const router = Router();
 
 router.use(requireAuth, requireAdmin);
+
+router.post("/upload", (req, res, next) => {
+  uploadProductImage(req, res, (err) => {
+    if (err) {
+      next(err instanceof Error ? err : new AppError("Ngarkimi dështoi", 400));
+      return;
+    }
+    if (!req.file) {
+      next(new AppError("Zgjidh një foto", 400));
+      return;
+    }
+    res.status(201).json({
+      url: `/uploads/${req.file.filename}`,
+      filename: req.file.filename,
+    });
+  });
+});
 
 router.get("/products", async (_req, res, next) => {
   try {
