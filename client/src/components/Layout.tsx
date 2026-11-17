@@ -3,7 +3,6 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { CartDrawer } from "./CartDrawer";
 import { Newsletter } from "./Newsletter";
-import { WhatsAppFloat } from "./WhatsAppFloat";
 
 export function Layout() {
   return (
@@ -15,7 +14,6 @@ export function Layout() {
       <Newsletter />
       <Footer />
       <CartDrawer />
-      <WhatsAppFloat />
     </div>
   );
 }

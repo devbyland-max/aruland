@@ -487,9 +487,6 @@ export function HomePage() {
               <span className="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
                 Kurier Shqipëri
               </span>
-              <span className="px-3 py-1.5 rounded-full bg-green-50 text-green-800 text-xs font-bold">
-                WhatsApp
-              </span>
             </div>
           </div>
         </div>

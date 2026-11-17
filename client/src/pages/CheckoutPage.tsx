@@ -61,12 +61,7 @@ export function CheckoutPage() {
               try {
                 const result = await api.checkout(form);
                 await refresh();
-                if (result.whatsappUrl) {
-                  window.open(result.whatsappUrl, "_blank", "noopener,noreferrer");
-                }
-                navigate(
-                  `/checkout/success?order_id=${result.orderId}&wa=1`
-                );
+                navigate(`/checkout/success?order_id=${result.orderId}`);
               } catch (err) {
                 setError(
                   err instanceof Error ? err.message : "Porosia dështoi"

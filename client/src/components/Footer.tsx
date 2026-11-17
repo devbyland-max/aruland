@@ -69,10 +69,10 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-3 sm:mb-4 text-slate-900">{t("contactUs")}</h4>
             <div className="space-y-2 text-sm text-slate-600">
-              <p className="flex items-start gap-2">
-                <FontAwesomeIcon icon={faPhone} className="text-brand-600 mt-0.5" />
-                <span>Porosi përmes WhatsApp (butoni jeshil)</span>
-              </p>
+              <Link to="/contact" className="flex items-center gap-2 hover:text-brand-700">
+                <FontAwesomeIcon icon={faPhone} className="text-brand-600" />
+                {t("contact")}
+              </Link>
               <Link to="/policies#privacy" className="block hover:text-brand-700">{t("privacy")}</Link>
               <Link to="/policies#terms" className="block hover:text-brand-700">{t("terms")}</Link>
               <div className="flex gap-3 pt-2">

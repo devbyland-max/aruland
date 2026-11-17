@@ -16,7 +16,7 @@ export function PoliciesPage() {
           <h2 className="font-bold text-xl mb-2">Politika e kthimit</h2>
           <p className="text-slate-600 text-sm leading-relaxed">
             Mund të kërkoni kthim brenda 7 ditëve nëse produkti është i papërdorur dhe në paketimin
-            origjinal. Na kontaktoni përmes faqes Kontakt ose WhatsApp.
+            origjinal. Na kontaktoni përmes faqes Kontakt.
           </p>
         </div>
 
