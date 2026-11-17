@@ -1,0 +1,19 @@
+{
+  "name": "stitchbear",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "db:up": "docker compose up -d",
+    "db:generate": "npm run db:generate --prefix server",
+    "db:push": "npm run db:push --prefix server",
+    "db:seed": "npm run db:seed --prefix server",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "build": "npm run build --prefix server && npm run build --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
