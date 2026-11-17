@@ -58,10 +58,6 @@ const FAQ = [
     q: "A ka transport falas?",
     a: "Po, falas për porosi mbi 5.000 Lekë. Përndryshe tarifa është 300 Lekë.",
   },
-  {
-    q: "Si bëhet kthimi?",
-    a: "Mund të kërkoni kthim brenda 7 ditëve nëse produkti është i papërdorur dhe në paketim.",
-  },
 ];
 
 export function HomePage() {
@@ -387,10 +383,6 @@ export function HomePage() {
               <li className="flex gap-2">
                 <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
                 Modele të buta: Stitch, arusha, capybara, elefant
-              </li>
-              <li className="flex gap-2">
-                <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
-                Mbështetje përmes WhatsApp për porosi të shpejta
               </li>
             </ul>
           </div>
