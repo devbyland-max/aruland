@@ -95,12 +95,12 @@ export function CheckoutPage() {
 
             {(
               [
-                ["shippingName", "Emri i plotë *", true, "p.sh. Ana Krasniqi"],
+                ["shippingName", "Emri i plotë *", true, undefined],
                 [
                   "shippingPhone",
                   "Numri i telefonit *",
                   true,
-                  "068xxxxxxx ose +355 68xxxxxxx",
+                  "068… / +355… ose 044… / +383…",
                 ],
                 ["shippingEmail", "Email (opsionale)", false, undefined],
                 ["shippingLine1", "Adresa *", true, "Rruga, nr., lagjia"],
@@ -127,12 +127,12 @@ export function CheckoutPage() {
                   inputMode={key === "shippingPhone" ? "tel" : undefined}
                   pattern={
                     key === "shippingPhone"
-                      ? "(\\+?355\\s?6\\d{8}|06\\d{8})"
+                      ? "(\\+?355\\s?6\\d{8}|06\\d{8}|\\+?383\\s?4\\d{7}|04\\d{7})"
                       : undefined
                   }
                   title={
                     key === "shippingPhone"
-                      ? "068xxxxxxx (10 shifra) ose +355 68xxxxxxx"
+                      ? "Shqipëri: 068xxxxxxx ose +355 6… · Kosovë: 044xxxxxxx ose +383 4…"
                       : undefined
                   }
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"

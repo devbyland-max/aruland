@@ -37,11 +37,14 @@ export function productMaterial(_product: Pick<Product, "category">) {
   return "Pelush premium";
 }
 
-/** 068xxxxxxx (10 shifra) ose +355 68xxxxxxx */
-export function isValidAlbanianPhone(raw: string) {
-  const compact = raw.trim().replace(/[\s\-()]/g, "");
+/** Shqipëri: 068xxxxxxx / +355 68xxxxxxx. Kosovë: 044xxxxxxx / +383 44xxxxxxx. */
+export function isValidDeliveryPhone(raw: string) {
+  let compact = raw.trim().replace(/[\s\-()]/g, "");
+  if (compact.startsWith("00")) compact = `+${compact.slice(2)}`;
   if (/^06\d{8}$/.test(compact)) return true;
   if (/^\+?3556\d{8}$/.test(compact)) return true;
+  if (/^04\d{7}$/.test(compact)) return true;
+  if (/^\+?3834\d{7}$/.test(compact)) return true;
   return false;
 }
 
@@ -61,8 +64,8 @@ export function validateShippingForm(form: {
     return "Shkruaj emrin dhe mbiemrin.";
   }
   if (!phone) return "Numri i telefonit është i detyrueshëm.";
-  if (!isValidAlbanianPhone(phone)) {
-    return "Telefoni duhet 068xxxxxxx (10 shifra) ose +355 68xxxxxxx.";
+  if (!isValidDeliveryPhone(phone)) {
+    return "Telefoni: 068xxxxxxx ose +355… (Shqipëri), 044xxxxxxx ose +383… (Kosovë).";
   }
   if (address.length < 3) return "Adresa është e detyrueshme.";
   if (city.length < 2) return "Qyteti është i detyrueshëm.";
