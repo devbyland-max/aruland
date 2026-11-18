@@ -32,7 +32,7 @@ const dict = {
       "Arusha të butë për përqafime. Arusha, Stitch, Capybara dhe më shumë — me pagesë në dorëzim në Shqipëri.",
     material: "Material",
     ecoCotton: "Pelush premium",
-    ctaTitle: "Porosit me qetësi",
+    ctaTitle: "Porosit tani online, paguaj në dorëzim",
     ctaText:
       "Pagesë në dorëzim në të gjithë Shqipërinë. Zgjidh pelushin, plotëso adresën dhe gjurmo paketën hap pas hapi.",
     ctaNote: "Pa pagesë online · Transport falas mbi 5.000 Lekë",
