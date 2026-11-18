@@ -27,7 +27,7 @@ const dict = {
     freeShipping: "Transport falas mbi 5.000 Lekë",
     newCollection: "Koleksion i ri",
     heroTitle1: "Gjej mikun tënd",
-    heroTitle2: "të ri të butë",
+    heroTitle2: "të ri",
     heroText:
       "Pelushë ultra të butë për përqafime. Arusha, Stitch, capybara dhe më shumë — me pagesë në dorëzim në Shqipëri.",
     material: "Material",
