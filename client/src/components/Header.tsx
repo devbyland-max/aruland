@@ -117,18 +117,6 @@ export function Header() {
               <NavLink to="/shop" className={navLinkClass}>
                 {t("shopAll")}
               </NavLink>
-              <a
-                href="/#collections"
-                className="text-sm font-semibold text-slate-700 hover:text-brand-700 px-1 py-1"
-              >
-                {t("collections")}
-              </a>
-              <a
-                href="/#about"
-                className="text-sm font-semibold text-slate-700 hover:text-brand-700 px-1 py-1"
-              >
-                {t("about")}
-              </a>
               <Link
                 to="/contact"
                 className="text-sm font-semibold text-slate-700 hover:text-brand-700 px-1 py-1"
@@ -249,13 +237,6 @@ export function Header() {
               >
                 {t("shopAll")}
               </NavLink>
-              <a
-                href="/#collections"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("collections")}
-              </a>
               <Link
                 to="/contact"
                 className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700"
