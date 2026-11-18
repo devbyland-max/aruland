@@ -1,0 +1,21 @@
+let cached;
+
+function withApiPrefix(event) {
+  const next = { ...event };
+  const path = event.path || event.rawPath || "/";
+  if (!path.startsWith("/api")) {
+    const suffix = path === "/" ? "" : path;
+    next.path = `/api${suffix}`;
+    if (next.rawPath) next.rawPath = next.path;
+  }
+  return next;
+}
+
+exports.handler = async (event, context) => {
+  if (!cached) {
+    const { default: serverless } = await import("serverless-http");
+    const { createApp } = await import("../../server/dist/app.js");
+    cached = serverless(createApp());
+  }
+  return cached(withApiPrefix(event), context);
+};

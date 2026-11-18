@@ -1,14 +1,28 @@
-# Frontend (Vite) on Netlify. API + Postgres must be hosted separately
-# (e.g. Render/Railway + Neon) and set VITE_API_URL at build time.
+# Frontend + Express API (Netlify Function) + Neon Postgres
 [build]
-  base = "client"
-  command = "npm run build"
-  publish = "dist"
+  command = "npm run build:netlify"
+  publish = "client/dist"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "22"
+  CLIENT_URL = "https://aruland.netlify.app"
 
-# SPA fallback
+[functions]
+  node_bundler = "nft"
+
+[functions.api]
+  included_files = [
+    "server/node_modules/.prisma/client/**",
+    "server/node_modules/@prisma/client/**"
+  ]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

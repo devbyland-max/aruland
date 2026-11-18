@@ -2,10 +2,20 @@ import fs from "fs";
 import path from "path";
 import multer from "multer";
 
-export const uploadsDir = path.resolve(process.cwd(), "uploads");
+const isServerless = Boolean(
+  process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME
+);
 
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+export const uploadsDir = isServerless
+  ? path.join("/tmp", "aruland-uploads")
+  : path.resolve(process.cwd(), "uploads");
+
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch {
+  // Read-only filesystem on some hosts — uploads disabled until writable path exists.
 }
 
 const storage = multer.diskStorage({

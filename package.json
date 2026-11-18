@@ -11,9 +11,15 @@
     "db:push": "npm run db:push --prefix server",
     "db:seed": "npm run db:seed --prefix server",
     "db:migrate": "npm run db:migrate --prefix server",
-    "build": "npm run build --prefix server && npm run build --prefix client"
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "build:netlify": "npm install --prefix server --include=dev && npm run build --prefix server && npm run prisma:netlify --prefix server && npm install --prefix client --include=dev && npm run build --prefix client"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "@netlify/functions": "^6.1.1",
+    "@prisma/client": "^6.19.3",
+    "serverless-http": "^4.0.0"
   }
 }
