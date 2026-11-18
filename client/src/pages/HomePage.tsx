@@ -113,7 +113,7 @@ export function HomePage() {
       <section className="relative pt-3 pb-6 sm:pt-5 sm:pb-8 overflow-hidden">
         <div className="container-page">
           <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 relative overflow-hidden shadow-soft">
-            <SectionDecor tone="cream" rich />
+            <SectionDecor variant="hero" />
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center relative z-10">
               <div className="space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-1">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full shadow-sm text-xs sm:text-sm font-semibold text-brand-700">
@@ -193,7 +193,7 @@ export function HomePage() {
       </section>
 
       <section id="collections" className="py-6 sm:py-10 relative overflow-hidden">
-        <SectionDecor tone="white" />
+        <SectionDecor variant="collections" />
         <div className="container-page relative z-10">
           <div className="flex justify-between items-end gap-4 mb-5 sm:mb-7">
             <div>
@@ -244,7 +244,7 @@ export function HomePage() {
       </section>
 
       <section className="py-6 sm:py-10 bg-white relative overflow-hidden">
-        <SectionDecor tone="white" rich />
+        <SectionDecor variant="trending" />
         <div className="container-page relative z-10">
           <div className="flex items-center justify-between mb-5 gap-3">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
@@ -308,7 +308,7 @@ export function HomePage() {
       </section>
 
       <section className="py-6 sm:py-8 bg-brand-50 relative overflow-hidden">
-        <SectionDecor tone="blush" rich />
+        <SectionDecor variant="trust" />
         <div className="container-page relative z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
@@ -355,7 +355,7 @@ export function HomePage() {
       </section>
 
       <section className="py-6 sm:py-10 relative overflow-hidden">
-        <SectionDecor tone="cream" />
+        <SectionDecor variant="favorites" />
         <div className="container-page relative z-10">
           <div className="flex justify-between items-end gap-3 mb-5">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
@@ -374,7 +374,7 @@ export function HomePage() {
       </section>
 
       <section id="about" className="py-6 sm:py-10 bg-white relative overflow-hidden">
-        <SectionDecor tone="white" rich />
+        <SectionDecor variant="about" />
         <div className="container-page relative z-10 grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
           <div>
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-3">
@@ -393,7 +393,6 @@ export function HomePage() {
             </ul>
           </div>
           <div className="rounded-3xl bg-brand-50 p-6 flex items-center justify-center min-h-[240px] relative overflow-hidden">
-            <SectionDecor tone="cream" />
             <ProductImage
               src="/products/stitch-blue.jpg"
               alt="Stitch Blu AruLand"
@@ -404,7 +403,7 @@ export function HomePage() {
       </section>
 
       <section className="py-6 sm:py-10 bg-brand-50 relative overflow-hidden">
-        <SectionDecor tone="blush" rich />
+        <SectionDecor variant="reviews" />
         <div className="container-page relative z-10">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 text-center">
             {t("whatCustomersSay")}
@@ -427,7 +426,7 @@ export function HomePage() {
       </section>
 
       <section className="py-6 sm:py-10 relative overflow-hidden">
-        <SectionDecor tone="cream" />
+        <SectionDecor variant="faq" />
         <div className="container-page relative z-10">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 flex items-center gap-2">
             <FontAwesomeIcon icon={faQuestionCircle} className="text-brand-600" />
@@ -455,7 +454,7 @@ export function HomePage() {
       <section className="py-6 sm:py-8 relative overflow-hidden">
         <div className="container-page relative z-10">
           <div className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-pink-50 border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <SectionDecor tone="cream" rich />
+            <SectionDecor variant="shipping" />
             <div className="relative z-10">
               <h3 className="font-bold text-lg text-slate-900 mb-1">Dërgesa & pagesa</h3>
               <p className="text-sm text-slate-600">
