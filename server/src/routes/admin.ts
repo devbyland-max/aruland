@@ -30,7 +30,7 @@ router.post("/upload", (req, res, next) => {
           data: {
             mime: req.file!.mimetype,
             filename: req.file!.originalname.slice(0, 120),
-            data: req.file!.buffer,
+            data: new Uint8Array(req.file!.buffer),
           },
         });
         res.status(201).json({
