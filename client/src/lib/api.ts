@@ -21,6 +21,13 @@ export type {
   WishlistItem,
 } from "./types";
 
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ?? "";
+
+function apiUrl(path: string) {
+  if (path.startsWith("http")) return path;
+  return `${API_BASE}${path}`;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const headers = new Headers(init?.headers);
   const isForm = typeof FormData !== "undefined" && init?.body instanceof FormData;
@@ -30,13 +37,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
   let res: Response;
   try {
-    res = await fetch(path, {
+    res = await fetch(apiUrl(path), {
       credentials: "include",
       ...init,
       headers,
     });
   } catch {
-    throw new Error("Serveri nuk përgjigjet. Rifillo npm run dev.");
+    throw new Error(
+      API_BASE
+        ? "Serveri nuk përgjigjet. Kontrollo API-në live."
+        : "Serveri nuk përgjigjet. Rifillo npm run dev."
+    );
   }
 
   const data = await res.json().catch(() => ({}));

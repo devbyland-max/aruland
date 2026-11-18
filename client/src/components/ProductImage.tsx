@@ -1,6 +1,15 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { IMAGE_PLACEHOLDER } from "../lib/utils";
 
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ?? "";
+
+function resolveSrc(src: string) {
+  if (!src) return IMAGE_PLACEHOLDER;
+  if (src.startsWith("http") || src.startsWith("data:")) return src;
+  if (src.startsWith("/uploads") && API_BASE) return `${API_BASE}${src}`;
+  return src;
+}
+
 type Props = {
   src: string;
   alt: string;
@@ -20,10 +29,11 @@ export function ProductImage({
   height,
   loading = "lazy",
 }: Props) {
-  const [current, setCurrent] = useState(src || IMAGE_PLACEHOLDER);
+  const resolved = resolveSrc(src);
+  const [current, setCurrent] = useState(resolved || IMAGE_PLACEHOLDER);
 
   useEffect(() => {
-    setCurrent(src || IMAGE_PLACEHOLDER);
+    setCurrent(resolveSrc(src) || IMAGE_PLACEHOLDER);
   }, [src]);
 
   return (

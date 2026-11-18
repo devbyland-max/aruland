@@ -1,0 +1,15 @@
+# Frontend (Vite) on Netlify. API + Postgres must be hosted separately
+# (e.g. Render/Railway + Neon) and set VITE_API_URL at build time.
+[build]
+  base = "client"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
