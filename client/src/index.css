@@ -97,3 +97,137 @@ footer img[alt="AruLand Toy Store"] {
     padding-inline: 2rem;
   }
 }
+
+/* CTA band: warm gradient + sticker play */
+.cta-band {
+  background:
+    radial-gradient(ellipse 80% 60% at 90% 20%, rgb(244 37 86 / 0.28), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 90%, rgb(201 160 122 / 0.35), transparent 50%),
+    linear-gradient(135deg, #2a1608 0%, #3a200d 40%, #573115 78%, #7b461e 100%);
+}
+
+.cta-band-pattern {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.12) 1px, transparent 0);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, black, transparent 95%);
+  opacity: 0.55;
+}
+
+.cta-sticker {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cta-sticker-heart {
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #ffe4e9;
+  color: #f42556;
+  font-size: 1rem;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 0.18);
+  transform: rotate(-12deg);
+  animation: cta-float 5.5s ease-in-out infinite;
+}
+
+.cta-sticker-star {
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  background: #faf6f2;
+  color: #a66d3f;
+  font-size: 1rem;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 0.16);
+  transform: rotate(14deg);
+  animation: cta-float 6.5s ease-in-out infinite 0.4s;
+}
+
+.cta-sticker-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 9999px;
+  background: rgb(255 228 233 / 0.85);
+  box-shadow: 0 0 0 6px rgb(255 228 233 / 0.2);
+  animation: cta-pulse 3.8s ease-in-out infinite;
+}
+
+.cta-sticker-pill {
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.92);
+  color: #3a200d;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 18px rgb(0 0 0 / 0.16);
+  transform: rotate(8deg);
+  animation: cta-float 7s ease-in-out infinite 0.8s;
+}
+
+.cta-sticker-photo {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: white;
+  border: 3px solid rgb(255 255 255 / 0.95);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 0.22);
+  pointer-events: none;
+}
+
+.cta-float-a {
+  transform: rotate(-18deg);
+  animation: cta-float 6s ease-in-out infinite;
+}
+
+.cta-float-b {
+  transform: rotate(12deg);
+  animation: cta-float 7.2s ease-in-out infinite 0.6s;
+}
+
+.cta-float-main {
+  animation: cta-float 8s ease-in-out infinite 0.2s;
+}
+
+@keyframes cta-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes cta-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 1;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-sticker-heart,
+  .cta-sticker-star,
+  .cta-sticker-dot,
+  .cta-sticker-pill,
+  .cta-float-a,
+  .cta-float-b,
+  .cta-float-main {
+    animation: none;
+  }
+}
