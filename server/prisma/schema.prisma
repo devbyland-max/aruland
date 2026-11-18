@@ -45,6 +45,7 @@ model Product {
   price         Decimal        @db.Decimal(10, 2)
   compareAtPrice Decimal?      @db.Decimal(10, 2)
   imageUrl      String
+  imageUrls     String[]       @default([])
   category      String
   color         String
   sizeCm        Int

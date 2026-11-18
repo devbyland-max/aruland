@@ -20,6 +20,7 @@ const emptyProduct = {
   price: 2900,
   compareAtPrice: null as number | null,
   imageUrl: "/products/arushi-kafe.jpg",
+  imageUrls: [] as string[],
   category: "Arusha",
   color: "brown",
   sizeCm: 30,
@@ -125,11 +126,16 @@ export function AdminPage() {
                 setError("");
                 setMessage("");
                 try {
+                  const gallery = form.imageUrls.length
+                    ? form.imageUrls
+                    : [form.imageUrl];
                   const payload = {
                     ...form,
                     slug: form.slug || slugify(form.name),
                     compareAtPrice: form.compareAtPrice || null,
                     badges: badge ? [badge] : [],
+                    imageUrl: gallery[0],
+                    imageUrls: gallery,
                   };
                   if (editingId) {
                     await api.adminUpdateProduct(editingId, payload);
@@ -153,38 +159,78 @@ export function AdminPage() {
 
               <div>
                 <label className="text-xs text-slate-600 font-medium mb-1 block">
-                  Foto e produktit
+                  Fotot e produktit
                 </label>
                 <div className="bg-brand-50 rounded-xl p-3 flex flex-col items-center gap-3">
-                  {form.imageUrl ? (
-                    <ProductImage
-                      src={form.imageUrl}
-                      alt="Parapamje"
-                      loading="eager"
-                      className="max-h-36 object-contain"
-                    />
+                  {form.imageUrls.length ? (
+                    <div className="flex gap-2 w-full overflow-x-auto pb-1">
+                      {form.imageUrls.map((url, i) => (
+                        <div key={`${url}-${i}`} className="relative shrink-0 w-20">
+                          <ProductImage
+                            src={url}
+                            alt=""
+                            loading="eager"
+                            className="w-20 h-20 object-contain bg-white rounded-lg"
+                          />
+                          {i === 0 && (
+                            <span className="absolute left-1 top-1 text-[9px] font-bold bg-white/90 text-[#3F2412] px-1 rounded">
+                              Kryesore
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            className="absolute right-1 top-1 w-5 h-5 rounded-full bg-white text-slate-700 text-xs leading-none shadow"
+                            aria-label="Hiq foton"
+                            onClick={() =>
+                              setForm((f) => {
+                                const imageUrls = f.imageUrls.filter((_, idx) => idx !== i);
+                                return {
+                                  ...f,
+                                  imageUrls,
+                                  imageUrl: imageUrls[0] ?? f.imageUrl,
+                                };
+                              })
+                            }
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   ) : (
                     <p className="text-sm text-slate-500 py-6">Nuk ka foto ende</p>
                   )}
                   <label className="w-full cursor-pointer">
                     <span className="flex items-center justify-center w-full py-2.5 rounded-xl bg-white border border-brand-200 text-sm font-semibold text-brand-800 hover:bg-brand-100">
-                      {uploading ? "Duke ngarkuar..." : "Ngarko / bashko foto"}
+                      {uploading ? "Duke ngarkuar..." : "Shto foto"}
                     </span>
                     <input
                       type="file"
                       accept="image/jpeg,image/png,image/webp,image/gif"
+                      multiple
                       className="sr-only"
                       disabled={uploading}
                       onChange={async (e) => {
-                        const file = e.target.files?.[0];
+                        const files = [...(e.target.files ?? [])];
                         e.target.value = "";
-                        if (!file) return;
+                        if (!files.length) return;
                         setUploading(true);
                         setError("");
                         try {
-                          const { url } = await api.adminUploadImage(file);
-                          setForm((f) => ({ ...f, imageUrl: url }));
-                          setMessage("Foto u ngarkua.");
+                          const urls: string[] = [];
+                          for (const file of files) {
+                            const { url } = await api.adminUploadImage(file);
+                            urls.push(url);
+                          }
+                          setForm((f) => {
+                            const imageUrls = [...f.imageUrls, ...urls].slice(0, 8);
+                            return { ...f, imageUrls, imageUrl: imageUrls[0] ?? f.imageUrl };
+                          });
+                          setMessage(
+                            urls.length > 1
+                              ? `${urls.length} foto u ngarkuan.`
+                              : "Foto u ngarkua."
+                          );
                         } catch (err) {
                           setError(
                             err instanceof Error ? err.message : "Ngarkimi dështoi"
@@ -195,8 +241,8 @@ export function AdminPage() {
                       }}
                     />
                   </label>
-                  <p className="text-[11px] text-slate-500 text-center">
-                    JPG, PNG ose WEBP · max 5MB
+                  <p className="text-[11px] text-[#4a3018] text-center">
+                    Deri në 8 foto. E para del te dyqani, të gjitha te faqja e produktit. JPG, PNG ose WEBP · max 5MB
                   </p>
                 </div>
               </div>
@@ -378,6 +424,7 @@ export function AdminPage() {
                         price: p.price,
                         compareAtPrice: p.compareAtPrice,
                         imageUrl: p.imageUrl,
+                        imageUrls: p.imageUrls?.length ? p.imageUrls : [p.imageUrl],
                         category: p.category,
                         color: p.color,
                         sizeCm: p.sizeCm,

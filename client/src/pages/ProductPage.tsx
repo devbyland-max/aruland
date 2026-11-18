@@ -1,12 +1,99 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faChevronLeft, faChevronRight, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { api } from "../lib/api";
 import type { Product } from "../lib/types";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { formatMoney } from "../lib/utils";
+import { ProductImage } from "../components/ProductImage";
+
+function ProductGallery({
+  images,
+  alt,
+  soldOut,
+}: {
+  images: string[];
+  alt: string;
+  soldOut: boolean;
+}) {
+  const [index, setIndex] = useState(0);
+  const startX = useRef(0);
+  const count = images.length;
+  const current = images[Math.min(index, Math.max(0, count - 1))] ?? images[0];
+
+  useEffect(() => {
+    setIndex(0);
+  }, [images]);
+
+  const go = (dir: -1 | 1) => {
+    if (count < 2) return;
+    setIndex((i) => (i + dir + count) % count);
+  };
+
+  return (
+    <div>
+      <div
+        className="relative bg-brand-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex items-center justify-center min-h-[260px] sm:min-h-[380px] lg:min-h-[420px]"
+        onTouchStart={(e) => {
+          startX.current = e.touches[0]?.clientX ?? 0;
+        }}
+        onTouchEnd={(e) => {
+          const dx = (e.changedTouches[0]?.clientX ?? 0) - startX.current;
+          if (dx > 40) go(-1);
+          if (dx < -40) go(1);
+        }}
+      >
+        {current && (
+          <ProductImage
+            src={current}
+            alt={alt}
+            loading="eager"
+            className={`max-h-[240px] sm:max-h-[360px] lg:max-h-[400px] object-contain drop-shadow-2xl ${soldOut ? "opacity-50 grayscale" : ""}`}
+          />
+        )}
+        {count > 1 && (
+          <>
+            <button
+              type="button"
+              aria-label="Fotoja e mëparshme"
+              onClick={() => go(-1)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow flex items-center justify-center text-[#3F2412]"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <button
+              type="button"
+              aria-label="Fotoja tjetër"
+              onClick={() => go(1)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow flex items-center justify-center text-[#3F2412]"
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </>
+        )}
+      </div>
+      {count > 1 && (
+        <div className="flex gap-2 mt-3 overflow-x-auto">
+          {images.map((src, i) => (
+            <button
+              key={`${src}-${i}`}
+              type="button"
+              aria-label={`Foto ${i + 1}`}
+              onClick={() => setIndex(i)}
+              className={`shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 bg-brand-50 ${
+                i === index ? "border-brand-600" : "border-transparent"
+              }`}
+            >
+              <ProductImage src={src} alt="" className="w-full h-full object-contain" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function ProductPage() {
   const { slug } = useParams();
@@ -41,18 +128,13 @@ export function ProductPage() {
   }
 
   const soldOut = product.stock < 1;
+  const gallery = product.imageUrls?.length ? product.imageUrls : [product.imageUrl];
 
   return (
     <section className="py-8 sm:py-12 lg:py-16">
       <div className="container-page">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-12 items-start">
-          <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex items-center justify-center min-h-[260px] sm:min-h-[380px] lg:min-h-[420px]">
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className={`max-h-[240px] sm:max-h-[360px] lg:max-h-[400px] object-contain drop-shadow-2xl ${soldOut ? "opacity-50 grayscale" : ""}`}
-            />
-          </div>
+          <ProductGallery images={gallery} alt={product.name} soldOut={soldOut} />
 
           <div className="space-y-5 sm:space-y-6">
             <div>

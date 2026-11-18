@@ -104,6 +104,7 @@ export const productAdminSchema = z.object({
         (v) => v.startsWith("/") || /^https?:\/\//i.test(v),
         "URL e fotos duhet të fillojë me / ose http"
       ),
+    imageUrls: z.array(z.string().min(1).max(500)).max(8).optional().default([]),
     category: z.enum(["Stitch", "Me Frymëmarrje", "Kafshë", "Arusha"]),
     color: z.string().min(2).max(40),
     sizeCm: z.coerce.number().int().positive(),

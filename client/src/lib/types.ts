@@ -16,6 +16,7 @@ export type Product = {
   price: number;
   compareAtPrice: number | null;
   imageUrl: string;
+  imageUrls?: string[];
   category: string;
   color: string;
   sizeCm: number;
