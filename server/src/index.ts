@@ -49,6 +49,6 @@ app.use("/api/admin", adminRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(env.PORT, () => {
-  console.log(`StitchBear API listening on http://localhost:${env.PORT}`);
+app.listen(env.PORT, "0.0.0.0", () => {
+  console.log(`StitchBear API listening on http://0.0.0.0:${env.PORT}`);
 });

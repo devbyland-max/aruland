@@ -34,23 +34,23 @@ export function signToken(user: AuthUser) {
   );
 }
 
+/** Cross-site cookies when frontend (Netlify) and API are on different domains. */
+const cookieOpts = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: (isProd ? "none" : "lax") as "none" | "lax",
+  path: "/",
+};
+
 export function setAuthCookie(res: Response, token: string) {
   res.cookie("token", token, {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: "lax",
+    ...cookieOpts,
     maxAge: 8 * 60 * 60 * 1000,
-    path: "/",
   });
 }
 
 export function clearAuthCookie(res: Response) {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: "lax",
-    path: "/",
-  });
+  res.clearCookie("token", cookieOpts);
 }
 
 async function attachUser(req: Request) {
