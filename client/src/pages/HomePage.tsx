@@ -427,26 +427,24 @@ export function HomePage() {
 
       <InstagramProfile />
 
-      <section className="py-4 sm:py-6">
-        <div className="container-page">
-          <div className="bg-[#F3E7D9] border border-[#e4d0b8] rounded-2xl p-4 sm:p-5">
-            <h3 className="font-bold text-lg text-[#3F2412] mb-3">Dërgesa & pagesa</h3>
-            <ul className="grid grid-cols-3 gap-2 sm:gap-4">
-              {[
-                { icon: faHandHoldingHeart, label: "Pagesë në dorëzim" },
-                { icon: faTruckFast, label: "Kurierë lokalë" },
-                { icon: faGift, label: "Transport falas mbi 5.000 Lekë" },
-              ].map((item) => (
-                <li key={item.label} className="flex flex-col items-center text-center gap-2">
-                  <span className="w-11 h-11 rounded-full bg-white text-[#3F2412] flex items-center justify-center text-lg shadow-sm">
-                    <FontAwesomeIcon icon={item.icon} />
-                  </span>
-                  <span className="text-xs sm:text-sm font-semibold text-[#3F2412] leading-snug">
-                    {item.label}
-                  </span>
-                </li>
-              ))}
-            </ul>
+      <section className="py-6 sm:py-8 relative overflow-hidden">
+        <div className="container-page relative z-10">
+          <div className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-pink-50 border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <SectionDecor variant="shipping" />
+            <div className="relative z-10">
+              <h3 className="font-bold text-lg text-slate-900 mb-1">Dërgesa & pagesa</h3>
+              <p className="text-sm text-slate-600">
+                Pagesë në dorëzim · Kurierë lokalë · Transport falas mbi 5.000 Lekë
+              </p>
+            </div>
+            <div className="relative z-10 flex flex-wrap gap-2 justify-center">
+              <span className="px-3 py-1.5 rounded-full bg-brand-50 text-brand-800 text-xs font-bold shadow-sm rotate-[-3deg]">
+                COD
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-white border border-brand-100 text-slate-700 text-xs font-bold shadow-sm rotate-[2deg]">
+                Kurier Shqipëri
+              </span>
+            </div>
           </div>
         </div>
       </section>
