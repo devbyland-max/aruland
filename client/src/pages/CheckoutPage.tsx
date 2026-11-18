@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { citiesFor, countryForCity } from "../lib/cities";
 import { formatMoney, validateShippingForm } from "../lib/utils";
 
 const FREE_SHIPPING_FROM = 5000;
@@ -104,8 +105,6 @@ export function CheckoutPage() {
                 ["shippingEmail", "Email (opsionale)", false, undefined],
                 ["shippingLine1", "Adresa *", true, "Rruga, nr., lagjia"],
                 ["shippingLine2", "Shënime / kati (opsionale)", false, undefined],
-                ["shippingCity", "Qyteti *", true, "p.sh. Tiranë"],
-                ["shippingPostal", "Kodi postar (opsionale)", false, undefined],
               ] as const
             ).map(([key, label, required, placeholder]) => (
               <div key={key}>
@@ -123,9 +122,7 @@ export function CheckoutPage() {
                         ? "tel"
                         : key === "shippingLine1"
                           ? "street-address"
-                          : key === "shippingCity"
-                            ? "address-level2"
-                            : undefined
+                          : undefined
                   }
                   inputMode={key === "shippingPhone" ? "tel" : undefined}
                   pattern={
@@ -142,6 +139,50 @@ export function CheckoutPage() {
                 />
               </div>
             ))}
+
+            <div>
+              <label className="text-sm text-slate-600 mb-1 block">Qyteti *</label>
+              <select
+                required
+                value={form.shippingCity}
+                onChange={(e) => {
+                  const city = e.target.value;
+                  setForm((f) => ({
+                    ...f,
+                    shippingCity: city,
+                    shippingCountry: city ? countryForCity(city) : "AL",
+                  }));
+                }}
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"
+              >
+                <option value="">Zgjidh qytetin</option>
+                <optgroup label="Shqipëri">
+                  {citiesFor("AL").map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Kosovë">
+                  {citiesFor("XK").map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-sm text-slate-600 mb-1 block">
+                Kodi postar (opsionale)
+              </label>
+              <input
+                value={form.shippingPostal}
+                onChange={(e) => set("shippingPostal", e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-200"
+              />
+            </div>
 
             {error && <p className="text-sm text-accent-pink">{error}</p>}
 

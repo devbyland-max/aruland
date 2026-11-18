@@ -79,7 +79,7 @@ export const checkoutSchema = z.object({
       .max(80),
     shippingState: z.string().max(80).optional(),
     shippingPostal: z.string().max(20).optional(),
-    shippingCountry: z.string().min(2).max(2).optional().default("AL"),
+    shippingCountry: z.enum(["AL", "XK"]).optional().default("AL"),
   }),
 });
 
