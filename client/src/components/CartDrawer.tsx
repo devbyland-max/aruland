@@ -97,7 +97,7 @@ export function CartDrawer() {
           )}
         </div>
 
-        <div className="border-t border-slate-100 px-6 pt-5 pb-16 space-y-3">
+        <div className="border-t border-slate-100 px-6 pt-5 pb-24 space-y-3">
           <div className="flex justify-between font-semibold">
             <span>Nëntotali</span>
             <span>{formatMoney(subtotal)}</span>

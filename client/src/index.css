@@ -54,7 +54,7 @@ body {
 /* Netlify's free-plan badge sits fixed at the bottom-right and covers taps. */
 @media (max-width: 767px) {
   body {
-    padding-bottom: 3.25rem;
+    padding-bottom: 4.75rem;
   }
 }
 
