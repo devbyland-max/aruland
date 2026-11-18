@@ -16,11 +16,10 @@ export function productImageFilter(_product: Pick<Product, "color" | "slug">) {
 }
 
 export function formatMoney(n: number) {
-  return (
-    new Intl.NumberFormat("sq-AL", {
-      maximumFractionDigits: 0,
-    }).format(n) + " Lekë"
-  );
+  const formatted = Math.round(n)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${formatted} Lekë`;
 }
 
 export function badgeLabel(badge: string) {

@@ -90,7 +90,7 @@ export function ProductCard({ product, variant = "grid" }: Props) {
   ) : null;
 
   const meta = (
-    <p className="text-xs sm:text-sm text-slate-600">
+    <p className="text-xs sm:text-sm text-[#4a3018]">
       {product.sizeCm}cm · {productMaterial(product)}
     </p>
   );

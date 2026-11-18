@@ -36,8 +36,8 @@ const dict = {
     ctaText:
       "Pagesë në dorëzim në të gjithë Shqipërinë. Zgjidh pelushin, plotëso adresën dhe gjurmo paketën hap pas hapi.",
     ctaNote: "Pa pagesë online · Transport falas mbi 5.000 Lekë",
-    whatCustomersSay: "Çfarë thonë klientët",
     whyAruland: "Pse AruLand",
+    whatCustomersSay: "Çfarë thonë klientët",
     aboutText:
       "AruLand Toy Store është dyqani ynë online i pelushëve në Shqipëri. Zgjedhim modele të buta dhe të sigurta për fëmijë, me dërgesë të shpejtë dhe pagesë në dorëzim.",
     shopByOccasion: "Sipas rastit",
@@ -105,8 +105,8 @@ const dict = {
     ctaText:
       "Cash on delivery across Albania. Pick a plush, add your address, and track the parcel step by step.",
     ctaNote: "No online payment · Free shipping over 5,000 Lekë",
-    whatCustomersSay: "What customers say",
     whyAruland: "Why AruLand",
+    whatCustomersSay: "What customers say",
     aboutText:
       "AruLand Toy Store is our online plush shop in Albania. Soft, child-safe toys with fast delivery and cash on delivery.",
     shopByOccasion: "Shop by occasion",

@@ -5,8 +5,7 @@ export type DecorVariant =
   | "trust"
   | "about"
   | "reviews"
-  | "faq"
-  | "shipping";
+  | "faq";
 
 /** Unique soft decor per homepage section — not the same stickers everywhere. */
 export function SectionDecor({ variant }: { variant: DecorVariant }) {
@@ -71,15 +70,6 @@ export function SectionDecor({ variant }: { variant: DecorVariant }) {
         <div className="section-decor section-decor--faq" aria-hidden>
           <div className="section-decor-grid" />
           <span className="section-sticker section-sticker--q right-[8%] top-[16%]">?</span>
-        </div>
-      );
-
-    case "shipping":
-      return (
-        <div className="section-decor section-decor--shipping" aria-hidden>
-          <div className="section-decor-wash" />
-          <span className="section-sticker section-sticker--pill right-[10%] top-[22%]">COD</span>
-          <span className="section-sticker section-sticker--dot left-[8%] bottom-[28%]" />
         </div>
       );
 

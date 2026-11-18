@@ -11,18 +11,13 @@ export function Newsletter() {
       <div className="container-page">
         <div className="cta-band relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-10 lg:p-12 text-center lg:text-left">
           <div className="pointer-events-none absolute inset-0 cta-band-pattern" aria-hidden />
-          <div className="pointer-events-none absolute -top-16 -left-10 h-56 w-56 rounded-full bg-[#c9a07a]/30 blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute -top-16 -right-10 h-56 w-56 rounded-full bg-[#c9a07a]/30 blur-3xl" aria-hidden />
           <div className="pointer-events-none absolute bottom-0 right-0 h-64 w-64 translate-x-1/4 translate-y-1/4 rounded-full bg-[#f42556]/20 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute top-1/2 left-1/3 h-40 w-40 -translate-y-1/2 rounded-full bg-white/10 blur-2xl" aria-hidden />
 
-          <span className="cta-sticker cta-sticker-heart left-[6%] top-[18%] hidden sm:flex" aria-hidden>
+          <span className="cta-sticker cta-sticker-heart right-[8%] top-[16%] hidden lg:flex" aria-hidden>
             ♥
           </span>
-          <span className="cta-sticker cta-sticker-star right-[38%] top-[12%] hidden md:flex" aria-hidden>
-            ★
-          </span>
-          <span className="cta-sticker cta-sticker-dot left-[42%] bottom-[14%] hidden lg:block" aria-hidden />
-          <span className="cta-sticker cta-sticker-pill right-[12%] bottom-[18%] hidden sm:flex" aria-hidden>
+          <span className="cta-sticker cta-sticker-pill right-[18%] bottom-[16%] hidden lg:flex" aria-hidden>
             COD
           </span>
 

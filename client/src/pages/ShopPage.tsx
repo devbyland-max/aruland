@@ -215,7 +215,7 @@ export function ShopPage() {
 
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5 sm:mb-6">
-              <p className="text-slate-600 text-sm sm:text-base">
+              <p className="text-[#4a3018] text-sm sm:text-base">
                 {t("showing")}{" "}
                 <span className="font-bold text-slate-900">{total}</span> {t("products")}
                 {q ? <span> për “{q}”</span> : null}

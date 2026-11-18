@@ -177,7 +177,7 @@ export function HomePage() {
                   <FontAwesomeIcon icon={o.icon} />
                 </span>
                 <div>
-                  <p className="text-xs text-slate-500">{t("shopByOccasion")}</p>
+                  <p className="text-xs font-semibold text-[#5c3a22]">{t("shopByOccasion")}</p>
                   <p className="font-bold text-slate-900">{o.title}</p>
                 </div>
               </Link>
@@ -194,7 +194,7 @@ export function HomePage() {
               <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-1">
                 {t("collections")}
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base">
+              <p className="text-[#4a3018] text-sm sm:text-base">
                 Stitch, frymëmarrje dhe kafshë të buta.
               </p>
             </div>
@@ -213,24 +213,25 @@ export function HomePage() {
                 to={`/shop?q=${encodeURIComponent(c.name.split(" ")[0] ?? "")}`}
                 className={`group relative h-52 sm:h-64 rounded-2xl sm:rounded-3xl overflow-hidden shadow-card ${COLLECTION_BG[i % 3]}`}
               >
-                <div className="absolute inset-0 p-5 sm:p-7 flex flex-col justify-between z-10">
+                <ProductImage
+                  src={c.imageUrl}
+                  alt=""
+                  className="absolute top-2 right-2 h-[62%] w-auto max-w-[52%] object-contain object-bottom drop-shadow-md group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-[#F3E7D9] via-[#F3E7D9]/90 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 z-10 flex items-end justify-between gap-3">
                   <div>
-                    <span className="px-3 py-1 bg-white/90 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full text-slate-800 mb-2 inline-block">
+                    <span className="px-3 py-1 bg-white text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full text-[#3F2412] mb-2 inline-block">
                       {c.tag}
                     </span>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-900">
+                    <h3 className="font-display font-bold text-xl sm:text-2xl text-[#3F2412]">
                       {c.name}
                     </h3>
                   </div>
-                  <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-slate-900">
+                  <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-[#3F2412] shrink-0">
                     <FontAwesomeIcon icon={faArrowRight} />
                   </div>
                 </div>
-                <ProductImage
-                  src={c.imageUrl}
-                  alt={c.name}
-                  className="absolute bottom-0 right-0 h-[75%] w-auto max-w-[55%] object-contain object-bottom drop-shadow-md group-hover:scale-105 transition-transform duration-500"
-                />
               </Link>
             ))}
           </div>
@@ -341,7 +342,7 @@ export function HomePage() {
                   <FontAwesomeIcon icon={f.icon} />
                 </div>
                 <h3 className="font-bold text-base mb-1 text-slate-900">{f.title}</h3>
-                <p className="text-slate-600 text-sm">{f.text}</p>
+                <p className="text-[#4a3018] text-sm">{f.text}</p>
               </div>
             ))}
           </div>
@@ -355,7 +356,7 @@ export function HomePage() {
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-3">
               {t("whyAruland")}
             </h2>
-            <p className="text-slate-600 leading-relaxed mb-4">{t("aboutText")}</p>
+            <p className="text-[#3F2412] leading-relaxed mb-4">{t("aboutText")}</p>
             <ul className="space-y-2 text-sm text-slate-700">
               <li className="flex gap-2">
                 <FontAwesomeIcon icon={faCheckCircle} className="text-green-600 mt-0.5" />
@@ -380,19 +381,19 @@ export function HomePage() {
       <section className="py-6 sm:py-10 bg-brand-50 relative overflow-hidden">
         <SectionDecor variant="reviews" />
         <div className="container-page relative z-10">
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 text-center">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5">
             {t("whatCustomersSay")}
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {REVIEWS.map((r) => (
               <figure key={r.name} className="bg-white rounded-2xl p-5 shadow-sm">
                 <div className="text-yellow-400 text-sm mb-2">{"★".repeat(r.stars)}</div>
-                <blockquote className="text-slate-700 text-sm leading-relaxed mb-4">
+                <blockquote className="text-[#3F2412] text-sm leading-relaxed mb-4">
                   “{r.text}”
                 </blockquote>
                 <figcaption className="text-sm font-semibold text-slate-900">
                   {r.name}{" "}
-                  <span className="font-normal text-slate-600">· {r.city}</span>
+                  <span className="font-normal text-[#4a3018]">· {r.city}</span>
                 </figcaption>
               </figure>
             ))}
@@ -417,7 +418,7 @@ export function HomePage() {
                   {item.q}
                   <span className="text-brand-600 group-open:rotate-45 transition">+</span>
                 </summary>
-                <p className="text-sm text-slate-600 mt-2 leading-relaxed">{item.a}</p>
+                <p className="text-sm text-[#4a3018] mt-2 leading-relaxed">{item.a}</p>
               </details>
             ))}
           </div>
@@ -426,24 +427,26 @@ export function HomePage() {
 
       <InstagramProfile />
 
-      <section className="py-6 sm:py-8 relative overflow-hidden">
-        <div className="container-page relative z-10">
-          <div className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-pink-50 border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <SectionDecor variant="shipping" />
-            <div className="relative z-10">
-              <h3 className="font-bold text-lg text-slate-900 mb-1">Dërgesa & pagesa</h3>
-              <p className="text-sm text-slate-600">
-                Pagesë në dorëzim · Kurierë lokalë · Transport falas mbi 5.000 Lekë
-              </p>
-            </div>
-            <div className="relative z-10 flex flex-wrap gap-2 justify-center">
-              <span className="px-3 py-1.5 rounded-full bg-brand-50 text-brand-800 text-xs font-bold shadow-sm rotate-[-3deg]">
-                COD
-              </span>
-              <span className="px-3 py-1.5 rounded-full bg-white border border-brand-100 text-slate-700 text-xs font-bold shadow-sm rotate-[2deg]">
-                Kurier Shqipëri
-              </span>
-            </div>
+      <section className="py-4 sm:py-6">
+        <div className="container-page">
+          <div className="bg-[#F3E7D9] border border-[#e4d0b8] rounded-2xl p-4 sm:p-5">
+            <h3 className="font-bold text-lg text-[#3F2412] mb-3">Dërgesa & pagesa</h3>
+            <ul className="grid grid-cols-3 gap-2 sm:gap-4">
+              {[
+                { icon: faHandHoldingHeart, label: "Pagesë në dorëzim" },
+                { icon: faTruckFast, label: "Kurierë lokalë" },
+                { icon: faGift, label: "Transport falas mbi 5.000 Lekë" },
+              ].map((item) => (
+                <li key={item.label} className="flex flex-col items-center text-center gap-2">
+                  <span className="w-11 h-11 rounded-full bg-white text-[#3F2412] flex items-center justify-center text-lg shadow-sm">
+                    <FontAwesomeIcon icon={item.icon} />
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-[#3F2412] leading-snug">
+                    {item.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

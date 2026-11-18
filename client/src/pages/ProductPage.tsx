@@ -70,13 +70,13 @@ export function ProductPage() {
                   </span>
                 )}
               </div>
-              <p className="text-sm text-slate-500 mt-2">
+              <p className="text-sm text-[#4a3018] mt-2">
                 ★ {product.rating.toFixed(1)} · {product.sizeCm}cm ·{" "}
                 {soldOut ? "Pa stok" : `${product.stock} në stok`}
               </p>
             </div>
 
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{product.description}</p>
+            <p className="text-[#3F2412] leading-relaxed text-sm sm:text-base">{product.description}</p>
 
             <div className="flex items-center gap-4">
               <label className="text-sm font-medium text-slate-600">Qty</label>
