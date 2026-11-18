@@ -132,6 +132,14 @@ model Order {
   @@index([status])
 }
 
+model StoredImage {
+  id        String   @id @default(cuid())
+  mime      String
+  filename  String
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
 model OrderItem {
   id        String  @id @default(cuid())
   orderId   String

@@ -24,10 +24,23 @@ router.post("/upload", (req, res, next) => {
       next(new AppError("Zgjidh një foto", 400));
       return;
     }
-    res.status(201).json({
-      url: `/uploads/${req.file.filename}`,
-      filename: req.file.filename,
-    });
+    void (async () => {
+      try {
+        const saved = await prisma.storedImage.create({
+          data: {
+            mime: req.file!.mimetype,
+            filename: req.file!.originalname.slice(0, 120),
+            data: req.file!.buffer,
+          },
+        });
+        res.status(201).json({
+          url: `/api/uploads/${saved.id}`,
+          filename: saved.id,
+        });
+      } catch (saveErr) {
+        next(saveErr);
+      }
+    })();
   });
 });
 

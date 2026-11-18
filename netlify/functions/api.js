@@ -15,7 +15,9 @@ exports.handler = async (event, context) => {
   if (!cached) {
     const { default: serverless } = await import("serverless-http");
     const { createApp } = await import("../../server/dist/app.js");
-    cached = serverless(createApp());
+    cached = serverless(createApp(), {
+      binary: ["image/*", "image/jpeg", "image/png", "image/webp", "image/gif"],
+    });
   }
   return cached(withApiPrefix(event), context);
 };

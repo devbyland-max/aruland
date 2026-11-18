@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 import type { Order, Product } from "../lib/types";
 import { formatMoney } from "../lib/utils";
+import { ProductImage } from "../components/ProductImage";
 import { useAuth } from "../context/AuthContext";
 import {
   ORDER_STATUSES,
@@ -156,13 +157,11 @@ export function AdminPage() {
                 </label>
                 <div className="bg-brand-50 rounded-xl p-3 flex flex-col items-center gap-3">
                   {form.imageUrl ? (
-                    <img
+                    <ProductImage
                       src={form.imageUrl}
                       alt="Parapamje"
+                      loading="eager"
                       className="max-h-36 object-contain"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.opacity = "0.3";
-                      }}
                     />
                   ) : (
                     <p className="text-sm text-slate-500 py-6">Nuk ka foto ende</p>
@@ -355,9 +354,10 @@ export function AdminPage() {
                   key={p.id}
                   className="bg-white rounded-xl p-4 shadow-sm flex gap-3 items-center"
                 >
-                  <img
+                  <ProductImage
                     src={p.imageUrl}
                     alt=""
+                    loading="lazy"
                     className="w-16 h-16 object-contain bg-slate-50 rounded-lg"
                   />
                   <div className="flex-1 min-w-0">

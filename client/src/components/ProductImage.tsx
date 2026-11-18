@@ -6,7 +6,9 @@ const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/
 function resolveSrc(src: string) {
   if (!src) return IMAGE_PLACEHOLDER;
   if (src.startsWith("http") || src.startsWith("data:")) return src;
-  if (src.startsWith("/uploads") && API_BASE) return `${API_BASE}${src}`;
+  if ((src.startsWith("/uploads") || src.startsWith("/api/uploads")) && API_BASE) {
+    return `${API_BASE}${src}`;
+  }
   return src;
 }
 

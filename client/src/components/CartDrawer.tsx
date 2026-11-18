@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../context/CartContext";
 import { formatMoney } from "../lib/utils";
+import { ProductImage } from "./ProductImage";
 
 export function CartDrawer() {
   const {
@@ -51,7 +52,7 @@ export function CartDrawer() {
           ) : (
             items.map((item) => (
               <div key={item.id} className="flex gap-4">
-                <img
+                <ProductImage
                   src={item.product.imageUrl}
                   alt={item.product.name}
                   className="w-20 h-20 object-contain bg-slate-50 rounded-xl"
