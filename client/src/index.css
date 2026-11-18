@@ -220,6 +220,125 @@ footer img[alt="AruLand Toy Store"] {
   }
 }
 
+/* Soft section decor (homepage bands) */
+.section-decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-decor-wash {
+  position: absolute;
+  inset: 0;
+}
+
+.section-decor--cream .section-decor-wash {
+  background:
+    radial-gradient(ellipse 55% 45% at 92% 8%, rgb(244 37 86 / 0.1), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 6% 88%, rgb(201 160 122 / 0.28), transparent 55%),
+    radial-gradient(ellipse 40% 35% at 50% 0%, rgb(255 255 255 / 0.55), transparent 60%);
+}
+
+.section-decor--white .section-decor-wash {
+  background:
+    radial-gradient(ellipse 50% 40% at 100% 0%, rgb(123 70 30 / 0.07), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 0% 100%, rgb(244 37 86 / 0.06), transparent 50%);
+}
+
+.section-decor--blush .section-decor-wash {
+  background:
+    radial-gradient(ellipse 60% 50% at 85% 15%, rgb(244 37 86 / 0.12), transparent 55%),
+    radial-gradient(ellipse 50% 45% at 10% 90%, rgb(201 160 122 / 0.22), transparent 55%),
+    linear-gradient(180deg, rgb(250 246 242 / 0.9), rgb(255 228 233 / 0.35));
+}
+
+.section-decor-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgb(123 70 30 / 0.1) 1px, transparent 0);
+  background-size: 20px 20px;
+  opacity: 0.45;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 85%);
+}
+
+.section-sticker {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgb(123 70 30 / 0.12);
+  user-select: none;
+}
+
+@media (min-width: 640px) {
+  .section-sticker {
+    display: flex;
+  }
+}
+
+.section-sticker--heart {
+  left: 4%;
+  top: 18%;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 9999px;
+  background: #ffe4e9;
+  color: #f42556;
+  font-size: 0.85rem;
+  transform: rotate(-14deg);
+  animation: cta-float 5.8s ease-in-out infinite;
+}
+
+.section-sticker--star {
+  right: 5%;
+  top: 22%;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #a66d3f;
+  font-size: 0.85rem;
+  transform: rotate(12deg);
+  animation: cta-float 6.4s ease-in-out infinite 0.35s;
+}
+
+.section-sticker--pill {
+  right: 8%;
+  bottom: 16%;
+  padding: 0.3rem 0.55rem;
+  border-radius: 9999px;
+  background: #fff;
+  color: #3a200d;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transform: rotate(7deg);
+  animation: cta-float 7s ease-in-out infinite 0.7s;
+}
+
+.section-sticker--dot {
+  left: 12%;
+  bottom: 20%;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 9999px;
+  background: rgb(244 37 86 / 0.45);
+  box-shadow: 0 0 0 5px rgb(244 37 86 / 0.12);
+  animation: cta-pulse 4s ease-in-out infinite;
+}
+
+.section-sticker--dot2 {
+  right: 28%;
+  top: 12%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: rgb(166 109 63 / 0.45);
+  animation: cta-pulse 3.6s ease-in-out infinite 0.5s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cta-sticker-heart,
   .cta-sticker-star,
@@ -227,7 +346,12 @@ footer img[alt="AruLand Toy Store"] {
   .cta-sticker-pill,
   .cta-float-a,
   .cta-float-b,
-  .cta-float-main {
+  .cta-float-main,
+  .section-sticker--heart,
+  .section-sticker--star,
+  .section-sticker--pill,
+  .section-sticker--dot,
+  .section-sticker--dot2 {
     animation: none;
   }
 }

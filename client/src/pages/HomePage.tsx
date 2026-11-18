@@ -20,6 +20,7 @@ import { api, type Collection, type Product } from "../lib/api";
 import { ProductCard } from "../components/ProductCard";
 import { ProductImage } from "../components/ProductImage";
 import { InstagramProfile } from "../components/InstagramProfile";
+import { SectionDecor } from "../components/SectionDecor";
 import { useLang } from "../context/LangContext";
 
 const HERO_IMG = "/products/capybara.png";
@@ -112,7 +113,7 @@ export function HomePage() {
       <section className="relative pt-3 pb-6 sm:pt-5 sm:pb-8 overflow-hidden">
         <div className="container-page">
           <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 relative overflow-hidden shadow-soft">
-            <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 bg-brand-200 rounded-full blur-3xl opacity-40 -translate-y-1/2 translate-x-1/3" />
+            <SectionDecor tone="cream" rich />
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center relative z-10">
               <div className="space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-1">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full shadow-sm text-xs sm:text-sm font-semibold text-brand-700">
@@ -191,8 +192,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="collections" className="py-6 sm:py-10">
-        <div className="container-page">
+      <section id="collections" className="py-6 sm:py-10 relative overflow-hidden">
+        <SectionDecor tone="white" />
+        <div className="container-page relative z-10">
           <div className="flex justify-between items-end gap-4 mb-5 sm:mb-7">
             <div>
               <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-1">
@@ -241,8 +243,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="py-6 sm:py-10 bg-white">
-        <div className="container-page">
+      <section className="py-6 sm:py-10 bg-white relative overflow-hidden">
+        <SectionDecor tone="white" rich />
+        <div className="container-page relative z-10">
           <div className="flex items-center justify-between mb-5 gap-3">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
               {t("trending")}
@@ -304,8 +307,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="py-6 sm:py-8 bg-brand-50">
-        <div className="container-page">
+      <section className="py-6 sm:py-8 bg-brand-50 relative overflow-hidden">
+        <SectionDecor tone="blush" rich />
+        <div className="container-page relative z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
               {
@@ -350,8 +354,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="py-6 sm:py-10">
-        <div className="container-page">
+      <section className="py-6 sm:py-10 relative overflow-hidden">
+        <SectionDecor tone="cream" />
+        <div className="container-page relative z-10">
           <div className="flex justify-between items-end gap-3 mb-5">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
               {t("favorites")}
@@ -368,8 +373,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="about" className="py-6 sm:py-10 bg-white">
-        <div className="container-page grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+      <section id="about" className="py-6 sm:py-10 bg-white relative overflow-hidden">
+        <SectionDecor tone="white" rich />
+        <div className="container-page relative z-10 grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
           <div>
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-3">
               {t("whyAruland")}
@@ -386,18 +392,20 @@ export function HomePage() {
               </li>
             </ul>
           </div>
-          <div className="rounded-3xl bg-brand-50 p-6 flex items-center justify-center min-h-[240px]">
+          <div className="rounded-3xl bg-brand-50 p-6 flex items-center justify-center min-h-[240px] relative overflow-hidden">
+            <SectionDecor tone="cream" />
             <ProductImage
               src="/products/stitch-blue.jpg"
               alt="Stitch Blu AruLand"
-              className="max-h-56 object-contain"
+              className="max-h-56 object-contain relative z-10"
             />
           </div>
         </div>
       </section>
 
-      <section className="py-6 sm:py-10 bg-brand-50">
-        <div className="container-page">
+      <section className="py-6 sm:py-10 bg-brand-50 relative overflow-hidden">
+        <SectionDecor tone="blush" rich />
+        <div className="container-page relative z-10">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 text-center">
             {t("whatCustomersSay")}
           </h2>
@@ -418,8 +426,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="py-6 sm:py-10">
-        <div className="container-page">
+      <section className="py-6 sm:py-10 relative overflow-hidden">
+        <SectionDecor tone="cream" />
+        <div className="container-page relative z-10">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5 flex items-center gap-2">
             <FontAwesomeIcon icon={faQuestionCircle} className="text-brand-600" />
             {t("faq")}
@@ -443,20 +452,21 @@ export function HomePage() {
 
       <InstagramProfile />
 
-      <section className="py-6 sm:py-8">
-        <div className="container-page">
-          <div className="bg-white border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
+      <section className="py-6 sm:py-8 relative overflow-hidden">
+        <div className="container-page relative z-10">
+          <div className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-pink-50 border border-brand-100 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <SectionDecor tone="cream" rich />
+            <div className="relative z-10">
               <h3 className="font-bold text-lg text-slate-900 mb-1">Dërgesa & pagesa</h3>
               <p className="text-sm text-slate-600">
                 Pagesë në dorëzim · Kurierë lokalë · Transport falas mbi 5.000 Lekë
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <span className="px-3 py-1.5 rounded-full bg-brand-50 text-brand-800 text-xs font-bold">
+            <div className="relative z-10 flex flex-wrap gap-2 justify-center">
+              <span className="px-3 py-1.5 rounded-full bg-brand-50 text-brand-800 text-xs font-bold shadow-sm rotate-[-3deg]">
                 COD
               </span>
-              <span className="px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
+              <span className="px-3 py-1.5 rounded-full bg-white border border-brand-100 text-slate-700 text-xs font-bold shadow-sm rotate-[2deg]">
                 Kurier Shqipëri
               </span>
             </div>
