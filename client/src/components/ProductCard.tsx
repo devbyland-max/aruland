@@ -194,7 +194,7 @@ export function ProductCard({ product, variant = "grid" }: Props) {
                 onClick={() => void addItem(product.id)}
                 className="flex-1 py-2 bg-white/95 backdrop-blur text-slate-900 text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:bg-brand-500 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-300"
               >
-                {t("quickAdd")}
+                {t("addToCart")}
               </button>
             </div>
           )}
