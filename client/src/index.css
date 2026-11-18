@@ -345,10 +345,6 @@ footer img[alt="AruLand Toy Store"] {
   mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
 }
 
-.section-decor--favorites .section-decor-wash {
-  background: radial-gradient(ellipse 50% 45% at 0% 50%, rgb(244 37 86 / 0.08), transparent 60%);
-}
-
 .section-decor--about .section-decor-wash {
   background: radial-gradient(ellipse 45% 40% at 85% 70%, rgb(201 160 122 / 0.18), transparent 55%);
 }
@@ -386,25 +382,6 @@ footer img[alt="AruLand Toy Store"] {
   .section-sticker {
     display: flex;
   }
-}
-
-.section-sticker--heart {
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 9999px;
-  background: #ffe4e9;
-  color: #f42556;
-  font-size: 0.85rem;
-  transform: rotate(-14deg);
-  animation: cta-float 5.8s ease-in-out infinite;
-}
-
-.section-sticker--heart-sm {
-  width: 1.6rem;
-  height: 1.6rem;
-  font-size: 0.7rem;
-  transform: rotate(10deg);
-  animation-delay: 0.5s;
 }
 
 .section-sticker--star {
@@ -472,7 +449,6 @@ footer img[alt="AruLand Toy Store"] {
   .cta-float-a,
   .cta-float-b,
   .cta-float-main,
-  .section-sticker--heart,
   .section-sticker--star,
   .section-sticker--pill,
   .section-sticker--quote,

@@ -65,7 +65,6 @@ const FAQ = [
 export function HomePage() {
   const { t } = useLang();
   const [trending, setTrending] = useState<Product[]>([]);
-  const [favorites, setFavorites] = useState<Product[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [dot, setDot] = useState(0);
@@ -74,16 +73,11 @@ export function HomePage() {
   useEffect(() => {
     void (async () => {
       try {
-        const [popular, newest, cols] = await Promise.all([
-          api.products({ sort: "popular", limit: 8 }),
-          api.products({ sort: "newest", limit: 12 }),
+        const [popular, cols] = await Promise.all([
+          api.products({ sort: "popular", limit: 6 }),
           api.collections(),
         ]);
-        const trend = popular.items.slice(0, 6);
-        setTrending(trend);
-        const trendIds = new Set(trend.map((p) => p.id));
-        const fav = newest.items.filter((p) => !trendIds.has(p.id)).slice(0, 6);
-        setFavorites(fav.length ? fav : newest.items.slice(6, 12));
+        setTrending(popular.items.slice(0, 6));
         setCollections(cols.collections);
       } catch {
         /* API may be down */
@@ -349,25 +343,6 @@ export function HomePage() {
                 <h3 className="font-bold text-base mb-1 text-slate-900">{f.title}</h3>
                 <p className="text-slate-600 text-sm">{f.text}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-6 sm:py-10 relative overflow-hidden">
-        <SectionDecor variant="favorites" />
-        <div className="container-page relative z-10">
-          <div className="flex justify-between items-end gap-3 mb-5">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              {t("favorites")}
-            </h2>
-            <Link to="/shop" className="text-brand-700 font-semibold text-sm sm:text-base shrink-0">
-              {t("seeAll")}
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
-            {favorites.map((p) => (
-              <ProductCard key={p.id} product={p} />
             ))}
           </div>
         </div>

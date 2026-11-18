@@ -3,7 +3,6 @@ export type DecorVariant =
   | "collections"
   | "trending"
   | "trust"
-  | "favorites"
   | "about"
   | "reviews"
   | "faq"
@@ -46,17 +45,6 @@ export function SectionDecor({ variant }: { variant: DecorVariant }) {
         <div className="section-decor section-decor--trust" aria-hidden>
           <div className="section-decor-wash" />
           <div className="section-decor-dots section-decor-dots--sparse" />
-        </div>
-      );
-
-    case "favorites":
-      return (
-        <div className="section-decor section-decor--favorites" aria-hidden>
-          <div className="section-decor-wash" />
-          <span className="section-sticker section-sticker--heart left-[4%] top-[22%]">♥</span>
-          <span className="section-sticker section-sticker--heart section-sticker--heart-sm right-[7%] bottom-[20%]">
-            ♥
-          </span>
         </div>
       );
 
