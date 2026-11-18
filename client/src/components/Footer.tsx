@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faLocationDot,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLang } from "../context/LangContext";
 
@@ -69,13 +68,9 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-3 sm:mb-4 text-slate-900">{t("contactUs")}</h4>
             <div className="space-y-2 text-sm text-slate-600">
-              <Link to="/contact" className="flex items-center gap-2 hover:text-brand-700">
-                <FontAwesomeIcon icon={faPhone} className="text-brand-600" />
-                {t("contact")}
-              </Link>
               <Link to="/policies#privacy" className="block hover:text-brand-700">{t("privacy")}</Link>
               <Link to="/policies#terms" className="block hover:text-brand-700">{t("terms")}</Link>
-              <div className="flex gap-3 pt-2">
+              <div className="flex flex-col gap-2 pt-2">
                 <a
                   href="https://www.instagram.com/aru_land_/"
                   target="_blank"
@@ -85,12 +80,12 @@ export function Footer() {
                   Instagram @aru_land_
                 </a>
                 <a
-                  href="https://tiktok.com"
+                  href="https://www.tiktok.com/@aru_land_"
                   target="_blank"
                   rel="noreferrer"
                   className="text-brand-700 font-semibold hover:underline"
                 >
-                  TikTok
+                  TikTok @aru_land_
                 </a>
               </div>
             </div>
