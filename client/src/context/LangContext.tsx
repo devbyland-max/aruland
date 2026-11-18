@@ -29,7 +29,7 @@ const dict = {
     heroTitle1: "Gjej mikun tënd",
     heroTitle2: "të ri",
     heroText:
-      "Pelushë ultra të butë për përqafime. Arusha, Stitch, capybara dhe më shumë — me pagesë në dorëzim në Shqipëri.",
+      "Arusha të butë për përqafime. Arusha, Stitch, Capybara dhe më shumë — me pagesë në dorëzim në Shqipëri.",
     material: "Material",
     ecoCotton: "Pelush premium",
     ctaTitle: "Porosit me qetësi",
@@ -93,10 +93,10 @@ const dict = {
     exploreCollections: "Explore Collections",
     trending: "Trending Now",
     viewAll: "View All",
-    freeShipping: "Free shipping over 5,000 Lekë",
+    freeShipping: "Free shipping over 5.000 Lekë",
     newCollection: "New collection",
     heroTitle1: "Meet your new",
-    heroTitle2: "soft best friend",
+    heroTitle2: " best friend",
     heroText:
       "Ultra-soft plushies made for hugs. Bears, Stitch, capybara and more — cash on delivery across Albania.",
     material: "Material",
