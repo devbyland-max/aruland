@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import { ProductImage } from "./ProductImage";
 import { useLang } from "../context/LangContext";
 
-/** Bottom CTA band — warm patterned background + soft stickers (no product images). */
+/** Bottom CTA band — stickers + main plush (no white plate behind the image). */
 export function Newsletter() {
   const { t } = useLang();
 
@@ -17,36 +18,46 @@ export function Newsletter() {
           <span className="cta-sticker cta-sticker-heart left-[6%] top-[18%] hidden sm:flex" aria-hidden>
             ♥
           </span>
-          <span className="cta-sticker cta-sticker-star right-[12%] top-[16%] hidden md:flex" aria-hidden>
+          <span className="cta-sticker cta-sticker-star right-[38%] top-[12%] hidden md:flex" aria-hidden>
             ★
           </span>
           <span className="cta-sticker cta-sticker-dot left-[42%] bottom-[14%] hidden lg:block" aria-hidden />
-          <span className="cta-sticker cta-sticker-pill right-[10%] bottom-[18%] hidden sm:flex" aria-hidden>
+          <span className="cta-sticker cta-sticker-pill right-[12%] bottom-[18%] hidden sm:flex" aria-hidden>
             COD
           </span>
 
-          <div className="relative z-10 max-w-2xl mx-auto lg:mx-0">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-white mb-3">
-              {t("ctaTitle")}
-            </h2>
-            <p className="text-brand-100 text-sm sm:text-base mb-6">
-              {t("ctaText")}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-              <Link
-                to="/shop"
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-brand-50 transition-colors shadow-lg text-center"
-              >
-                {t("shopNow")}
-              </Link>
-              <Link
-                to="/track"
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-white/15 border border-white/30 text-white font-bold rounded-xl hover:bg-white/25 transition-colors text-center backdrop-blur-sm"
-              >
-                {t("trackOrder")}
-              </Link>
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+            <div className="max-w-xl w-full">
+              <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-white mb-3">
+                {t("ctaTitle")}
+              </h2>
+              <p className="text-brand-100 text-sm sm:text-base mb-6">
+                {t("ctaText")}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <Link
+                  to="/shop"
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-brand-900 font-bold rounded-xl hover:bg-brand-50 transition-colors shadow-lg text-center"
+                >
+                  {t("shopNow")}
+                </Link>
+                <Link
+                  to="/track"
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white/15 border border-white/30 text-white font-bold rounded-xl hover:bg-white/25 transition-colors text-center backdrop-blur-sm"
+                >
+                  {t("trackOrder")}
+                </Link>
+              </div>
+              <p className="text-brand-200 text-xs mt-4">{t("ctaNote")}</p>
             </div>
-            <p className="text-brand-200 text-xs mt-4">{t("ctaNote")}</p>
+
+            <div className="relative w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 hidden sm:block cta-float-main">
+              <ProductImage
+                src="/products/stitch-pink.jpg"
+                alt="Pelush AruLand"
+                className="w-full h-full object-contain relative z-10 drop-shadow-2xl mix-blend-multiply"
+              />
+            </div>
           </div>
         </div>
       </div>
