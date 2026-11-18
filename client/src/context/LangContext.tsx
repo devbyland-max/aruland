@@ -36,14 +36,10 @@ const dict = {
       "Pelushë ultra të butë për përqafime. Arusha, Stitch, capybara dhe më shumë — me pagesë në dorëzim në Shqipëri.",
     material: "Material",
     ecoCotton: "Pelush premium",
-    joinOhana: "Bashkohu me AruLand",
-    newsletterText:
-      "Regjistrohu dhe merr 15% zbritje në porosinë e parë. Njoftimet për koleksionet e reja.",
-    subscribe: "Regjistrohu",
-    emailPlaceholder: "Email-i yt",
-    privacyNote: "Respektojmë privatësinë tënde. Pa spam.",
-    thanksJoin: "Faleminderit! Je në listë.",
-    invalidEmail: "Vendos një email të vlefshëm.",
+    ctaTitle: "Porosit me qetësi",
+    ctaText:
+      "Pagesë në dorëzim në të gjithë Shqipërinë. Zgjidh pelushin, plotëso adresën dhe gjurmo paketën hap pas hapi.",
+    ctaNote: "Pa pagesë online · Transport falas mbi 5.000 Lekë",
     whatCustomersSay: "Çfarë thonë klientët",
     whyAruland: "Pse AruLand",
     aboutText:
@@ -113,14 +109,10 @@ const dict = {
       "Ultra-soft plushies made for hugs. Bears, Stitch, capybara and more — cash on delivery across Albania.",
     material: "Material",
     ecoCotton: "Premium plush",
-    joinOhana: "Join AruLand",
-    newsletterText:
-      "Subscribe and get 15% off your first order. Be first for new drops.",
-    subscribe: "Subscribe",
-    emailPlaceholder: "Your email",
-    privacyNote: "We respect your privacy. No spam.",
-    thanksJoin: "Thanks! You're on the list.",
-    invalidEmail: "Enter a valid email.",
+    ctaTitle: "Order with ease",
+    ctaText:
+      "Cash on delivery across Albania. Pick a plush, add your address, and track the parcel step by step.",
+    ctaNote: "No online payment · Free shipping over 5,000 Lekë",
     whatCustomersSay: "What customers say",
     whyAruland: "Why AruLand",
     aboutText:

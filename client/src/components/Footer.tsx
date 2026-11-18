@@ -62,7 +62,6 @@ export function Footer() {
               <Link to="/contact" className="block hover:text-brand-700">{t("contact")}</Link>
               <Link to="/cart" className="block hover:text-brand-700">{t("cart")}</Link>
               <Link to="/wishlist" className="block hover:text-brand-700">{t("wishlist")}</Link>
-              <Link to="/policies#returns" className="block hover:text-brand-700">{t("returns")}</Link>
               <Link to="/policies#shipping" className="block hover:text-brand-700">{t("delivery")}</Link>
             </div>
           </div>
