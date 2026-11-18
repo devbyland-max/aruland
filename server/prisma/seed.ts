@@ -31,7 +31,7 @@ const collections = [
     imageUrl: IMG.breathingBunny,
   },
   {
-    name: "Kafshë të Buta",
+    name: "Arusha të buta",
     slug: "kafshe-te-buta",
     tag: "Popullore",
     imageUrl: IMG.elephant,
