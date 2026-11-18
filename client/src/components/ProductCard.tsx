@@ -1,9 +1,8 @@
-import { useState, type MouseEvent } from "react";
+import { type MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
-  faEye,
   faStar,
   faStarHalfStroke,
   faHeart as faHeartSolid,
@@ -41,7 +40,6 @@ export function ProductCard({ product, variant = "grid" }: Props) {
   const { addItem } = useCart();
   const { ids, toggle } = useWishlist();
   const { t } = useLang();
-  const [quickOpen, setQuickOpen] = useState(false);
   const wished = ids.has(product.id);
   const soldOut = product.stock <= 0;
   const lowStock = product.stock > 0 && product.stock <= 5;
@@ -122,61 +120,8 @@ export function ProductCard({ product, variant = "grid" }: Props) {
     </div>
   );
 
-  const quickModal = quickOpen ? (
-    <div
-      className="fixed inset-0 z-[70] bg-black/40 flex items-end sm:items-center justify-center p-4"
-      onClick={() => setQuickOpen(false)}
-      role="dialog"
-      aria-modal="true"
-      aria-label={t("quickView")}
-    >
-      <div
-        className="bg-white rounded-2xl max-w-lg w-full p-5 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex gap-4">
-          <div className="w-28 h-28 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
-            <ProductImage
-              src={product.imageUrl}
-              alt={product.name}
-              className="max-h-24 object-contain"
-            />
-          </div>
-          <div className="min-w-0">
-            <h3 className="font-bold text-lg text-slate-900">{product.name}</h3>
-            {meta}
-            <p className="text-sm text-slate-600 mt-2 line-clamp-3">{product.description}</p>
-            <div className="mt-2">{priceBlock}</div>
-            {stockLine}
-          </div>
-        </div>
-        <div className="flex gap-2 mt-4">
-          <button
-            type="button"
-            disabled={soldOut}
-            onClick={() => {
-              void addItem(product.id);
-              setQuickOpen(false);
-            }}
-            className="flex-1 py-3 bg-brand-600 text-white font-semibold rounded-xl disabled:opacity-40"
-          >
-            {t("addToCart")}
-          </button>
-          <Link
-            to={`/product/${product.slug}`}
-            className="px-4 py-3 border border-slate-200 font-semibold rounded-xl"
-            onClick={() => setQuickOpen(false)}
-          >
-            Detaje
-          </Link>
-        </div>
-      </div>
-    </div>
-  ) : null;
-
   if (isCarousel) {
     return (
-      <>
         <div className="min-w-[240px] sm:min-w-[280px] md:min-w-[300px] snap-center shrink-0">
           <div className="bg-surface-light rounded-2xl sm:rounded-3xl p-4 sm:p-5 relative group hover:shadow-card transition-all duration-300 border border-transparent hover:border-brand-100 h-full flex flex-col overflow-visible">
             {badgeEl}
@@ -216,25 +161,14 @@ export function ProductCard({ product, variant = "grid" }: Props) {
                 >
                   <FontAwesomeIcon icon={faCartPlus} /> {t("addToCart")}
                 </button>
-                <button
-                  type="button"
-                  aria-label={t("quickView")}
-                  onClick={() => setQuickOpen(true)}
-                  className="w-11 rounded-xl border border-slate-200 text-slate-600 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-300"
-                >
-                  <FontAwesomeIcon icon={faEye} />
-                </button>
               </div>
             </div>
           </div>
         </div>
-        {quickModal}
-      </>
     );
   }
 
   return (
-    <>
       <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-card transition-all duration-300 group">
         <div className="relative bg-brand-50 rounded-lg sm:rounded-xl h-40 sm:h-52 md:h-56 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
           {badgeEl}
@@ -261,14 +195,6 @@ export function ProductCard({ product, variant = "grid" }: Props) {
                 className="flex-1 py-2 bg-white/95 backdrop-blur text-slate-900 text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:bg-brand-500 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-300"
               >
                 {t("quickAdd")}
-              </button>
-              <button
-                type="button"
-                aria-label={t("quickView")}
-                onClick={() => setQuickOpen(true)}
-                className="px-3 py-2 bg-white/95 rounded-lg shadow-sm text-slate-700 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-300"
-              >
-                <FontAwesomeIcon icon={faEye} />
               </button>
             </div>
           )}
@@ -299,8 +225,6 @@ export function ProductCard({ product, variant = "grid" }: Props) {
           <Stars rating={product.rating} />
         </div>
       </div>
-      {quickModal}
-    </>
   );
 }
 
