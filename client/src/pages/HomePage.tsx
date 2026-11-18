@@ -195,7 +195,7 @@ export function HomePage() {
                 {t("collections")}
               </h2>
               <p className="text-[#4a3018] text-sm sm:text-base">
-                Stitch, frymëmarrje dhe kafshë të buta.
+                Stitch, frymëmarrje dhe arusha me pelush të butë.
               </p>
             </div>
             <Link
