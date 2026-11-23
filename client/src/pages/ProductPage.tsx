@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { formatMoney } from "../lib/utils";
 import { ProductImage } from "../components/ProductImage";
+import { absoluteUrl, Seo } from "../components/Seo";
 
 function ProductGallery({
   images,
@@ -130,8 +131,35 @@ export function ProductPage() {
   const soldOut = product.stock < 1;
   const gallery = product.imageUrls?.length ? product.imageUrls : [product.imageUrl];
 
+  const description = product.description.slice(0, 160);
+  const image = gallery[0];
+
   return (
     <section className="py-8 sm:py-12 lg:py-16">
+      <Seo
+        title={product.name}
+        description={description}
+        path={`/product/${product.slug}`}
+        image={image}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description,
+          image: absoluteUrl(image),
+          sku: product.slug,
+          brand: { "@type": "Brand", name: "AruLand" },
+          offers: {
+            "@type": "Offer",
+            url: absoluteUrl(`/product/${product.slug}`),
+            priceCurrency: "ALL",
+            price: product.price,
+            availability: soldOut
+              ? "https://schema.org/OutOfStock"
+              : "https://schema.org/InStock",
+          },
+        }}
+      />
       <div className="container-page">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-12 items-start">
           <ProductGallery images={gallery} alt={product.name} soldOut={soldOut} />

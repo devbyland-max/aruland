@@ -18,6 +18,12 @@
   ]
 
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/api/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 import type { Order, Product } from "../lib/types";
 import { formatMoney } from "../lib/utils";
+import { Seo } from "../components/Seo";
 import { ProductImage } from "../components/ProductImage";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -63,6 +64,7 @@ export function AdminPage() {
 
   return (
     <section className="py-10 lg:py-14">
+      <Seo title="Admin" description="Paneli i administrimit." path="/admin" noindex />
       <div className="container-page">
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
           <div>

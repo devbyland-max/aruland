@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Seo } from "../components/Seo";
 
 /** Admin-only login — not linked from the storefront. Open /admin/login */
 export function LoginPage() {
@@ -17,6 +18,7 @@ export function LoginPage() {
 
   return (
     <section className="py-16">
+      <Seo title="Hyrje" description="Hyrje për administratorin." path="/admin/login" noindex />
       <div className="container mx-auto px-4 max-w-md">
         <div className="bg-white rounded-3xl p-8 shadow-card">
           <h1 className="font-display font-bold text-3xl text-slate-900 mb-2 text-center">

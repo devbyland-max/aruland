@@ -3,6 +3,11 @@ let cached;
 function withApiPrefix(event) {
   const next = { ...event };
   const path = event.path || event.rawPath || "/";
+  if (path.endsWith("/sitemap") || path.endsWith("/sitemap.xml")) {
+    next.path = "/api/sitemap";
+    if (next.rawPath) next.rawPath = "/api/sitemap";
+    return next;
+  }
   if (!path.startsWith("/api")) {
     const suffix = path === "/" ? "" : path;
     next.path = `/api${suffix}`;

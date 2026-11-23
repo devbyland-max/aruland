@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { formatMoney } from "../lib/utils";
+import { Seo } from "../components/Seo";
 
 export function WishlistPage() {
   const { items, toggle } = useWishlist();
@@ -11,6 +12,7 @@ export function WishlistPage() {
 
   return (
     <section className="py-12 lg:py-16">
+      <Seo title="Lista e dëshirave" description="Pelushët e ruajtura." path="/wishlist" noindex />
       <div className="container mx-auto px-4 lg:px-8">
         <h1 className="font-display font-bold text-3xl text-slate-900 mb-8">
           Lista e dëshirave

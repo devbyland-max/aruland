@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../context/CartContext";
 import { formatMoney } from "../lib/utils";
+import { Seo } from "../components/Seo";
 
 export function CartPage() {
   const { items, subtotal, updateQty, removeItem } = useCart();
@@ -10,6 +11,7 @@ export function CartPage() {
 
   return (
     <section className="py-8 sm:py-12 lg:py-16">
+      <Seo title="Shporta" description="Shporta jote AruLand." path="/cart" noindex />
       <div className="container-page max-w-5xl">
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-6 sm:mb-8">
           Shporta

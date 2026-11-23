@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { trackingCodeFromId } from "../lib/catalog";
+import { Seo } from "../components/Seo";
 
 export function CheckoutSuccessPage() {
   const [params] = useSearchParams();
@@ -8,6 +9,7 @@ export function CheckoutSuccessPage() {
 
   return (
     <section className="py-24">
+      <Seo title="Porosia u mor" description="Porosia u regjistrua." path="/checkout/success" noindex />
       <div className="container-page max-w-lg text-center">
         <div className="bg-white rounded-3xl p-10 shadow-card">
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
@@ -48,6 +50,7 @@ export function CheckoutSuccessPage() {
 export function CheckoutCancelPage() {
   return (
     <section className="py-24">
+      <Seo title="Porosia u anulua" description="Porosia nuk u përfundua." path="/checkout/cancel" noindex />
       <div className="container-page max-w-lg text-center">
         <div className="bg-white rounded-3xl p-10 shadow-card">
           <h1 className="font-display font-bold text-3xl text-slate-900 mb-3">

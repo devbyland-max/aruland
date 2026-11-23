@@ -1,6 +1,13 @@
+import { Seo } from "../components/Seo";
+
 export function PoliciesPage() {
   return (
     <section className="py-10 sm:py-14">
+      <Seo
+        title="Dërgesa dhe politikat"
+        description="Dërgesa në Shqipëri, transport falas mbi 5.000 Lekë dhe politika e kthimit për pelushët AruLand."
+        path="/policies"
+      />
       <div className="container-page max-w-3xl prose prose-slate">
         <h1 className="font-display font-bold text-3xl text-slate-900 mb-6">Politikat</h1>
 

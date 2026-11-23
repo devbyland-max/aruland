@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { citiesFor, countryForCity } from "../lib/cities";
 import { formatMoney, validateShippingForm } from "../lib/utils";
+import { Seo } from "../components/Seo";
 
 const FREE_SHIPPING_FROM = 5000;
 const SHIPPING_FEE = 300;
@@ -44,6 +45,7 @@ export function CheckoutPage() {
 
   return (
     <section className="py-12 lg:py-16">
+      <Seo title="Finalizo porosinë" description="Porosi me pagesë në dorëzim." path="/checkout" noindex />
       <div className="container-page max-w-5xl">
         <h1 className="font-display font-bold text-3xl text-slate-900 mb-2">
           Finalizo porosinë

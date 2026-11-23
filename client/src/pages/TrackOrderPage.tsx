@@ -8,6 +8,7 @@ import {
   TRACKING_STEPS,
 } from "../lib/catalog";
 import { formatMoney } from "../lib/utils";
+import { Seo } from "../components/Seo";
 
 function stepIndex(status: OrderStatus) {
   const i = TRACKING_STEPS.findIndex((s) => s.value === status);
@@ -62,6 +63,11 @@ export function TrackOrderPage() {
 
   return (
     <section className="py-10 sm:py-14">
+      <Seo
+        title="Gjurmo porosinë"
+        description="Shiko statusin e porosisë AruLand: në përpunim, në postë, në lëvizje ose e dorëzuar."
+        path="/track"
+      />
       <div className="container-page max-w-xl">
         <h1 className="font-display font-bold text-3xl text-slate-900 mb-2">
           Gjurmo porosinë

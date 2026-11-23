@@ -13,6 +13,7 @@ import checkoutRoutes from "./routes/checkout.js";
 import webhookRoutes from "./routes/webhooks.js";
 import adminRoutes from "./routes/admin.js";
 import uploadRoutes from "./routes/uploads.js";
+import sitemapRoutes from "./routes/sitemap.js";
 
 export function createApp() {
   const app = express();
@@ -29,6 +30,8 @@ export function createApp() {
   app.use("/api/webhooks/stripe", webhookRoutes);
   app.use(express.json({ limit: "100kb" }));
   app.use(cookieParser());
+
+  app.use("/api/sitemap", sitemapRoutes);
 
   app.get("/api/health", (_req, res) => {
     res.json({ ok: true, service: "stitchbear-api" });

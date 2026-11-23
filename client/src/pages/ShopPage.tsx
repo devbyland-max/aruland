@@ -13,6 +13,7 @@ import { ProductCard } from "../components/ProductCard";
 import { useLang } from "../context/LangContext";
 
 import { PRODUCT_CATEGORIES } from "../lib/catalog";
+import { Seo } from "../components/Seo";
 
 const CATEGORIES = [...PRODUCT_CATEGORIES];
 const COLORS = [
@@ -187,6 +188,11 @@ export function ShopPage() {
 
   return (
     <section className="py-8 sm:py-10 lg:py-12">
+      <Seo
+        title="Dyqani"
+        description="Zgjidh pelushë AruLand: Stitch, arusha, capybara dhe kafshë me frymëmarrje. Pagesë në dorëzim në Shqipëri dhe Kosovë."
+        path="/shop"
+      />
       <div className="container-page">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           <div className="lg:hidden">

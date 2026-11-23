@@ -21,6 +21,7 @@ import { ProductCard } from "../components/ProductCard";
 import { ProductImage } from "../components/ProductImage";
 import { InstagramProfile } from "../components/InstagramProfile";
 import { SectionDecor } from "../components/SectionDecor";
+import { Seo } from "../components/Seo";
 import { useLang } from "../context/LangContext";
 
 const HERO_IMG = "/products/capybara.png";
@@ -104,6 +105,11 @@ export function HomePage() {
 
   return (
     <>
+      <Seo
+        title="AruLand Toy Store | Pelushë dhe arusha në Shqipëri"
+        description="Arusha të butë për përqafime. Arusha, Stitch, Capybara dhe më shumë — me pagesë në dorëzim në Shqipëri. Transport falas mbi 5.000 Lekë."
+        path="/"
+      />
       <section className="relative pt-3 pb-6 sm:pt-5 sm:pb-8 overflow-hidden">
         <div className="container-page">
           <div className="bg-brand-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 relative overflow-hidden shadow-soft">

@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Seo } from "../components/Seo";
 
 export function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
     <section className="py-10 sm:py-14">
+      <Seo
+        title="Na kontakto"
+        description="Na shkruaj për porosi, dërgesa ose pyetje rreth pelushëve AruLand. Përgjigjemi sa më shpejt."
+        path="/contact"
+      />
       <div className="container-page max-w-3xl">
         <h1 className="font-display font-bold text-3xl text-slate-900 mb-2">Na kontakto</h1>
         <p className="text-slate-600 mb-8">
