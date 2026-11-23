@@ -41,6 +41,9 @@ export function AdminPage() {
   const [message, setMessage] = useState("");
   const [badge, setBadge] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [askSave, setAskSave] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const load = async () => {
     const [p, o] = await Promise.all([api.adminProducts(), api.adminOrders()]);
@@ -53,6 +56,51 @@ export function AdminPage() {
       setError(e instanceof Error ? e.message : "Ngarkimi dështoi")
     );
   }, []);
+
+  useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  const closeEditor = () => {
+    setEditingId(null);
+    setForm(emptyProduct);
+    setBadge("");
+    setAskSave(false);
+  };
+
+  const saveProduct = async () => {
+    setError("");
+    setMessage("");
+    setSaving(true);
+    try {
+      const gallery = form.imageUrls.length ? form.imageUrls : [form.imageUrl];
+      const payload = {
+        ...form,
+        slug: form.slug || slugify(form.name),
+        compareAtPrice: form.compareAtPrice || null,
+        badges: badge ? [badge] : [],
+        imageUrl: gallery[0],
+        imageUrls: gallery,
+      };
+      if (editingId) {
+        await api.adminUpdateProduct(editingId, payload);
+        closeEditor();
+        setNotice("Ndryshimet u ruajtën");
+      } else {
+        await api.adminCreateProduct(payload);
+        setMessage("Produkti u krijua.");
+        setForm(emptyProduct);
+        setBadge("");
+      }
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ruajtja dështoi");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const slugify = (name: string) =>
     name
@@ -120,44 +168,41 @@ export function AdminPage() {
         {message && <p className="text-green-700 mb-4">{message}</p>}
 
         {tab === "products" ? (
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className={editingId ? "" : "grid lg:grid-cols-2 gap-8"}>
+            {editingId && (
+              <div className="fixed inset-0 z-[80] bg-slate-900/50" aria-hidden="true" />
+            )}
             <form
-              className="bg-white rounded-2xl p-6 shadow-sm space-y-3 h-fit"
-              onSubmit={async (e) => {
+              className={
+                editingId
+                  ? "fixed z-[90] left-1/2 top-1/2 w-[min(100%-2rem,34rem)] max-h-[min(92vh,860px)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-white rounded-2xl p-6 shadow-xl space-y-3"
+                  : "bg-white rounded-2xl p-6 shadow-sm space-y-3 h-fit"
+              }
+              onSubmit={(e) => {
                 e.preventDefault();
-                setError("");
-                setMessage("");
-                try {
-                  const gallery = form.imageUrls.length
-                    ? form.imageUrls
-                    : [form.imageUrl];
-                  const payload = {
-                    ...form,
-                    slug: form.slug || slugify(form.name),
-                    compareAtPrice: form.compareAtPrice || null,
-                    badges: badge ? [badge] : [],
-                    imageUrl: gallery[0],
-                    imageUrls: gallery,
-                  };
-                  if (editingId) {
-                    await api.adminUpdateProduct(editingId, payload);
-                    setMessage("Produkti u përditësua.");
-                  } else {
-                    await api.adminCreateProduct(payload);
-                    setMessage("Produkti u krijua.");
-                  }
-                  setForm(emptyProduct);
-                  setBadge("");
-                  setEditingId(null);
-                  await load();
-                } catch (err) {
-                  setError(err instanceof Error ? err.message : "Ruajtja dështoi");
+                if (editingId) {
+                  setAskSave(true);
+                  return;
                 }
+                void saveProduct();
               }}
             >
-              <h2 className="font-bold text-lg">
-                {editingId ? "Ndrysho produktin" : "Produkt i ri"}
-              </h2>
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="font-bold text-lg">
+                  {editingId ? "Ndrysho produktin" : "Produkt i ri"}
+                </h2>
+                {editingId && (
+                  <button
+                    type="button"
+                    aria-label="Mbyll"
+                    onClick={closeEditor}
+                    className="w-8 h-8 rounded-full border border-slate-200 text-slate-600"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+              {editingId && error && <p className="text-sm text-accent-pink">{error}</p>}
 
               <div>
                 <label className="text-xs text-slate-600 font-medium mb-1 block">
@@ -376,18 +421,15 @@ export function AdminPage() {
               <div className="flex gap-2 pt-1">
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700"
+                  disabled={saving}
+                  className="flex-1 py-2.5 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 disabled:opacity-60"
                 >
                   {editingId ? "Ruaj ndryshimet" : "Krijo produktin"}
                 </button>
                 {editingId && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setEditingId(null);
-                      setForm(emptyProduct);
-                      setBadge("");
-                    }}
+                    onClick={closeEditor}
                     className="px-4 py-2 border border-slate-200 rounded-xl"
                   >
                     Anulo
@@ -419,6 +461,9 @@ export function AdminPage() {
                     className="text-sm text-brand-700 font-semibold"
                     onClick={() => {
                       setEditingId(p.id);
+                      setAskSave(false);
+                      setNotice(null);
+                      setError("");
                       setForm({
                         name: p.name,
                         slug: p.slug,
@@ -435,7 +480,6 @@ export function AdminPage() {
                         rating: p.rating,
                       });
                       setBadge(p.badges[0] ?? "");
-                      window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                   >
                     Ndrysho
@@ -549,6 +593,47 @@ export function AdminPage() {
           </div>
         )}
       </div>
+
+      {askSave && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm text-center space-y-4">
+            <p className="font-semibold text-lg text-slate-900">
+              Jeni i sigurt për të ruajtur?
+            </p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => {
+                  setAskSave(false);
+                  void saveProduct();
+                }}
+                className="flex-1 py-2.5 bg-brand-600 text-white font-semibold rounded-xl disabled:opacity-60"
+              >
+                Po
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAskSave(false);
+                  setNotice("Ndryshimet nuk u ruajtën");
+                }}
+                className="flex-1 py-2.5 border border-slate-200 font-semibold rounded-xl"
+              >
+                Jo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {notice && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 pointer-events-none">
+          <div className="bg-white rounded-2xl shadow-xl px-6 py-4 text-center">
+            <p className="font-semibold text-slate-900">{notice}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
