@@ -175,7 +175,7 @@ export function AdminPage() {
             <form
               className={
                 editingId
-                  ? "fixed z-[90] left-1/2 top-1/2 w-[min(100%-2rem,34rem)] max-h-[min(92vh,860px)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-white rounded-2xl p-6 shadow-xl space-y-3"
+                  ? "fixed z-[90] left-1/2 top-1/2 flex w-[min(100%-2rem,34rem)] max-h-[min(92vh,860px)] -translate-x-1/2 -translate-y-1/2 flex-col gap-3 overflow-hidden bg-white rounded-2xl p-6 shadow-xl"
                   : "bg-white rounded-2xl p-6 shadow-sm space-y-3 h-fit"
               }
               onSubmit={(e) => {
@@ -204,6 +204,7 @@ export function AdminPage() {
               </div>
               {editingId && error && <p className="text-sm text-accent-pink">{error}</p>}
 
+              <div className={editingId ? "min-h-0 flex-1 space-y-3 overflow-y-auto pr-1" : "contents"}>
               <div>
                 <label className="text-xs text-slate-600 font-medium mb-1 block">
                   Fotot e produktit
@@ -417,8 +418,9 @@ export function AdminPage() {
                   />
                 </div>
               </div>
+              </div>
 
-              <div className="flex gap-2 pt-1">
+              <div className={editingId ? "flex shrink-0 gap-2" : "flex gap-2 pt-1"}>
                 <button
                   type="submit"
                   disabled={saving}
