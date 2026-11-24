@@ -20,12 +20,11 @@ const HERO_PHOTOS = [
 ];
 
 const HOME_PHOTOS = [
-  { src: "/instagram/post-1.jpg", alt: "Pelush AruLand i fotografuar nga afër", className: "sm:col-span-2 sm:row-span-2" },
-  { src: "/instagram/post-2.jpg", alt: "Arushë e butë në dritë të ngrohtë", className: "" },
-  { src: "/instagram/post-3.jpg", alt: "Detaj i pëlhurës së pelushit", className: "" },
-  { src: "/instagram/post-4.jpg", alt: "Pelush AruLand gati për dhuratë", className: "" },
-  { src: "/instagram/post-6.jpg", alt: "Koleksion pelushësh AruLand", className: "" },
-  { src: "/instagram/post-12.jpg", alt: "Pelush i zgjedhur për përqafim", className: "sm:col-span-2" },
+  { src: "/products/arushi-jumbo.jpg", alt: "Arushi jumbo krem AruLand", className: "sm:col-span-2 sm:row-span-2" },
+  { src: "/products/breathing-bunny.jpg", alt: "Lepur i butë me sy të mbyllur", className: "" },
+  { src: "/products/stitch-pink.jpg", alt: "Stitch rozë AruLand", className: "" },
+  { src: "/products/arushi-mini.jpg", alt: "Arushë e vogël AruLand", className: "" },
+  { src: "/products/arushi-kafe.jpg", alt: "Arushi kafe AruLand", className: "" },
 ];
 
 type Shelf = "new" | "popular" | "sale";
@@ -243,6 +242,7 @@ export function HomePage() {
               alt={photo.alt}
               loading="lazy"
               className={`w-full h-full object-cover rounded-2xl ${photo.className}`}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           ))}
         </div>
