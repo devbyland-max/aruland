@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { api, type Collection, type Product } from "../lib/api";
 import { ProductCard } from "../components/ProductCard";
-import { InstagramProfile } from "../components/InstagramProfile";
 import { Seo } from "../components/Seo";
 
 const HERO_PHOTOS = [
@@ -37,20 +36,23 @@ export function HomePage() {
   const [popular, setPopular] = useState<Product[]>([]);
   const [newest, setNewest] = useState<Product[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
+  const [bears, setBears] = useState<Product[]>([]);
   const [shelf, setShelf] = useState<Shelf>("popular");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     void (async () => {
       try {
-        const [pop, fresh, cols] = await Promise.all([
+        const [pop, fresh, cols, teddy] = await Promise.all([
           api.products({ sort: "popular", limit: 10 }),
           api.products({ sort: "newest", limit: 8 }),
           api.collections(),
+          api.products({ category: "Arusha", limit: 4 }),
         ]);
         setPopular(pop.items);
         setNewest(fresh.items);
         setCollections(cols.collections);
+        setBears(teddy.items);
       } catch {
         /* API may be down */
       } finally {
@@ -274,7 +276,23 @@ export function HomePage() {
         </div>
       </section>
 
-      <InstagramProfile />
+      {bears.length > 0 && (
+        <section className="bg-[#f8efe8] py-12 sm:py-16">
+          <div className="container-page">
+            <div className="flex items-end justify-between gap-4 mb-6">
+              <h2 className="font-display text-3xl sm:text-4xl font-medium">Arushat</h2>
+              <Link to="/shop?category=Arusha" className="text-sm font-semibold underline underline-offset-4">
+                Shiko të gjitha
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {bears.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }
