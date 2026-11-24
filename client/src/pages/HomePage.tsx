@@ -80,31 +80,36 @@ export function HomePage() {
         path="/"
       />
 
-      <section className="grid lg:grid-cols-2 min-h-[70vh] bg-[#f6efe6]">
-        <div className="flex flex-col justify-center px-6 py-14 sm:px-10 lg:px-16 lg:py-20 fade-up">
-          <p className="text-xs tracking-[0.22em] uppercase text-brand-600 mb-4">AruLand Toy Store</p>
-          <h1 className="font-display font-medium text-5xl sm:text-6xl lg:text-7xl text-[#3F2412] leading-[1.02]">
-            Gjej mikun tënd të ri
-          </h1>
-          <p className="mt-5 max-w-md text-base sm:text-lg text-[#5c3a22] leading-relaxed">
-            Arusha të butë për përqafime. Stitch, capybara dhe kafshë me frymëmarrje, me pagesë në dorëzim në Shqipëri dhe Kosovë.
-          </p>
-          <Link
-            to="/shop"
-            className="mt-8 inline-flex w-fit px-8 py-3.5 rounded-full bg-[#3F2412] text-white text-sm font-semibold hover:bg-brand-700"
-          >
-            Bli tani
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 min-h-[46vh]">
+      <section className="relative min-h-[78vh] overflow-hidden bg-[#f6efe6]">
+        <div className="absolute inset-0 grid grid-cols-2">
           {HERO_PHOTOS.map((photo) => (
             <img
               key={photo.src}
               src={photo.src}
               alt={photo.alt}
-              className="h-full w-full object-cover min-h-40"
+              className="h-full w-full object-cover"
             />
           ))}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f6efe6] from-0% via-[#f6efe6]/88 via-[28%] to-transparent to-[52%]" />
+        <div className="relative z-10 flex min-h-[78vh] items-center">
+          <div className="container-page w-full py-16 fade-up">
+            <div className="max-w-xl">
+              <p className="text-xs tracking-[0.22em] uppercase text-brand-600 mb-4">AruLand Toy Store</p>
+              <h1 className="font-display font-medium text-5xl sm:text-6xl lg:text-7xl text-[#3F2412] leading-[1.02]">
+                Gjej mikun tënd të ri
+              </h1>
+              <p className="mt-5 max-w-md text-base sm:text-lg text-[#5c3a22] leading-relaxed">
+                Arusha të butë për përqafime. Stitch, capybara dhe kafshë me frymëmarrje, me pagesë në dorëzim në Shqipëri dhe Kosovë.
+              </p>
+              <Link
+                to="/shop"
+                className="mt-8 inline-flex w-fit px-8 py-3.5 rounded-full bg-[#3F2412] text-white text-sm font-semibold hover:bg-brand-700"
+              >
+                Bli tani
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -136,6 +141,7 @@ export function HomePage() {
       </section>
 
       <section id="collections" className="container-page pb-6">
+        <h2 className="font-display text-3xl sm:text-4xl font-medium mb-5">Më të shiturat</h2>
         <div className="flex flex-wrap gap-2 mb-6">
           {(
             [
@@ -156,7 +162,6 @@ export function HomePage() {
             </button>
           ))}
         </div>
-        <h2 className="font-display text-3xl sm:text-4xl font-medium mb-6">Më të shiturat</h2>
         {loading ? (
           <p className="text-sm text-[#5c3a22]">Duke ngarkuar pelushët...</p>
         ) : shelfItems.length === 0 ? (

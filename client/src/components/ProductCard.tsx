@@ -170,21 +170,19 @@ export function ProductCard({ product, variant = "grid" }: Props) {
 
   return (
       <div className="bg-transparent group">
-        <div className="relative bg-[#f6efe6] aspect-square mb-3 flex items-center justify-center overflow-hidden rounded-2xl">
+        <div className="relative bg-[#f6efe6] aspect-square mb-3 overflow-hidden rounded-2xl">
           {badgeEl}
           {wishBtn}
-          <Link
-            to={`/product/${product.slug}`}
-            className="h-4/5 flex items-center justify-center"
-          >
+          <Link to={`/product/${product.slug}`} className="absolute inset-0 block">
             <ProductImage
               src={product.imageUrl}
               alt={product.name}
-              width={240}
-              height={200}
-              className={`h-full object-contain group-hover:scale-105 transition-transform duration-500 ${
+              width={480}
+              height={480}
+              className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ${
                 soldOut ? "opacity-50 grayscale" : ""
               }`}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </Link>
           {!soldOut && (
@@ -201,29 +199,26 @@ export function ProductCard({ product, variant = "grid" }: Props) {
         </div>
         <Link
           to={`/product/${product.slug}`}
-          className="font-bold text-slate-900 mb-0.5 block text-sm sm:text-base line-clamp-1"
+          className="font-medium text-[#3F2412] mb-1 block text-sm sm:text-base line-clamp-1"
         >
           {product.name}
         </Link>
-        {meta}
+        <Stars rating={product.rating} />
         {stockLine}
-        <div className="flex justify-between items-center gap-2 mt-1">
-          <div className="flex items-center gap-2">
-            <span
-              className={`font-bold text-sm sm:text-base ${
-                soldOut ? "text-slate-400" : product.compareAtPrice ? "text-accent-pink" : "text-brand-600"
-              }`}
-            >
-              {formatMoney(product.price)}
+        <p className="mt-1 flex flex-wrap items-baseline gap-2">
+          <span
+            className={`font-semibold text-sm sm:text-base whitespace-nowrap ${
+              soldOut ? "text-slate-400" : product.compareAtPrice ? "text-accent-pink" : "text-[#3F2412]"
+            }`}
+          >
+            {formatMoney(product.price)}
+          </span>
+          {product.compareAtPrice != null && (
+            <span className="text-xs text-[#8a6a52] line-through whitespace-nowrap">
+              {formatMoney(product.compareAtPrice)}
             </span>
-            {product.compareAtPrice != null && (
-              <span className="text-xs text-slate-500 line-through">
-                {formatMoney(product.compareAtPrice)}
-              </span>
-            )}
-          </div>
-          <Stars rating={product.rating} />
-        </div>
+          )}
+        </p>
       </div>
   );
 }

@@ -29,7 +29,7 @@ function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   return (
     <div>
       <div
-        className="relative aspect-square bg-[#f6efe6] rounded-3xl overflow-hidden flex items-center justify-center"
+        className="relative aspect-square bg-[#f6efe6] rounded-3xl overflow-hidden"
         onTouchStart={(e) => {
           startX.current = e.touches[0]?.clientX ?? 0;
         }}
@@ -44,7 +44,8 @@ function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
             src={current}
             alt={alt}
             loading="eager"
-            className="max-h-full max-w-full object-contain"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         )}
         {count > 1 && (
@@ -70,7 +71,7 @@ function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
                 i === index ? "border-[#3F2412]" : "border-transparent"
               }`}
             >
-              <ProductImage src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <ProductImage src={src} alt="" loading="lazy" className="w-full h-full object-cover" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </button>
           ))}
         </div>
