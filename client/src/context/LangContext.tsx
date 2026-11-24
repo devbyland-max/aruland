@@ -10,9 +10,9 @@ export type Lang = "sq" | "en";
 
 const dict = {
   sq: {
-    home: "Kryefaqja",
+    home: "Ballina",
     shopAll: "Dyqani",
-    collections: "Koleksione",
+    collections: "Kolekcionet",
     about: "Rreth nesh",
     search: "Kërko pelushë...",
     cart: "Shporta",

@@ -169,8 +169,8 @@ export function ProductCard({ product, variant = "grid" }: Props) {
   }
 
   return (
-      <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-card transition-all duration-300 group">
-        <div className="relative bg-brand-50 rounded-lg sm:rounded-xl h-40 sm:h-52 md:h-56 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+      <div className="bg-transparent group">
+        <div className="relative bg-[#f6efe6] aspect-square mb-3 flex items-center justify-center overflow-hidden rounded-2xl">
           {badgeEl}
           {wishBtn}
           <Link
@@ -194,7 +194,7 @@ export function ProductCard({ product, variant = "grid" }: Props) {
                 onClick={() => void addItem(product.id)}
                 className="flex-1 py-2 bg-white/95 backdrop-blur text-slate-900 text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:bg-brand-500 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-300"
               >
-                {t("addToCart")}
+                Shto
               </button>
             </div>
           )}

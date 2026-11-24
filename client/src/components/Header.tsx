@@ -16,8 +16,8 @@ import { useWishlist } from "../context/WishlistContext";
 import { useLang } from "../context/LangContext";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `text-sm font-semibold transition-colors px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 rounded ${
-    isActive ? "text-brand-700" : "text-slate-700 hover:text-brand-700"
+  `text-sm font-medium tracking-wide transition-colors px-1 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 rounded ${
+    isActive ? "text-brand-700" : "text-[#3F2412] hover:text-brand-700"
   }`;
 
 export function Header() {
@@ -110,18 +110,24 @@ export function Header() {
               </Link>
             </div>
 
-            <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-8">
+            <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-7">
               <NavLink to="/" end className={navLinkClass}>
                 {t("home")}
               </NavLink>
               <NavLink to="/shop" className={navLinkClass}>
                 {t("shopAll")}
               </NavLink>
+              <a href="/#collections" className="text-sm font-medium text-[#3F2412] hover:text-brand-700 px-1 py-1">
+                {t("collections")}
+              </a>
+              <a href="/#about" className="text-sm font-medium text-[#3F2412] hover:text-brand-700 px-1 py-1">
+                {t("about")}
+              </a>
               <Link
                 to="/contact"
-                className="text-sm font-semibold text-slate-700 hover:text-brand-700 px-1 py-1"
+                className="text-sm font-medium text-[#3F2412] hover:text-brand-700 px-1 py-1"
               >
-                {t("contact")}
+                Kontakt
               </Link>
             </nav>
 
@@ -237,12 +243,26 @@ export function Header() {
               >
                 {t("shopAll")}
               </NavLink>
-              <Link
-                to="/contact"
-                className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700"
+              <a
+                href="/#collections"
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#3F2412]"
                 onClick={() => setMobileOpen(false)}
               >
-                {t("contact")}
+                {t("collections")}
+              </a>
+              <a
+                href="/#about"
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#3F2412]"
+                onClick={() => setMobileOpen(false)}
+              >
+                {t("about")}
+              </a>
+              <Link
+                to="/contact"
+                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#3F2412]"
+                onClick={() => setMobileOpen(false)}
+              >
+                Kontakt
               </Link>
               <Link
                 to="/track"

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,9 +9,10 @@ import { useLang } from "../context/LangContext";
 
 export function Footer() {
   const { t } = useLang();
+  const [email, setEmail] = useState("");
 
   return (
-    <footer className="bg-white border-t border-brand-100 pt-10 sm:pt-14 pb-8">
+    <footer className="bg-[#f6efe6] border-t border-[#eadfd2] pt-10 sm:pt-14 pb-8">
       <div className="container-page">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-10">
           <div className="space-y-4 col-span-2 md:col-span-1">
@@ -62,6 +64,7 @@ export function Footer() {
               <Link to="/cart" className="block hover:text-brand-700">{t("cart")}</Link>
               <Link to="/wishlist" className="block hover:text-brand-700">{t("wishlist")}</Link>
               <Link to="/policies#shipping" className="block hover:text-brand-700">{t("delivery")}</Link>
+              <Link to="/policies" className="block hover:text-brand-700">Kthim 14 ditë</Link>
             </div>
           </div>
 
@@ -88,6 +91,29 @@ export function Footer() {
                   TikTok @aru_land_
                 </a>
               </div>
+              <form
+                className="mt-4 space-y-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const body = `Dua kodin e mirëseardhjes 15% për porosinë e parë.\nEmail: ${email}`;
+                  window.location.href = `mailto:info@aruland.al?subject=${encodeURIComponent("Kodi 15%")}&body=${encodeURIComponent(body)}`;
+                }}
+              >
+                <p className="text-sm text-[#3F2412]">15% për porosinë e parë. Na shkruaj emailin dhe ta dërgojmë kodin.</p>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    className="min-w-0 flex-1 rounded-full border border-[#e0c9b3] bg-white px-4 py-2 text-sm"
+                  />
+                  <button type="submit" className="rounded-full bg-[#3F2412] text-white px-4 py-2 text-sm font-semibold">
+                    Dërgo
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
